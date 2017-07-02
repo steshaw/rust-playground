@@ -14,10 +14,7 @@ pub fn reply(s : &'static str) -> &'static str {
     let s = s.trim_right();
     if s.is_empty() {
         "Fine. Be that way!"
-    } else if s.chars().any(|c| c.is_alphabetic()) && s.chars().all(|c| match (c.is_alphabetic(), c.is_uppercase()) {
-        (true, uppercase) => uppercase,
-        _                 => true
-    }) {
+    } else if s.chars().any(|c| c.is_alphabetic()) && s.chars().all(|c| !c.is_alphabetic() || c.is_uppercase()) {
         "Whoa, chill out!"
     } else if s.chars().last() == Some('?') {
         "Sure."
