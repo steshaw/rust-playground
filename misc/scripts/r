@@ -4,4 +4,4 @@ set -euo pipefail
 
 prefix=${1%.rs}
 
-rustc "${prefix}.rs" && "./${prefix}"
+rustc "${prefix}.rs" && RUST_BACKTRACE=1 "./${prefix}"
