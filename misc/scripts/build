@@ -3,6 +3,6 @@
 set -euo pipefail
 
 for file in *.rs; do
-  echo Compiling $file ...
-  rustc $file
+  echo Compiling "${file} ..."
+  rustc "${file}"
 done
