@@ -37,7 +37,7 @@ fn slice_example() {
     println!("slice2 is: {:?}", slice2);
     let slice3 = &v[3..];
     println!("slice3 is: {:?}", slice3);
-    if true {
+    if false {
       let slice4 = &v[4..]; // XXX: 'slice index starts at 4 but ends at 3'
       println!("slice4 is: {:?}", slice4);
     }
