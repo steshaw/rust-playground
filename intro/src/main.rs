@@ -1,5 +1,5 @@
 fn hello() {
-    let answer = 42_234;
+    let answer = 1_234_5;
     println!("Hello, {}", answer);
 }
 
