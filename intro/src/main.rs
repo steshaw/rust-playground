@@ -1,8 +1,11 @@
-fn hello() {
+use async_std;
+
+async fn hello() {
     let answer = 1_234_5;
     println!("Hello, {}", answer);
 }
 
-fn main() {
-    hello();
+#[async_std::main]
+async fn main() {
+    hello().await;
 }
