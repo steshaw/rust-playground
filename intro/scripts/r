@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+prefix=${1%.rs}
+
+rustc "${prefix}.rs" && RUST_BACKTRACE=1 "./${prefix}"
