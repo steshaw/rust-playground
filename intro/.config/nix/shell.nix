@@ -27,5 +27,7 @@ stdenv.mkDerivation {
     rustStableChannel
     rls
     rustup
+
+    cacert
   ];
 }
