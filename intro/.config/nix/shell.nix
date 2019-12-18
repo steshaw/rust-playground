@@ -29,5 +29,7 @@ stdenv.mkDerivation {
     rustup
 
     cacert
+    clang
+    clang-tools
   ];
 }

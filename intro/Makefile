@@ -1,5 +1,12 @@
-all: intro-c
-	clang-format -i src/main.c
+CC := clang
 
-intro-c:
-	clang src/main.c -o $@
+#VPATH := src
+vpath %.c src
+
+all: format intro
+
+#intro-c: src/main.c
+
+.PHONY: format
+format:
+	clang-format -i src/intro.c
