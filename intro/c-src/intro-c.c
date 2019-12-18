@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-int by_ref(int *i) { return *i + 1; }
+int by_ref(int* i) {
+  return *i + 1;
+}
 
 void use_by_ref() {
   int i = 10;
@@ -10,4 +12,6 @@ void use_by_ref() {
   printf("by_refs %d %d\n", r1, r2);
 }
 
-int main() { use_by_ref(); }
+int main() {
+  use_by_ref();
+}

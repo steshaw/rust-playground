@@ -87,6 +87,17 @@ fn use_by_ref() {
     println!("by_refs {} {}", r1, r2)
 }
 
+fn modifies(x: &mut f64) {
+    *x = 1.0;
+}
+
+fn use_modifies() {
+    let mut r = 0.0;
+    println!("before: r = {}", r);
+    modifies(&mut r);
+    println!(" after: r = {}", r);
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -95,4 +106,5 @@ async fn main() {
     sqr_it();
     print_factorials();
     use_by_ref();
+    use_modifies()
 }

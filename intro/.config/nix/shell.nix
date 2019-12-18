@@ -31,5 +31,6 @@ stdenv.mkDerivation {
     cacert
     clang
     clang-tools
+    gnumake
   ];
 }

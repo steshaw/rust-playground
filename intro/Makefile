@@ -1,12 +1,14 @@
 CC := clang
+CXX := clang++
+CFLAGS := -Wall
 
-#VPATH := src
-vpath %.c src
+clang_format_style = chromium
 
-all: format intro
+vpath %.c c-src
+vpath %.cpp cpp-src
 
-#intro-c: src/main.c
+all: format intro-c intro-cpp
 
 .PHONY: format
 format:
-	clang-format -i src/intro.c
+	clang-format --style=${clang_format_style} -i c-src/*.c cpp-src/*.cpp
