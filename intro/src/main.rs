@@ -27,8 +27,72 @@ fn sum() {
     println!("sum is {}", sum);
 }
 
+fn sum_f64() {
+    let mut sum = 0.1;
+    for i in 0..5 {
+        sum += i as f64;
+    }
+    println!("sum_f64 is {}", sum);
+}
+
+fn sqr(x: f64) -> f64 {
+    x * x
+}
+
+fn sqr_it() {
+    let r = sqr(2_f64);
+    println!("square is {}", r);
+}
+
+fn abs(x: f64) -> f64 {
+    if x > 0.0 {
+        x
+    } else {
+        -x
+    }
+}
+
+fn clamp(x: f64, x1: f64, x2: f64) -> f64 {
+    if x < x1 {
+        x1
+    } else if x > x2 {
+        x2
+    } else {
+        x
+    }
+}
+
+fn factorial(n: u64) -> u64 {
+    if n == 0 {
+        1
+    } else {
+        n * factorial(n - 1)
+    }
+}
+
+fn print_factorials() {
+    for n in 0..5 {
+        println!("facorial({}) => {}", n, factorial(n));
+    }
+}
+
+fn by_ref(x: &i32) -> i32 {
+    *x + 1
+}
+
+fn use_by_ref() {
+    let i = 10;
+    let r1 = by_ref(&i);
+    let r2 = by_ref(&41);
+    println!("by_refs {} {}", r1, r2)
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
     sum();
+    sum_f64();
+    sqr_it();
+    print_factorials();
+    use_by_ref();
 }
