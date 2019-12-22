@@ -164,6 +164,25 @@ fn sum_array() {
     println!("s => {}", s);
 }
 
+fn print_arrays() {
+    {
+        let ints = [1, 2, 3];
+        println!("ints {:?}", ints);
+    }
+    {
+        let floats = [1.1, 2.1, 3.1];
+        println!("floats {:?}", floats);
+    }
+    {
+        let strings = ["hello", "world"];
+        println!("strings {:?}", strings);
+    }
+    {
+        let ints_ints = [[1, 2], [10, 20]];
+        println!("ints_ints {:?}", ints_ints);
+    }
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -177,4 +196,5 @@ async fn main() {
     cosine();
     arrays();
     sum_array();
+    print_arrays();
 }
