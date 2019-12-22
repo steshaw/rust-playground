@@ -99,8 +99,8 @@ fn use_modifies() {
 }
 
 fn maths() {
-    for a in [-5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0].iter() {
-      println!("abs({}) = {}", a, abs(*a));
+    for a in (-5..=5).map(|i| {i as f64}) {
+      println!("abs({}) = {}", a, abs(a));
     }
     for a in 1..=15 {
       for (a, from, to) in [(a as f64, 5.0, 10.0)].iter() {
