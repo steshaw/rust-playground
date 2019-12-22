@@ -209,6 +209,16 @@ fn option_arrays() {
     println!("opt_fourth.unwrap_or => {}", r);
 }
 
+fn option_as_ref() {
+    let text: Option<String> = Some("Hello, world!".to_string());
+    // First, cast `Option<String>` to `Option<&String>` with `as_ref`,
+    // then consume *that* with `map`, leaving `text` on the stack.
+    let text1 : Option<&String> = text.as_ref();
+    let text_length: Option<usize> = text1.map(|s| s.len());
+    println!("text_length: {:?}", text_length);
+    println!("still can print text: {:?}", text);
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -224,4 +234,5 @@ async fn main() {
     sum_array();
     print_arrays();
     option_arrays();
+    option_as_ref();
 }
