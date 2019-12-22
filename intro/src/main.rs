@@ -219,6 +219,13 @@ fn option_as_ref() {
     println!("still can print text: {:?}", text);
 }
 
+fn option_as_mut() {
+    let mut x : Option<i128> = Some(2);
+    x.as_mut().map(|a| *a = 42);
+    println!("x = {:?}", x);
+    assert_eq!(x, Some(42));
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -235,4 +242,5 @@ async fn main() {
     print_arrays();
     option_arrays();
     option_as_ref();
+    option_as_mut();
 }
