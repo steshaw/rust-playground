@@ -1,4 +1,4 @@
-- [[https://stevedonovan.github.io/rust-gentle-intro/readme.html]]
-- [[https://www.snoyman.com/series/rust-crash-course]]
-- [[https://doc.rust-lang.org/book/second-edition/]]
-- [[http://cliffle.com/p/dangerust/]]
+1. [[https://stevedonovan.github.io/rust-gentle-intro/readme.html]]
+2. [[https://doc.rust-lang.org/book/second-edition/]]
+3. [[https://www.snoyman.com/series/rust-crash-course]]
+4. [[http://cliffle.com/p/dangerust/]]
