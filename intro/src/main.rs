@@ -191,6 +191,16 @@ fn print_arrays() {
     }
 }
 
+fn option_arrays() {
+    let ints = [1, 2, 3];
+    let i0 = ints[0];
+    let oi0 = ints.get(0);
+    let oi3 = ints.get(3);
+    println!("i0 = {}", i0);
+    println!("oi0 = {:?}", oi0);
+    println!("oi3 = {:?}", oi3);
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -205,4 +215,5 @@ async fn main() {
     arrays();
     sum_array();
     print_arrays();
+    option_arrays();
 }
