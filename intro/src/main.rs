@@ -194,11 +194,17 @@ fn print_arrays() {
 fn option_arrays() {
     let ints = [1, 2, 3];
     let i0 = ints[0];
-    let oi0 = ints.get(0);
-    let oi3 = ints.get(3);
+    let opt_first = ints.get(0);
+    let opt_fourth = ints.get(3);
     println!("i0 = {}", i0);
-    println!("oi0 = {:?}", oi0);
-    println!("oi3 = {:?}", oi3);
+    println!("opt_first = {:?}", opt_first);
+    println!("opt_fourth = {:?}", opt_fourth);
+    println!("opt_first {} {}", opt_first.is_some(), opt_first.is_none());
+    println!("opt_fourth {} {}", opt_fourth.is_some(), opt_fourth.is_none());
+    println!("opt_first.unwrap => {}", opt_first.unwrap());
+    if false { // Avoid panic: called unwrap on None
+        println!("opt_fourth.unwrap => {}", opt_fourth.unwrap());
+    }
 }
 
 #[async_std::main]
