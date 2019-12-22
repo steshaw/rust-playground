@@ -1,4 +1,5 @@
 use async_std;
+use std;
 use num_format::{Locale, ToFormattedString};
 
 async fn hello(even_odd: &str, i: i32) {
