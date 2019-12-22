@@ -168,6 +168,14 @@ fn print_arrays() {
     {
         let ints = [1, 2, 3];
         println!("ints {:?}", ints);
+        let slice1 = &ints[0..2];
+        println!("slice1 {:?}", slice1);
+        let slice2 = &ints[1..];
+        println!("slice2 {:?}", slice2);
+        if false { // Avoid 'index out of bounds'
+            let slice3 = &ints[2..5];
+            println!("slice3 {:?}", slice3);
+        }
     }
     {
         let floats = [1.1, 2.1, 3.1];
