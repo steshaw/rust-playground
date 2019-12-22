@@ -99,8 +99,7 @@ fn use_modifies() {
 }
 
 fn cosine() {
-    let x = 2.0 * 3.141592_f64;
-    // 3.14159265358979323846264338327950288_f64
+    let x = 2.0 * std::f64::consts::PI;
 
     let abs_difference = (x.cos() - 1.0).abs();
     let r = abs_difference;
