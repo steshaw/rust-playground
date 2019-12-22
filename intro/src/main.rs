@@ -195,7 +195,7 @@ fn option_arrays() {
     let ints = [1, 2, 3];
     let i0 = ints[0];
     let opt_first = ints.get(0);
-    let opt_fourth = ints.get(3);
+    let opt_fourth : Option<i128> = ints.get(3).map(|i| *i);
     println!("i0 = {}", i0);
     println!("opt_first = {:?}", opt_first);
     println!("opt_fourth = {:?}", opt_fourth);
@@ -205,6 +205,8 @@ fn option_arrays() {
     if false { // Avoid panic: called unwrap on None
         println!("opt_fourth.unwrap => {}", opt_fourth.unwrap());
     }
+    let r : i128 = opt_fourth.unwrap_or(-1);
+    println!("opt_fourth.unwrap_or => {}", r);
 }
 
 #[async_std::main]
