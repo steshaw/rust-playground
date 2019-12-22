@@ -120,6 +120,16 @@ fn maths() {
     }
 }
 
+fn arrays() {
+    let arr = [10, 20, 30, 40];
+    println!("length = {}", arr.len());
+    let first = arr[0];
+    println!("first = {}", first);
+    for i in 0..4 {
+        println!("arr[{}] => {}", i, arr[i]);
+    }
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -131,4 +141,5 @@ async fn main() {
     use_modifies();
     maths();
     cosine();
+    arrays();
 }
