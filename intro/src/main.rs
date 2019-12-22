@@ -98,6 +98,17 @@ fn use_modifies() {
     println!(" after: r = {}", r);
 }
 
+fn cosine() {
+    let x = 2.0 * 3.141592_f64;
+    // 3.14159265358979323846264338327950288_f64
+
+    let abs_difference = (x.cos() - 1.0).abs();
+    let r = abs_difference;
+    println!("r = {}", r);
+
+    assert!(abs_difference < 1e-10);
+}
+
 fn maths() {
     for a in (-5..=5).map(|i| {i as f64}) {
       println!("abs({}) = {}", a, abs(a));
@@ -119,4 +130,5 @@ async fn main() {
     use_by_ref();
     use_modifies();
     maths();
+    cosine();
 }
