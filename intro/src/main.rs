@@ -98,6 +98,17 @@ fn use_modifies() {
     println!(" after: r = {}", r);
 }
 
+fn maths() {
+    for a in [-5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0].iter() {
+      println!("abs({}) = {}", a, abs(*a));
+    }
+    for a in 1..=15 {
+      for (a, from, to) in [(a as f64, 5.0, 10.0)].iter() {
+        println!("clamp({}, {}, {}) = {}", a, from, to, clamp(*a, *from, *to));
+      }
+    }
+}
+
 #[async_std::main]
 async fn main() {
     hellos().await;
@@ -106,5 +117,6 @@ async fn main() {
     sqr_it();
     print_factorials();
     use_by_ref();
-    use_modifies()
+    use_modifies();
+    maths();
 }
