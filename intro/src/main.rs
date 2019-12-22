@@ -1,6 +1,6 @@
 use async_std;
-use std::f64;
 use num_format::{Locale, ToFormattedString};
+use std::f64;
 
 async fn hello(even_odd: &str, i: i32) {
     let answer = 12_345;
@@ -20,11 +20,15 @@ async fn hellos() {
     }
 }
 
-fn sum() {
-    let mut sum = 0;
-    for i in 0..5 {
-        sum += i;
+fn sum_i32() {
+    fn sum_1_to_5() -> i32 {
+      let mut sum = 0;
+      for i in 0..5 {
+          sum += i;
+      }
+      sum
     }
+    let sum = sum_1_to_5();
     println!("sum is {}", sum);
 }
 
@@ -110,13 +114,13 @@ fn cosine() {
 }
 
 fn maths() {
-    for a in (-5..=5).map(|i| {i as f64}) {
-      println!("abs({}) = {}", a, abs(a));
+    for a in (-5..=5).map(|i| i as f64) {
+        println!("abs({}) = {}", a, abs(a));
     }
     for a in 1..=15 {
-      for (a, from, to) in [(a as f64, 5.0, 10.0), (a as f64, -3.0, 1.0)].iter() {
-        println!("clamp({}, {}, {}) = {}", a, from, to, clamp(*a, *from, *to));
-      }
+        for (a, from, to) in [(a as f64, 5.0, 10.0), (a as f64, -3.0, 1.0)].iter() {
+            println!("clamp({}, {}, {}) = {}", a, from, to, clamp(*a, *from, *to));
+        }
     }
 }
 
@@ -129,19 +133,41 @@ fn arrays() {
 
     // Panics.
     if false {
-      let i = 12;
-      println!("arr[12] => {}", arr[i]);
+        // Avoid 'out of bounds'!
+        let i = 12;
+        println!("arr[{}] => {}", i, arr[i]);
     }
 
     for i in 0..4 {
         println!("arr[{}] => {}", i, arr[i]);
     }
+
+    if false {
+        // Avoid 'out of bounds'!
+        for i in 0..5 {
+            println!("arr[{}] => {}", i, arr[i]);
+        }
+    }
+}
+
+fn sum(values: &[i32]) -> i32 {
+    let mut r = 0;
+    for i in 0..values.len() {
+        r += values[i];
+    }
+    r
+}
+
+fn sum_array() {
+    let is = [10,20,30,40];
+    let s = sum(&is);
+    println!("s => {}", s);
 }
 
 #[async_std::main]
 async fn main() {
     hellos().await;
-    sum();
+    sum_i32();
     sum_f64();
     sqr_it();
     print_factorials();
@@ -150,4 +176,5 @@ async fn main() {
     maths();
     cosine();
     arrays();
+    sum_array();
 }
