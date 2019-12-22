@@ -123,8 +123,16 @@ fn maths() {
 fn arrays() {
     let arr = [10, 20, 30, 40];
     println!("length = {}", arr.len());
+
     let first = arr[0];
     println!("first = {}", first);
+
+    // Panics.
+    if false {
+      let i = 12;
+      println!("arr[12] => {}", arr[i]);
+    }
+
     for i in 0..4 {
         println!("arr[{}] => {}", i, arr[i]);
     }
