@@ -103,7 +103,7 @@ fn maths() {
       println!("abs({}) = {}", a, abs(a));
     }
     for a in 1..=15 {
-      for (a, from, to) in [(a as f64, 5.0, 10.0)].iter() {
+      for (a, from, to) in [(a as f64, 5.0, 10.0), (a as f64, -3.0, 1.0)].iter() {
         println!("clamp({}, {}, {}) = {}", a, from, to, clamp(*a, *from, *to));
       }
     }
