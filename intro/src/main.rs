@@ -1,5 +1,5 @@
 use async_std;
-use std;
+use std::f64;
 use num_format::{Locale, ToFormattedString};
 
 async fn hello(even_odd: &str, i: i32) {
@@ -100,7 +100,7 @@ fn use_modifies() {
 }
 
 fn cosine() {
-    let x = 2.0 * std::f64::consts::PI;
+    let x = 2.0 * f64::consts::PI;
 
     let abs_difference = (x.cos() - 1.0).abs();
     let r = abs_difference;
