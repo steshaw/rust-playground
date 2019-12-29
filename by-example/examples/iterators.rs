@@ -29,7 +29,7 @@ fn main() {
     print_first3(v3);
 }
 
-fn print_first0<T, E>(v: &Vec<Result<T, E>>)
+fn print_first0<T, E>(v: &[Result<T, E>])
 where
     T: fmt::Display,
     E: fmt::Display,
