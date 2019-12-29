@@ -21,18 +21,44 @@ fn main() {
 
     let v3 = vec![Err("argh"), Ok(42), Err("x"), Err("y")];
     println!("find => {:?}", v3.iter().find(|&&a| a.is_ok()));
-    print_first0(v3.clone());
+    print_first0(&v3);
+    print_first00(&v3);
+    print_first000(&v3);
     print_first1(&v3);
     print_first2(&v3);
     print_first3(v3);
 }
 
-fn print_first0<T, E>(v: Vec<Result<T, E>>)
+fn print_first0<T, E>(v: &Vec<Result<T, E>>)
 where
     T: fmt::Display,
     E: fmt::Display,
 {
-    if let Some(Ok(s)) = v.iter().find(|i| i.is_ok()) {
+    if let Some(Ok(s)) = v.iter().find(|a| a.is_ok()) {
+        println!("Found {}", s);
+    } else {
+        println!("No okays");
+    }
+}
+
+fn print_first00<T, E>(v: &Vec<Result<T, E>>)
+where
+    T: fmt::Display,
+    E: fmt::Display,
+{
+    if let Some(Ok(s)) = v.iter().map(|a| a.as_ref()).find(Result::is_ok) {
+        println!("Found {}", s);
+    } else {
+        println!("No okays");
+    }
+}
+
+fn print_first000<T, E>(v: &Vec<Result<T, E>>)
+where
+    T: fmt::Display,
+    E: fmt::Display,
+{
+    if let Some(Ok(s)) = v.iter().map(|i| i.as_ref()).find(Result::is_ok) {
         println!("Found {}", s);
     } else {
         println!("No okays");
@@ -40,7 +66,7 @@ where
 }
 
 fn print_first1<T: fmt::Display, E>(v: &Vec<Result<T, E>>) -> () {
-    if let Some(s) = v.iter().find_map(|i| i.as_ref().ok()) {
+    if let Some(s) = v.iter().find_map(|a| a.as_ref().ok()) {
         println!("Found {}", s);
     } else {
         println!("No okays");
@@ -48,7 +74,7 @@ fn print_first1<T: fmt::Display, E>(v: &Vec<Result<T, E>>) -> () {
 }
 
 fn print_first2<T: fmt::Display, E>(v: &Vec<Result<T, E>>) -> () {
-    if let Some(Ok(s)) = v.iter().find(|i| i.is_ok()) {
+    if let Some(Ok(s)) = v.iter().find(|a| a.is_ok()) {
         println!("Found {}", s);
     } else {
         println!("No okays");
