@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+${DEBUG:-}
+
+if [[ $1 == 'watch-example' ]]; then
+  shift
+fi
+example=$1
+
+cargo watch --exec "run --example ${example}"
