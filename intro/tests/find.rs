@@ -9,7 +9,7 @@ fn print_first1<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
 }
 
 fn print_first2<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
-    if let Some(s) = v.into_iter().find_map(|f| f.ok()) {
+    if let Some(s) = v.into_iter().find_map(Result::ok) {
         println!("Found {}", s);
     } else {
         println!("No okays");
