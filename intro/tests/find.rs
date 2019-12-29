@@ -1,20 +1,30 @@
 use std::fmt;
 
-fn print_first<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
+fn print_first1<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
     if let Some(s) = v.iter().find_map(|f| f.as_ref().ok()) {
         println!("Found {}", s);
+    } else {
+        println!("No okays");
     }
 }
-// XXX: Using `into_iter` works out much more nicely. What is it?
-/*
-fn print_first<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
+
+fn print_first2<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
     if let Some(s) = v.into_iter().find_map(|f| f.ok()) {
         println!("Found {}", s);
     } else {
         println!("No okays");
     }
 }
-*/
+
+fn print_first3<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
+    if let Some(Ok(s)) = v.iter().find(|f| f.is_ok()) {
+        println!("Found {}", s);
+    } else {
+        println!("No okays");
+    }
+}
+
+//macro print_first(v) { printfirst2(v) }
 
 #[test]
 fn find_it() {
@@ -32,9 +42,9 @@ fn find_it() {
     if let Some(s) = v.iter().find_map(|f| f.ok()) {
         println!("Found {}", s);
     }
-    print_first(v);
+    print_first3(v);
 
     let errs : Vec<Result<char, &str>> = vec![Err("oops"), Err("argh")];
 
-    print_first(errs);
+    print_first3(errs);
 }
