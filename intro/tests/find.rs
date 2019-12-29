@@ -1,12 +1,12 @@
 use std::fmt;
 
-/*
 fn print_first<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
-    if let Some(s) = v.iter().find_map(|f| f.ok()) {
+    if let Some(s) = v.iter().find_map(|f| f.as_ref().ok()) {
         println!("Found {}", s);
     }
 }
-*/
+// XXX: Using `into_iter` works out much more nicely. What is it?
+/*
 fn print_first<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
     if let Some(s) = v.into_iter().find_map(|f| f.ok()) {
         println!("Found {}", s);
@@ -14,6 +14,7 @@ fn print_first<T : fmt::Display, E>(v : Vec<Result<T, E>>) -> () {
         println!("No okays");
     }
 }
+*/
 
 #[test]
 fn find_it() {
