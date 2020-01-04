@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+[[ $1 == watch-examples ]]; shift
+
+watchexec --watch examples --exts rs run-example

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+msg() {
+  echo -e "\e[48;2;0;0;150m\e[38;2;255;255;255m$*\e[0m"
+}
+
+if [[ -n ${WATCHEXEC_WRITTEN_PATH:-} ]]; then
+  base_file=$(basename "${WATCHEXEC_WRITTEN_PATH}")
+  example=${base_file%.rs}
+  clear
+  msg "Running example ${example}"
+  cargo run --example "${example}"
+fi

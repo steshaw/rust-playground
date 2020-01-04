@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+[[ $1 == watch ]]; shift
+
+set -x
+watchexec "clear; cargo run $*"
