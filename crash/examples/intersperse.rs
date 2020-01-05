@@ -6,7 +6,7 @@ use std::iter::Peekable;
 struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Copy,
+    T: Clone,
 {
     inject: bool,
     t: T,
@@ -16,21 +16,21 @@ where
 impl<T, I> Iterator for Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Copy,
+    T: Clone,
 {
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if !self.inject {
             self.inject = !self.inject;
-            self.iter.next()
+            self.iter.next().clone()
         } else {
             let next = self.iter.peek();
             if next.is_some() {
                 self.inject = !self.inject;
-                Some(self.t)
+                Some(self.t.clone())
             } else {
-                self.iter.next() // Iteration ends.
+                self.iter.next().clone() // Iteration ends.
             }
         }
     }
@@ -39,7 +39,7 @@ where
 fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Copy,
+    T: Clone,
 {
     Intersperse {
         inject: false,
@@ -83,7 +83,7 @@ fn main() {
 
     println!("intersperse:");
     let xs = vec![1, 2, 3];
-    let ys: Vec<&i32> = intersperse(&0, xs.iter()).collect();
+    let ys : Vec<&i32> = intersperse(&0, xs.iter()).collect();
     assert_eq!(vec![&1, &0, &2, &0, &3], ys);
     println!("ys = {:#?}", ys);
 }
