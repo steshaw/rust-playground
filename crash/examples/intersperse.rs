@@ -1,35 +1,13 @@
-/*
-// XXX: ARGH
-use std::slice::Iter;
+// FIXME: the horrors.
 
-struct Intersperse<T> {
-    t: T,
-}
-use std::iter::*;
-
-fn intersperse<'a, T>(inject: Iter<T>, xs: Iter<T>)
-//std::iter::FlatMap<std::slice::Iter<'_, T>, std::iter::Chain<std::iter::Once<&T>, std::slice::Iter<'_, T>>
-{
-    fn f(x: &u8) {
-        [x].iter().chain(inject)
-    }
-    xs.flat_map(f);
-}
-*/
-
-//#[derive(Debug)]
-/*
-fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
-where
-    I: Iterator<Item = T>,
-    T : Clone,
-*/
+#[derive(Debug)]
 struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     first: bool,
+    next: Option<T>,
     t: T,
     iter: I,
 }
@@ -37,16 +15,26 @@ where
 impl<T, I> Iterator for Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
-        if let Some(_x) = self.iter.next() {
-            Some(self.t.clone())
-            //Some(_x)
+        if self.first {
+            self.first = false;
+            self.iter.next()
+        } else if self.next.is_some() {
+            let r = self.next;
+            self.next = None;
+            r
         } else {
-            None
+            let r = Some(self.t);
+            self.next = self.iter.next();
+            if self.next.is_none() {
+                None
+            } else {
+                r
+            }
         }
     }
 }
@@ -54,10 +42,11 @@ where
 fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T : Clone,
+    T: Copy,
 {
     Intersperse {
-        first: false,
+        first: true,
+        next: None,
         t: x,
         iter: xs,
     }
