@@ -23,14 +23,14 @@ where
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if !self.inject {
             self.inject = !self.inject;
-            self.iter.next().clone()
+            self.iter.next()
         } else {
             let next = self.iter.peek();
             if next.is_some() {
                 self.inject = !self.inject;
                 Some(self.t.clone())
             } else {
-                self.iter.next().clone() // Iteration ends.
+                self.iter.next() // Iteration ends.
             }
         }
     }
