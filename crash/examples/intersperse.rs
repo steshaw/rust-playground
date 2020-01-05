@@ -48,13 +48,6 @@ where
     }
 }
 
-fn intersperse_main() {
-    let xs = vec![1, 2, 3];
-    let r: Vec<&i32> = intersperse(&42, xs.iter()).collect();
-    assert_eq!(vec![&1, &42, &2, &42, &3], r);
-    println!("r = {:#?}", r);
-}
-
 //
 // TODO: Implement intersperse over iterators.
 //
@@ -82,14 +75,15 @@ fn intersperse_vec<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
 }
 
 fn main() {
+    println!("intersperse_vec:");
     let xs: Vec<&u32> = vec![&1, &2, &3];
-
     let ys = intersperse_vec(&0, xs);
+    assert_eq!(vec![&1, &0, &2, &0, &3], ys);
     println!("ys = {:#?}", ys);
-    for y in ys.iter() {
-        println!("y = {}", y);
-    }
 
-    println!("\nintersperse_main:");
-    intersperse_main();
+    println!("intersperse:");
+    let xs = vec![1, 2, 3];
+    let ys: Vec<&i32> = intersperse(&0, xs.iter()).collect();
+    assert_eq!(vec![&1, &0, &2, &0, &3], ys);
+    println!("ys = {:#?}", ys);
 }
