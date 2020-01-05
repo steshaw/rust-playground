@@ -17,6 +17,37 @@ fn intersperse<'a, T>(inject: Iter<T>, xs: Iter<T>)
 }
 */
 
+//#[derive(Debug)]
+struct Intersperse<T, I>
+where I: IntoIterator
+{
+    t: T,
+    iter: I,
+}
+
+impl<T, I> Iterator for Intersperse<T, I>
+where I : Iterator
+{
+    type Item = <I as Iterator>::Item;
+
+    fn next(&mut self) -> Option<<Self as Iterator>::Item> {
+        self.iter.next()
+    }
+}
+
+fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
+where
+    I: IntoIterator,
+{
+    Intersperse { t: x, iter: xs }
+}
+
+fn intersperse_main() {
+    let xs = vec![1,2,3];
+    let r : Vec<&i32> = intersperse(0, xs.iter()).collect();
+    println!("r = {:#?}", r);
+}
+
 //
 // TODO: Implement intersperse over iterators.
 //
@@ -29,7 +60,7 @@ fn intersperse<'a, T>(inject: Iter<T>, xs: Iter<T>)
 // FIXME: Use a type paramater (rather than u32).
 // FIXME: Why all the `&` and lifetimes?
 //
-fn intersperse<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
+fn intersperse_vec<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
     let mut result: Vec<&'a u32> = vec![];
     let mut iter = xs.iter();
     let mut next = iter.next();
@@ -46,9 +77,12 @@ fn intersperse<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
 fn main() {
     let xs: Vec<&u32> = vec![&1, &2, &3];
 
-    let ys = intersperse(&0, xs);
+    let ys = intersperse_vec(&0, xs);
     println!("ys = {:#?}", ys);
     for y in ys.iter() {
         println!("y = {}", y);
     }
+
+    println!("\nintersperse_main:");
+    intersperse_main();
 }
