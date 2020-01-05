@@ -8,21 +8,6 @@ struct Person {
     age: u32,
 }
 
-// TODO: Implement intercalate.
-/*
-use std::iter::Iterator;
-
-struct Intercalate<T> {}
-
-fn intercalate<T>(xs: &dyn Iterator<T>, ys: &dyn Iterator<T>) -> Intercalate<T> {
-    xs.fold(xs, |acc, x| acc.chain(x))
-}
-fn hello_intercalate() {
-    let xs = vec![1, 2, 3];
-    let bs = intercalate([0].iter(), xs.iter());
-}
-*/
-
 impl Display for Person {
     fn fmt(self: &Self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         #[derive(Debug)]
