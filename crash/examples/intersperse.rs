@@ -32,11 +32,11 @@ fn intersperse<'a, T>(inject: Iter<T>, xs: Iter<T>)
 fn intersperse<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
     let mut result: Vec<&'a u32> = vec![];
     let mut iter = xs.iter();
-    let mut x = iter.next();
-    while x.is_some() {
-        result.push(x.unwrap());
-        x = iter.next();
-        if x.is_some() {
+    let mut next = iter.next();
+    while next.is_some() {
+        result.push(next.unwrap());
+        next = iter.next();
+        if next.is_some() {
             result.push(a)
         };
     }
