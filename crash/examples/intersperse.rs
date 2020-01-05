@@ -1,15 +1,16 @@
 // FIXME: the horrors.
 
+use std::iter::Peekable;
+
 #[derive(Debug)]
 struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
     T: Copy,
 {
-    first: bool,
-    next: Option<T>,
+    inject: bool,
     t: T,
-    iter: I,
+    iter: Peekable<I>,
 }
 
 impl<T, I> Iterator for Intersperse<T, I>
@@ -20,20 +21,16 @@ where
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
-        if self.first {
-            self.first = false;
+        if !self.inject {
+            self.inject = !self.inject;
             self.iter.next()
-        } else if self.next.is_some() {
-            let r = self.next;
-            self.next = None;
-            r
         } else {
-            let r = Some(self.t);
-            self.next = self.iter.next();
-            if self.next.is_none() {
-                None
+            let next = self.iter.peek();
+            if next.is_some() {
+                self.inject = !self.inject;
+                Some(self.t)
             } else {
-                r
+                self.iter.next() // Iteration ends.
             }
         }
     }
@@ -45,16 +42,16 @@ where
     T: Copy,
 {
     Intersperse {
-        first: true,
-        next: None,
+        inject: false,
         t: x,
-        iter: xs,
+        iter: xs.peekable(),
     }
 }
 
 fn intersperse_main() {
     let xs = vec![1, 2, 3];
     let r: Vec<&i32> = intersperse(&42, xs.iter()).collect();
+    assert_eq!(vec![&1, &42, &2, &42, &3], r);
     println!("r = {:#?}", r);
 }
 
