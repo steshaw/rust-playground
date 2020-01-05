@@ -18,39 +18,54 @@ fn intersperse<'a, T>(inject: Iter<T>, xs: Iter<T>)
 */
 
 //#[derive(Debug)]
-struct Intersperse<I>
-where I: IntoIterator,
-      I: Iterator
+/*
+fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
+where
+    I: Iterator<Item = T>,
+    T : Clone,
+*/
+struct Intersperse<T, I>
+where
+    I: Iterator<Item = T>,
+    T: Clone,
 {
-    first : bool,
-    t: <I as Iterator>::Item,
+    first: bool,
+    t: T,
     iter: I,
 }
 
-impl<I> Iterator for Intersperse<I>
-where I : Iterator
+impl<T, I> Iterator for Intersperse<T, I>
+where
+    I: Iterator<Item = T>,
+    T: Clone,
 {
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if let Some(_x) = self.iter.next() {
-//            Some(self.t)
-            Some(_x)
-        } else { None }
+            Some(self.t.clone())
+            //Some(_x)
+        } else {
+            None
+        }
     }
 }
 
-fn intersperse<I>(x: <I as Iterator>::Item, xs: I) -> Intersperse<I>
+fn intersperse<T, I>(x: T, xs: I) -> Intersperse<T, I>
 where
-    I: IntoIterator,
-    I: Iterator,
+    I: Iterator<Item = T>,
+    T : Clone,
 {
-    Intersperse { first : false, t: x, iter: xs }
+    Intersperse {
+        first: false,
+        t: x,
+        iter: xs,
+    }
 }
 
 fn intersperse_main() {
-    let xs = vec![1,2,3];
-    let r : Vec<&i32> = intersperse(&0, xs.iter()).collect();
+    let xs = vec![1, 2, 3];
+    let r: Vec<&i32> = intersperse(&42, xs.iter()).collect();
     println!("r = {:#?}", r);
 }
 
