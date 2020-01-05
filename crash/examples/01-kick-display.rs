@@ -8,6 +8,20 @@ struct Person {
     age: u32,
 }
 
+// TODO: Implement intercalate.
+
+use std::iter::Iterator;
+
+struct Intercalate<T> {}
+
+fn intercalate<T>(xs: &dyn Iterator<T>, ys: &dyn Iterator<T>) -> Intercalate<T> {
+    xs.fold(xs, |acc, x| acc.chain(x))
+}
+fn hello_intercalate() {
+    let xs = vec![1, 2, 3];
+    let bs = intercalate([0].iter(), xs.iter());
+}
+
 impl Display for Person {
     fn fmt(self: &Self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
         #[derive(Debug)]
@@ -20,6 +34,7 @@ impl Display for Person {
         use FormatType::*;
 
         // Use all techniques to display on self.
+        let mut first = true;
         [Nested(false), Nested(true), Write]
             .iter()
             .fold(Ok(()), move |acc, ty| {
@@ -41,11 +56,15 @@ impl Display for Person {
 
                     Write => write!(fmt, "{}, {} years of age", self.name, self.age),
                 };
-                acc.and(fmt.write_str("\n  "))
-                    .and(ty.fmt(fmt))
-                    .and(fmt.write_str(": "))
-                    .and(_helper(fmt))
-                    .and(fmt.write_str("\n")) // TODO: How to intercalate this?
+                acc.and(if first {
+                    first = false;
+                    fmt.write_str("\n  ")
+                } else {
+                    fmt.write_str("\n| ")
+                })
+                .and(ty.fmt(fmt))
+                .and(fmt.write_str(": "))
+                .and(_helper(fmt))
             })
     }
 }
