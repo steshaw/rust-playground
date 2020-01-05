@@ -9,7 +9,7 @@ struct Person {
 }
 
 // TODO: Implement intercalate.
-
+/*
 use std::iter::Iterator;
 
 struct Intercalate<T> {}
@@ -21,6 +21,7 @@ fn hello_intercalate() {
     let xs = vec![1, 2, 3];
     let bs = intercalate([0].iter(), xs.iter());
 }
+*/
 
 impl Display for Person {
     fn fmt(self: &Self, fmt: &mut Formatter<'_>) -> Result<(), Error> {
@@ -38,7 +39,8 @@ impl Display for Person {
         [Nested(false), Nested(true), Write]
             .iter()
             .fold(Ok(()), move |acc, ty| {
-                // TODO: How to instead capture the `fmt` here?
+                // TODO: How remove the `fmt` parameter (and capture `fmt` instead)?
+                // NOTE; The `fmt` closure argument requires the type annotation.
                 let _helper = |fmt: &mut Formatter| match ty {
                     Nested(true) => fmt.write_str(&self.name).and(
                         fmt.write_str(", ").and(
