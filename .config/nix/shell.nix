@@ -25,8 +25,6 @@ stdenv.mkDerivation {
   name = "moz_overlay_shell";
   buildInputs = [
     rustStableChannel
-    rls
-    rustup
 
     cacert
     clang
