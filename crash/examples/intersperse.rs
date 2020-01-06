@@ -28,7 +28,7 @@ where
     I: Iterator<Item = T>,
     T: Copy,
 {
-    type Item = <I as Iterator>::Item;
+    type Item = I::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if !self.inject {
