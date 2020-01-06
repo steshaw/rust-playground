@@ -91,11 +91,22 @@ fn main() {
     let xs: Vec<u32> = vec![1, 2, 3];
     let ys = intersperse_vec(0, xs);
     assert_eq!(vec![1, 0, 2, 0, 3], ys);
-    println!("ys = {:#?}", ys);
+    println!("ys = {:?}", ys);
 
+    let xs = vec!["one", "two", "three"];
+    let ys = intersperse_vec("boop", xs);
+    assert_eq!(vec!["one", "boop", "two", "boop", "three"], ys);
+    println!("ys = {:?}", ys);
+
+    println!();
     println!("intersperse:");
     let xs = vec![1, 2, 3];
     let ys : Vec<i32> = xs.iter().intersperse(&0).copied().collect();
     assert_eq!(vec![1, 0, 2, 0, 3], ys);
-    println!("ys = {:#?}", ys);
+    println!("ys = {:?}", ys);
+
+    let xs = vec!["one", "two", "three"];
+    let ys = xs.iter().intersperse(&"boop").copied().collect::<Vec<_>>();
+    assert_eq!(vec!["one", "boop", "two", "boop", "three"], ys);
+    println!("ys = {:?}", ys);
 }
