@@ -70,16 +70,14 @@ trait IntersperseExt {
 impl<I: Iterator> IntersperseExt for I {}
 
 //
-// FIXME: Implement this better :)
-// FIXME: Use a type paramater (rather than u32).
-// FIXME: Why all the `&` and lifetimes?
+// TODO: Generalise to non-Vec.
 //
-fn intersperse_vec<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
-    let mut result: Vec<&'a u32> = vec![];
+fn intersperse_vec<T : Copy>(a: T, xs: Vec<T>) -> Vec<T> {
+    let mut result: Vec<T> = vec![];
     let mut iter = xs.iter();
     let mut next = iter.next();
     while next.is_some() {
-        result.push(next.unwrap());
+        result.push(*next.unwrap());
         next = iter.next();
         if next.is_some() {
             result.push(a)
@@ -90,10 +88,9 @@ fn intersperse_vec<'a>(a: &'a u32, xs: Vec<&'a u32>) -> Vec<&'a u32> {
 
 fn main() {
     println!("intersperse_vec:");
-    let xs: Vec<&u32> = vec![&1, &2, &3];
-    let ys = intersperse_vec(&0, xs);
-    let zs = ys.iter().copied().copied().collect::<Vec<u32>>();
-    assert_eq!(vec![1, 0, 2, 0, 3], zs);
+    let xs: Vec<u32> = vec![1, 2, 3];
+    let ys = intersperse_vec(0, xs);
+    assert_eq!(vec![1, 0, 2, 0, 3], ys);
     println!("ys = {:#?}", ys);
 
     println!("intersperse:");
