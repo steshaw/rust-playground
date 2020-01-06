@@ -3,11 +3,13 @@
 set -euo pipefail
 
 msg() {
-  echo -e "\e[48;2;0;0;150m\e[38;2;255;255;255m$*\e[0m"
+  echo -e "\e[48;2;0;0;150m\e[38;2;255;255;255m  $*  \e[0m"
 }
 
 file=
-if [[ -n ${WATCHEXEC_WRITTEN_PATH:-} ]]; then
+if [[ $# -eq 1 ]]; then
+  file=${1}
+elif [[ -n ${WATCHEXEC_WRITTEN_PATH:-} ]]; then
   file=${WATCHEXEC_WRITTEN_PATH}
 elif [[ -n ${WATCHEXEC_CREATED_PATH:-} ]]; then
   file=${WATCHEXEC_CREATED_PATH:-}
