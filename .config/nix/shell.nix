@@ -27,6 +27,8 @@ stdenv.mkDerivation {
     rustStableChannel
 
     cacert
+    watchexec
+
     clang
     clang-tools
     gnumake
