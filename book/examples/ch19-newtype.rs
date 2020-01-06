@@ -1,14 +1,16 @@
 use std::fmt;
 
-struct Wrapper(Vec<String>);
+struct NixList(Vec<String>);
 
-impl fmt::Display for Wrapper {
+impl fmt::Display for NixList {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "[{}]", self.0.join(", "))
+        write!(f, "[\n  {}\n]", self.0.join("\n  "))
     }
 }
 
 fn main() {
-    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    let v = vec![String::from("hello"), String::from("world")];
+    let w = NixList(vec![String::from("hello"), String::from("world")]);
+    println!("v = {:?}", v);
     println!("w = {}", w);
 }
