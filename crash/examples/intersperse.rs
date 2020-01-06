@@ -16,7 +16,7 @@ use std::iter::Peekable;
 struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     inject: bool,
     t: T,
@@ -26,7 +26,7 @@ where
 impl<T, I> Iterator for Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     type Item = <I as Iterator>::Item;
 
@@ -38,7 +38,7 @@ where
             let next = self.iter.peek();
             if next.is_some() {
                 self.inject = !self.inject;
-                Some(self.t.clone())
+                Some(self.t)
             } else {
                 self.iter.next() // Iteration ends.
             }
@@ -56,7 +56,7 @@ trait IntersperseExt {
     fn intersperse<T>(self, x : T) -> Intersperse<T, Self>
     where
         Self: Iterator<Item = T>,
-        T: Clone,
+        T: Copy,
         Self: Sized
     {
         Intersperse {
@@ -92,12 +92,13 @@ fn main() {
     println!("intersperse_vec:");
     let xs: Vec<&u32> = vec![&1, &2, &3];
     let ys = intersperse_vec(&0, xs);
-    assert_eq!(vec![&1, &0, &2, &0, &3], ys);
+    let zs = ys.iter().copied().copied().collect::<Vec<u32>>();
+    assert_eq!(vec![1, 0, 2, 0, 3], zs);
     println!("ys = {:#?}", ys);
 
     println!("intersperse:");
     let xs = vec![1, 2, 3];
-    let ys : Vec<&i32> = xs.iter().intersperse(&0).collect();
-    assert_eq!(vec![&1, &0, &2, &0, &3], ys);
+    let ys : Vec<i32> = xs.iter().intersperse(&0).copied().collect();
+    assert_eq!(vec![1, 0, 2, 0, 3], ys);
     println!("ys = {:#?}", ys);
 }
