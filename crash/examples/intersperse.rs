@@ -53,11 +53,11 @@ where
 //   https://stackoverflow.com/a/30540952/482382
 //
 trait IntersperseExt {
-    fn intersperse<T>(self, x : T) -> Intersperse<T, Self>
+    fn intersperse<T>(self, x: T) -> Intersperse<T, Self>
     where
         Self: Iterator<Item = T>,
         T: Copy,
-        Self: Sized
+        Self: Sized,
     {
         Intersperse {
             inject: false,
@@ -72,7 +72,7 @@ impl<I: Iterator> IntersperseExt for I {}
 //
 // TODO: Generalise to non-Vec.
 //
-fn intersperse_vec<T : Copy>(a: T, xs: Vec<T>) -> Vec<T> {
+fn intersperse_vec<T: Copy>(a: T, xs: Vec<T>) -> Vec<T> {
     let mut result: Vec<T> = vec![];
     let mut iter = xs.iter();
     let mut next = iter.next();
@@ -98,15 +98,40 @@ fn main() {
     assert_eq!(vec!["one", "boop", "two", "boop", "three"], ys);
     println!("ys = {:?}", ys);
 
+    let one = "one".to_string();
+    let two = "two".to_string();
+    let three = "three".to_string();
+    let xs = vec![&one, &two, &three];
+    let boop = "boop".to_string();
+    let ys: Vec<&String> = intersperse_vec(&boop, xs);
+    let expected: Vec<&String> = vec![&one, &boop, &two, &boop, &three];
+    assert_eq!(expected, ys);
+    println!("ys = {:?}", ys);
+
     println!();
     println!("intersperse:");
     let xs = vec![1, 2, 3];
-    let ys : Vec<i32> = xs.iter().intersperse(&0).copied().collect();
+    let ys: Vec<i32> = xs.iter().intersperse(&0).copied().collect();
     assert_eq!(vec![1, 0, 2, 0, 3], ys);
     println!("ys = {:?}", ys);
 
     let xs = vec!["one", "two", "three"];
     let ys = xs.iter().intersperse(&"boop").copied().collect::<Vec<_>>();
     assert_eq!(vec!["one", "boop", "two", "boop", "three"], ys);
+    println!("ys = {:?}", ys);
+
+    let xs = vec!["one", "two", "three"];
+    let xs: Vec<String> = xs.iter().map(|&s| s.to_string()).collect();
+    let ys: Vec<String> = xs
+        .iter()
+        .intersperse(&"boop".to_string())
+        .map(|s| s.to_string())
+        .collect();
+    let expected = vec!["one", "boop", "two", "boop", "three"];
+    let expected = expected
+        .iter()
+        .map(|&s| s.to_string())
+        .collect::<Vec<String>>();
+    assert_eq!(expected, ys);
     println!("ys = {:?}", ys);
 }
