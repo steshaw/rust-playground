@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+${DEBUG:-}
+
+export RUST_BACKTRACE=1
+
+for file in examples/*.rs; do
+  base=$(basename "$file")
+  eg=${base%.rs}
+  echo ==============================================================
+  echo Running $eg...
+  cargo run --example "$eg" || true
+done
