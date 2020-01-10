@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 set -euo pipefail
+${DEBUG:-}
 
-[[ $1 == watch ]]; shift
+[[ ${1:-} == watch ]] && shift
 
-set -x
-watchexec "clear; cargo run $*"
+watchexec --watch src --exts rs "echo clear && cargo run $*"
