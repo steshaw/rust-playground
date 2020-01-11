@@ -69,11 +69,12 @@ impl Display for Game {
         for y in 0..self.frame.height {
             write!(fmt, "|")?;
             for x in 0..self.frame.width {
-                if self.ball.x == x && self.ball.y == y {
-                    write!(fmt, "o")?;
+                let c = if self.ball.x == x && self.ball.y == y {
+                    "o"
                 } else {
-                    write!(fmt, " ")?;
-                }
+                    " "
+                };
+                write!(fmt, "{}", c)?;
             }
             writeln!(fmt, "|")?;
         }
