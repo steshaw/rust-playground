@@ -15,12 +15,7 @@ impl Point {
     // This method is available on any Point, and automatically borrows the
     // Point value.
     fn to_string(&self) -> String {
-        // Horrors when not using format!.
-        // I bet format! finds the nicest way to do it.
-
-        // Split so rustfmt doesn't go crazy with the line length!
-        let r = "(".to_string() + self.x.to_string().as_str();
-        r + ", " + self.y.to_string().as_str() + ")"
+        format!("({}, {})", self.x, self.y)
     }
 }
 
