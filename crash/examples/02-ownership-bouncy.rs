@@ -96,18 +96,19 @@ impl Game {
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         // Erase current ball.
-        /*
-        cursor_move_left(fmt, 1)?;
-        write!(fmt, " ")?;
-        */
-        let prev_pos = self.ball.prev_xy();
-        cursor_move(fmt, prev_pos.0 + 2, prev_pos.1 + 2)?;
-        write!(fmt, " ")?;
+        let erase = true;
+        if erase {
+            let prev_pos = self.ball.prev_xy();
+            cursor_move(fmt, prev_pos.0 + 2, prev_pos.1 + 2)?;
+            write!(fmt, " ")?;
+        }
 
         // Draw ball.
         cursor_move(fmt, self.ball.x + 2, self.ball.y + 2)?;
         write!(fmt, "o")?;
-        cursor_restore(fmt) // Restore to after Frame.
+
+        // Restore the cursor to a position after the frame was drawn.
+        cursor_restore(fmt)
     }
 }
 
