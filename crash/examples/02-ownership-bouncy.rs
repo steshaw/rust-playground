@@ -2,6 +2,24 @@ use std::fmt;
 use std::fmt::{Display, Formatter};
 use std::{thread, time};
 
+const ESC: &str = "\x1B";
+
+fn clear() {
+    print!("\x1B[H\x1B[2J\x1B[3J");
+}
+
+fn cursor_move_right(fmt: &mut Formatter, n: u32) -> fmt::Result {
+    write!(fmt, "{}[{}C", ESC, n)
+}
+
+fn cursor_move_down(fmt: &mut Formatter, n: u32) -> fmt::Result {
+    write!(fmt, "{}[{}B", ESC, n)
+}
+
+fn cursor_move(fmt: &mut Formatter, x: u32, y: u32) -> fmt::Result {
+    write!(fmt, "{}[{};{}f", ESC, y, x)
+}
+
 #[derive(Debug)]
 enum VDirection {
     Up,
@@ -82,6 +100,28 @@ impl Display for Game {
     }
 }
 
+impl Display for Frame {
+    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
+        let write_row = |fmt: &mut Formatter| {
+            write!(fmt, "+")?;
+            for _ in 0..self.width {
+                write!(fmt, "-")?;
+            }
+            writeln!(fmt, "+")
+        };
+
+        write_row(fmt)?;
+        for y in (0..self.height).rev() {
+            cursor_move(fmt, 1, y + 2)?;
+            write!(fmt, "|")?;
+            cursor_move(fmt, self.width + 2, y + 2)?;
+            write!(fmt, "|")?;
+        }
+        cursor_move(fmt, 1, self.height + 2)?;
+        write_row(fmt)
+    }
+}
+
 impl Ball {
     fn bounce(&mut self, frame: &Frame) {
         // Switch horizontal direction. i.e. x.
@@ -112,18 +152,20 @@ impl Ball {
     }
 }
 
-fn clear() {
-    print!("\x1B[H\x1B[2J\x1B[3J");
-}
-
 fn main() {
     let mut game = Game::new();
-    println!("Game initial => {:#?}", game);
-    for _ in 1..100 {
+    let do_game = false;
+    if do_game {
+        println!("Game initial => {:#?}", game);
+        for _ in 1..100 {
+            clear();
+            println!("{}", game);
+            game.step();
+            thread::sleep(time::Duration::from_millis(33));
+        }
+        println!("Game final => {:#?}", game);
+    } else {
         clear();
-        println!("{}", game);
-        game.step();
-        thread::sleep(time::Duration::from_millis(33));
+        print!("{}", game.frame);
     }
-    println!("Game final => {:#?}", game);
 }
