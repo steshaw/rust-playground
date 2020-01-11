@@ -1,3 +1,7 @@
+use std::fmt;
+use std::fmt::{Display, Formatter};
+use std::{thread, time};
+
 #[derive(Debug)]
 enum VDirection {
     Up,
@@ -34,7 +38,7 @@ impl Game {
     fn new() -> Game {
         let frame = Frame {
             width: 60,
-            height: 30,
+            height: 15,
         };
         let ball = Ball {
             x: 2,
@@ -44,8 +48,81 @@ impl Game {
         };
         Game { frame, ball }
     }
+
+    fn step(&mut self) {
+        self.ball.bounce(&self.frame);
+        self.ball.mv();
+    }
+}
+
+fn write_row(frame: &Frame, fmt: &mut Formatter) -> fmt::Result {
+    write!(fmt, "+")?;
+    for _ in 0..frame.width {
+        write!(fmt, "-")?;
+    }
+    writeln!(fmt, "+")
+}
+
+impl Display for Game {
+    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
+        write_row(&self.frame, fmt)?;
+        for y in 0..self.frame.height {
+            write!(fmt, "|")?;
+            for x in 0..self.frame.width {
+                if self.ball.x == x && self.ball.y == y {
+                    write!(fmt, "o")?;
+                } else {
+                    write!(fmt, " ")?;
+                }
+            }
+            writeln!(fmt, "|")?;
+        }
+        write_row(&self.frame, fmt)
+    }
+}
+
+impl Ball {
+    fn bounce(&mut self, frame: &Frame) {
+        // Switch horizontal direction. i.e. x.
+        if self.x == 0 {
+            self.h_direction = HDirection::Right;
+        } else if self.x == frame.width - 1 {
+            self.h_direction = HDirection::Left;
+        }
+        // Switch veritical direction. i.e. y.
+        if self.y == 0 {
+            self.v_direction = VDirection::Up;
+        } else if self.y == frame.height - 1 {
+            self.v_direction = VDirection::Down;
+        }
+    }
+
+    fn mv(&mut self) {
+        // Move in horizontal direction.
+        match self.h_direction {
+            HDirection::Left => self.x -= 1,
+            HDirection::Right => self.x += 1,
+        }
+        // Move in vertical direction.
+        match self.v_direction {
+            VDirection::Down => self.y -= 1,
+            VDirection::Up => self.y += 1,
+        }
+    }
+}
+
+fn clear() {
+    print!("\x1B[H\x1B[2J\x1B[3J");
 }
 
 fn main() {
-    println!("I am bouncy! => {:#?}", Game::new());
+    let mut game = Game::new();
+    println!("Game initial => {:#?}", game);
+    for _ in 1..100 {
+        clear();
+        println!("{}", game);
+        game.step();
+        thread::sleep(time::Duration::from_millis(100));
+    }
+    println!("Game final => {:#?}", game);
 }
