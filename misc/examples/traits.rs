@@ -17,12 +17,10 @@ impl Point {
     fn to_string(&self) -> String {
         // Horrors when not using format!.
         // I bet format! finds the nicest way to do it.
-        let mut r = "(".to_string();
-        r.push_str(self.x.to_string().as_str());
-        r.push_str(", ");
-        r.push_str(self.y.to_string().as_str());
-        r.push_str(")");
-        r
+
+        // Split so rustfmt doesn't go crazy with the line length!
+        let r = "(".to_string() + self.x.to_string().as_str();
+        r + ", " + self.y.to_string().as_str() + ")"
     }
 }
 
