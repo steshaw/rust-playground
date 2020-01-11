@@ -55,17 +55,17 @@ impl Game {
     }
 }
 
-fn write_row(frame: &Frame, fmt: &mut Formatter) -> fmt::Result {
-    write!(fmt, "+")?;
-    for _ in 0..frame.width {
-        write!(fmt, "-")?;
-    }
-    writeln!(fmt, "+")
-}
-
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write_row(&self.frame, fmt)?;
+        let write_row = |fmt: &mut Formatter| {
+            write!(fmt, "+")?;
+            for _ in 0..self.frame.width {
+                write!(fmt, "-")?;
+            }
+            writeln!(fmt, "+")
+        };
+
+        write_row(fmt)?;
         for y in (0..self.frame.height).rev() {
             write!(fmt, "|")?;
             for x in 0..self.frame.width {
@@ -78,7 +78,7 @@ impl Display for Game {
             }
             writeln!(fmt, "|")?;
         }
-        write_row(&self.frame, fmt)
+        write_row(fmt)
     }
 }
 
