@@ -41,8 +41,8 @@ impl Game {
             height: 15,
         };
         let ball = Ball {
-            x: 2,
-            y: 4,
+            x: frame.width / 2,
+            y: frame.height / 2,
             v_direction: VDirection::Up,
             h_direction: HDirection::Left,
         };
@@ -66,7 +66,7 @@ fn write_row(frame: &Frame, fmt: &mut Formatter) -> fmt::Result {
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         write_row(&self.frame, fmt)?;
-        for y in 0..self.frame.height {
+        for y in (0..self.frame.height).into_iter().rev() {
             write!(fmt, "|")?;
             for x in 0..self.frame.width {
                 let c = if self.ball.x == x && self.ball.y == y {
