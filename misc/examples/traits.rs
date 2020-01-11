@@ -20,5 +20,9 @@ impl Point {
 }
 
 fn main() {
-    println!("{}", Point { x: 1.9, y: 20.2 }.to_string());
+    let p = Point { x: 1.9, y: 20.2 };
+    let s1 = p.to_string(); // implicit borrow.
+    let s2 = (&p).to_string(); // explicit borrow.
+    let s3 = point_to_string(&p); // required explicit borrow.
+    println!("{} {} {}", s1, s2, s3);
 }
