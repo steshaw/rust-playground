@@ -66,7 +66,7 @@ fn write_row(frame: &Frame, fmt: &mut Formatter) -> fmt::Result {
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         write_row(&self.frame, fmt)?;
-        for y in (0..self.frame.height).into_iter().rev() {
+        for y in (0..self.frame.height).rev() {
             write!(fmt, "|")?;
             for x in 0..self.frame.width {
                 let c = if self.ball.x == x && self.ball.y == y {
