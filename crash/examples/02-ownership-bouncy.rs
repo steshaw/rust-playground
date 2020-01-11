@@ -123,7 +123,7 @@ fn main() {
         clear();
         println!("{}", game);
         game.step();
-        thread::sleep(time::Duration::from_millis(100));
+        thread::sleep(time::Duration::from_millis(33));
     }
     println!("Game final => {:#?}", game);
 }
