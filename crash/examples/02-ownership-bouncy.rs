@@ -8,16 +8,36 @@ fn clear() {
     print!("\x1B[H\x1B[2J\x1B[3J");
 }
 
-fn cursor_move_right(fmt: &mut Formatter, n: u32) -> fmt::Result {
-    write!(fmt, "{}[{}C", ESC, n)
+#[allow(dead_code)]
+fn cursor_move_up(fmt: &mut Formatter, n: u32) -> fmt::Result {
+    write!(fmt, "{}[{}A", ESC, n)
 }
 
+#[allow(dead_code)]
 fn cursor_move_down(fmt: &mut Formatter, n: u32) -> fmt::Result {
     write!(fmt, "{}[{}B", ESC, n)
 }
 
+#[allow(dead_code)]
+fn cursor_move_right(fmt: &mut Formatter, n: u32) -> fmt::Result {
+    write!(fmt, "{}[{}C", ESC, n)
+}
+
+#[allow(dead_code)]
+fn cursor_move_left(fmt: &mut Formatter, n: u32) -> fmt::Result {
+    write!(fmt, "{}[{}D", ESC, n)
+}
+
 fn cursor_move(fmt: &mut Formatter, x: u32, y: u32) -> fmt::Result {
     write!(fmt, "{}[{};{}f", ESC, y, x)
+}
+
+fn cursor_save(fmt: &mut Formatter) -> fmt::Result {
+    write!(fmt, "{}7", ESC)
+}
+
+fn cursor_restore(fmt: &mut Formatter) -> fmt::Result {
+    write!(fmt, "{}8", ESC)
 }
 
 #[derive(Debug)]
@@ -55,8 +75,8 @@ struct Game {
 impl Game {
     fn new() -> Game {
         let frame = Frame {
-            width: 60,
-            height: 15,
+            width: 80,
+            height: 18,
         };
         let ball = Ball {
             x: frame.width / 2,
@@ -75,28 +95,19 @@ impl Game {
 
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        let write_row = |fmt: &mut Formatter| {
-            write!(fmt, "+")?;
-            for _ in 0..self.frame.width {
-                write!(fmt, "-")?;
-            }
-            writeln!(fmt, "+")
-        };
+        // Erase current ball.
+        /*
+        cursor_move_left(fmt, 1)?;
+        write!(fmt, " ")?;
+        */
+        let prev_pos = self.ball.prev_xy();
+        cursor_move(fmt, prev_pos.0 + 2, prev_pos.1 + 2)?;
+        write!(fmt, " ")?;
 
-        write_row(fmt)?;
-        for y in (0..self.frame.height).rev() {
-            write!(fmt, "|")?;
-            for x in 0..self.frame.width {
-                let c = if self.ball.x == x && self.ball.y == y {
-                    "o"
-                } else {
-                    " "
-                };
-                write!(fmt, "{}", c)?;
-            }
-            writeln!(fmt, "|")?;
-        }
-        write_row(fmt)
+        // Draw ball.
+        cursor_move(fmt, self.ball.x + 2, self.ball.y + 2)?;
+        write!(fmt, "o")?;
+        cursor_restore(fmt) // Restore to after Frame.
     }
 }
 
@@ -107,7 +118,7 @@ impl Display for Frame {
             for _ in 0..self.width {
                 write!(fmt, "-")?;
             }
-            writeln!(fmt, "+")
+            write!(fmt, "+")
         };
 
         write_row(fmt)?;
@@ -118,7 +129,8 @@ impl Display for Frame {
             write!(fmt, "|")?;
         }
         cursor_move(fmt, 1, self.height + 2)?;
-        write_row(fmt)
+        write_row(fmt)?;
+        cursor_save(fmt)
     }
 }
 
@@ -150,20 +162,38 @@ impl Ball {
             VDirection::Up => self.y += 1,
         }
     }
+
+    fn prev_xy(&self) -> (u32, u32) {
+        let x = match self.h_direction {
+            HDirection::Left => self.x + 1,
+            HDirection::Right => self.x - 1,
+        };
+        let y = match self.v_direction {
+            VDirection::Down => self.y + 1,
+            VDirection::Up => self.y - 1,
+        };
+        (x, y)
+    }
 }
 
 fn main() {
     let mut game = Game::new();
-    let do_game = false;
+    let log_enabled = false;
+    let do_game = true;
     if do_game {
-        println!("Game initial => {:#?}", game);
-        for _ in 1..100 {
-            clear();
+        if log_enabled {
+            println!("Game initial => {:#?}", game)
+        };
+        clear();
+        println!("{}", game.frame);
+        for _ in 1..1000 {
             println!("{}", game);
             game.step();
-            thread::sleep(time::Duration::from_millis(33));
+            thread::sleep(time::Duration::from_millis(16));
         }
-        println!("Game final => {:#?}", game);
+        if log_enabled {
+            println!("Game final => {:#?}", game)
+        };
     } else {
         clear();
         print!("{}", game.frame);
