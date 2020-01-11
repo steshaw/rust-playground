@@ -60,10 +60,75 @@ struct Ball {
     h_direction: HDirection,
 }
 
+impl Ball {
+    fn bounce(&mut self, frame: &Frame) {
+        // Switch horizontal direction. i.e. x.
+        if self.x == 0 {
+            self.h_direction = HDirection::Right;
+        } else if self.x == frame.width - 1 {
+            self.h_direction = HDirection::Left;
+        }
+        // Switch veritical direction. i.e. y.
+        if self.y == 0 {
+            self.v_direction = VDirection::Up;
+        } else if self.y == frame.height - 1 {
+            self.v_direction = VDirection::Down;
+        }
+    }
+
+    fn mv(&mut self) {
+        // Move in horizontal direction.
+        match self.h_direction {
+            HDirection::Left => self.x -= 1,
+            HDirection::Right => self.x += 1,
+        }
+        // Move in vertical direction.
+        match self.v_direction {
+            VDirection::Down => self.y -= 1,
+            VDirection::Up => self.y += 1,
+        }
+    }
+
+    fn prev_xy(&self) -> (u32, u32) {
+        let x = match self.h_direction {
+            HDirection::Left => self.x + 1,
+            HDirection::Right => self.x - 1,
+        };
+        let y = match self.v_direction {
+            VDirection::Down => self.y + 1,
+            VDirection::Up => self.y - 1,
+        };
+        (x, y)
+    }
+}
+
 #[derive(Debug)]
 struct Frame {
     width: u32,
     height: u32,
+}
+
+impl Display for Frame {
+    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
+        let write_row = |fmt: &mut Formatter| {
+            write!(fmt, "+")?;
+            for _ in 0..self.width {
+                write!(fmt, "-")?;
+            }
+            write!(fmt, "+")
+        };
+
+        write_row(fmt)?;
+        for y in (0..self.height).rev() {
+            cursor_move(fmt, 1, y + 2)?;
+            write!(fmt, "|")?;
+            cursor_move(fmt, self.width + 2, y + 2)?;
+            write!(fmt, "|")?;
+        }
+        cursor_move(fmt, 1, self.height + 2)?;
+        write_row(fmt)?;
+        cursor_save(fmt)
+    }
 }
 
 #[derive(Debug)]
@@ -109,71 +174,6 @@ impl Display for Game {
 
         // Restore the cursor to a position after the frame was drawn.
         cursor_restore(fmt)
-    }
-}
-
-impl Display for Frame {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        let write_row = |fmt: &mut Formatter| {
-            write!(fmt, "+")?;
-            for _ in 0..self.width {
-                write!(fmt, "-")?;
-            }
-            write!(fmt, "+")
-        };
-
-        write_row(fmt)?;
-        for y in (0..self.height).rev() {
-            cursor_move(fmt, 1, y + 2)?;
-            write!(fmt, "|")?;
-            cursor_move(fmt, self.width + 2, y + 2)?;
-            write!(fmt, "|")?;
-        }
-        cursor_move(fmt, 1, self.height + 2)?;
-        write_row(fmt)?;
-        cursor_save(fmt)
-    }
-}
-
-impl Ball {
-    fn bounce(&mut self, frame: &Frame) {
-        // Switch horizontal direction. i.e. x.
-        if self.x == 0 {
-            self.h_direction = HDirection::Right;
-        } else if self.x == frame.width - 1 {
-            self.h_direction = HDirection::Left;
-        }
-        // Switch veritical direction. i.e. y.
-        if self.y == 0 {
-            self.v_direction = VDirection::Up;
-        } else if self.y == frame.height - 1 {
-            self.v_direction = VDirection::Down;
-        }
-    }
-
-    fn mv(&mut self) {
-        // Move in horizontal direction.
-        match self.h_direction {
-            HDirection::Left => self.x -= 1,
-            HDirection::Right => self.x += 1,
-        }
-        // Move in vertical direction.
-        match self.v_direction {
-            VDirection::Down => self.y -= 1,
-            VDirection::Up => self.y += 1,
-        }
-    }
-
-    fn prev_xy(&self) -> (u32, u32) {
-        let x = match self.h_direction {
-            HDirection::Left => self.x + 1,
-            HDirection::Right => self.x - 1,
-        };
-        let y = match self.v_direction {
-            VDirection::Down => self.y + 1,
-            VDirection::Up => self.y - 1,
-        };
-        (x, y)
     }
 }
 
