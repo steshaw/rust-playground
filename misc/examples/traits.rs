@@ -7,22 +7,22 @@ struct Point {
 
 // A free-standing function that converts a (borrowed) point to a string.
 fn point_to_string(point: &Point) -> String {
-    point.to_string()
+    point.to_s()
 }
 
 // An "inherent impl" block defines the methods available directly on a type
 impl Point {
     // This method is available on any Point, and automatically borrows the
     // Point value.
-    fn to_string(&self) -> String {
+    fn to_s(&self) -> String {
         format!("({}, {})", self.x, self.y)
     }
 }
 
 fn main() {
     let p = Point { x: 1.9, y: 20.2 };
-    let s1 = p.to_string(); // implicit borrow.
-    let s2 = (&p).to_string(); // explicit borrow.
+    let s1 = p.to_s(); // implicit borrow.
+    let s2 = (&p).to_s(); // explicit borrow.
     let s3 = point_to_string(&p); // required explicit borrow.
     println!("{} {} {}", s1, s2, s3);
 }
