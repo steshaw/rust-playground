@@ -7,7 +7,7 @@ trait P {
 #[derive(Debug)]
 struct A(i32);
 
-impl P for A {
+impl<T: std::fmt::Debug> P for T {
     fn p(&self) {
         println!("{:?}", self);
     }
