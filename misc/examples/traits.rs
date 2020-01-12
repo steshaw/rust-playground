@@ -42,7 +42,7 @@ fn main() {
             println!("out.stdout = {:?}", String::from_utf8(out.stdout.clone()));
             println!("out.stderr = {:?}", String::from_utf8(out.stderr.clone()));
             assert_eq!(out.stdout, b"Hello, world!\n");
-            assert_eq!(out.stderr, b"Boo\n");
+            assert_eq!(out.stderr, b"Boo!\n");
         }
         Err(err) => println!("I cannae spawn captain: {}", err),
     }
