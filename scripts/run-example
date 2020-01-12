@@ -7,8 +7,8 @@ msg() {
 }
 
 file=
-if [[ $# -eq 1 ]]; then
-  file=${1}
+if [[ $# -ne 0 ]]; then
+  file=${1}; shift
 elif [[ -n ${WATCHEXEC_WRITTEN_PATH:-} ]]; then
   file=${WATCHEXEC_WRITTEN_PATH}
 elif [[ -n ${WATCHEXEC_CREATED_PATH:-} ]]; then
@@ -22,5 +22,5 @@ if [[ -n ${file:-} ]]; then
   example=${base_file%.rs}
   clear
   msg "Running example ${example}"
-  cargo run --example "${example}"
+  cargo run --example "${example}" "${@}"
 fi
