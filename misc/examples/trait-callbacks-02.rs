@@ -20,7 +20,7 @@ impl Button {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct Argh {
     name: &'static str,
 }
