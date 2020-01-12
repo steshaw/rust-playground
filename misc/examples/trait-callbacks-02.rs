@@ -1,4 +1,5 @@
 use std::fmt::*;
+use std::ops::Deref;
 
 trait ClickCallback: Debug {
     fn on_click(&self, x: i64, y: i64);
@@ -15,7 +16,7 @@ impl Button {
     }
     fn click(self: &Self, x: i64, y: i64) {
         for l in self.listeners.iter() {
-            l.on_click(x, y);
+            l.deref().on_click(x, y);
         }
     }
 }
