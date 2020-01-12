@@ -1,4 +1,4 @@
-//use std::fmt::*;
+use std::fmt::Debug;
 
 trait P {
     fn p(&self);
@@ -7,7 +7,7 @@ trait P {
 #[derive(Debug)]
 struct A(i32);
 
-impl<T: std::fmt::Debug> P for T {
+impl<T: Debug> P for T {
     fn p(&self) {
         println!("{:?}", self);
     }
