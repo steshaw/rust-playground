@@ -15,7 +15,19 @@ impl Point {
     // This method is available on any Point, and automatically borrows the
     // Point value.
     fn to_string(&self) -> String {
-        format!("({}, {})", self.x, self.y)
+        //
+        // More string concat alternatives:
+        //
+        //   https://github.com/hoodie/concatenation_benchmarks-rs
+        //
+        [
+            "(",
+            self.x.to_string().as_str(),
+            ", ",
+            self.y.to_string().as_str(),
+            ")",
+        ]
+        .join("")
     }
 }
 

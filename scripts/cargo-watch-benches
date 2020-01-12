@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+${DEBUG:-}
+
+[[ ${1:-} == watch-benches ]] && shift
+
+watchexec --watch benches --exts rs "clear && cargo bench $*"
