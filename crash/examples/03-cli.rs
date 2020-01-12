@@ -34,11 +34,14 @@ fn f4() {
     }
 }
 fn main() {
-    f1();
-    println!();
-    f2();
-    println!();
-    f3();
-    println!();
-    f4();
+    let mut first = true;
+    let fns = [f1, f2, f3, f4];
+    for f in fns.iter() {
+        if first {
+            first = false
+        } else {
+            println!()
+        }
+        f();
+    }
 }
