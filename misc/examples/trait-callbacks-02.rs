@@ -1,10 +1,10 @@
 use std::fmt::*;
 
-trait ClickCallback {
+trait ClickCallback: Debug {
     fn on_click(&self, x: i64, y: i64);
 }
 
-//#[derive(Debug)]
+#[derive(Debug)]
 struct Button {
     listeners: Vec<Box<dyn ClickCallback>>,
 }
@@ -41,4 +41,5 @@ fn main() {
     b.click(2, 2);
     b.click(3, 3);
     println!("b.listeners.len = {}", b.listeners.len());
+    println!("b {:?}", b);
 }
