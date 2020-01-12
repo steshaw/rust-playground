@@ -35,8 +35,7 @@ fn f4() {
 }
 fn main() {
     let mut first = true;
-    let fns = [f1, f2, f3, f4];
-    for f in fns.iter() {
+    for f in [f1, f2, f3, f4].iter() {
         if first {
             first = false
         } else {
