@@ -21,7 +21,9 @@ impl Button {
 }
 
 #[derive(Debug, Clone)]
-struct Argh{name: &'static str}
+struct Argh {
+    name: &'static str,
+}
 
 impl ClickCallback for Argh {
     fn on_click(&self, x: i64, y: i64) {
@@ -31,11 +33,11 @@ impl ClickCallback for Argh {
 
 fn main() {
     let mut b = Button {
-        listeners: vec![Box::new(Argh{name: "First"})],
+        listeners: vec![Box::new(Argh { name: "First" })],
     };
     b.click(1, 1);
     b.click(1, 12);
-    b.listen(Box::new(Argh{name: "Second"}));
+    b.listen(Box::new(Argh { name: "Second" }));
     b.click(2, 2);
     b.click(3, 3);
     println!("b.listeners.len = {}", b.listeners.len());
