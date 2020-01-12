@@ -28,25 +28,23 @@ fn main() {
     let s3 = point_to_string(&p); // required explicit borrow.
     println!("{} {} {}", s1, s2, s3);
 
-    let child_e = Command::new("/home/steshaw/.nix-profile/bin/echo")
+    let r = Command::new("scripts/hello")
         .arg("Hello,")
         .arg("world!")
         .current_dir(".")
         .stdout(Stdio::piped())
-        .spawn();
-    let r = child_e
-        .and_then(|child| match child.wait_with_output() {
-            Ok(out) => {
-                println!("out = {:?}", out);
-                println!("out.stdout = {:?}", out.stdout);
-                assert_eq!(out.stdout, b"Hello, world!\n");
-                Ok(out)
-            }
-            Err(err) => Err(err),
-        })
-        .or_else(|e| {
-            println!("An error occurred: {}", e);
-            Err(e)
-        });
-    println!("r = {:?}", r); // Use r :-)
+        .stderr(Stdio::piped())
+        .spawn()
+        .and_then(Child::wait_with_output);
+
+    match r {
+        Ok(out) => {
+            println!("out = {:?}", out);
+            println!("out.stdout = {:?}", String::from_utf8(out.stdout.clone()));
+            println!("out.stderr = {:?}", String::from_utf8(out.stderr.clone()));
+            assert_eq!(out.stdout, b"Hello, world!\n");
+            assert_eq!(out.stderr, b"Boo\n");
+        }
+        Err(err) => println!("I cannae spawn captain: {}", err),
+    }
 }
