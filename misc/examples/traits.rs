@@ -34,8 +34,7 @@ fn main() {
         .current_dir(".")
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
-        .spawn()
-        .and_then(Child::wait_with_output);
+        .output();
 
     match r {
         Ok(out) => {
