@@ -1,3 +1,6 @@
+mod intersperse;
+use crate::intersperse::*;
+
 use std::env::args;
 
 fn f1() {
@@ -33,17 +36,21 @@ fn f4() {
         println!("{:?}", a);
     }
 }
+fn sep_line() {
+    println!();
+}
 fn main() {
-    let mut first = true;
-    let fns : Vec<fn()> = vec![f1, f2, f3, f4];
-    let fns = &fns;
-//    let fns = fns.join(f1);
-    for f in fns.iter() {
-        if first {
-            first = false
-        } else {
-            println!()
+    if false {
+        let fns: Vec<fn()> = vec![f1, f2, f3, f4];
+        let fns = intersperse_vec(sep_line as fn(), fns);
+        for f in fns {
+            f();
         }
+    }
+
+    let fns = [f1, f2, f3, f4];
+    let sep = || println!();
+    for f in fns.iter().intersperse(&(sep_line as fn())) {
         f();
     }
 }

@@ -18,8 +18,9 @@ fn uses(i: &I32) {
     println!("uses = {:?}", i);
 }
 
+#[allow(clippy::unnecessary_operation)]
 fn main() {
-    let mut x = I32(1);
+    let x = I32(1);
     //let y : &mut I32 = &mut x;
     //let y: &I32 = &mut x;
     let y: &I32 = &x;
