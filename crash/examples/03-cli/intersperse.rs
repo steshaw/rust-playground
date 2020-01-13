@@ -67,7 +67,10 @@ where
                 [None, Some(_)] => {
                     panic!("Got [None, Some(_)]");
                 }
-                [None, None] => None,
+                [None, None] => {
+                    // Terminate the iteration.
+                    None
+                }
             };
 
             // Shuffle
@@ -152,6 +155,14 @@ mod tests {
         assert_eq!(vec!() as Vec<&u8>, ys);
 
         let xs = [1, 2, 3];
+        assert_eq!(Some(&1), xs.iter().intersperse(&0).nth(0));
+        assert_eq!(Some(&0), xs.iter().intersperse(&0).nth(1));
+        assert_eq!(Some(&2), xs.iter().intersperse(&0).nth(2));
+        assert_eq!(Some(&0), xs.iter().intersperse(&0).nth(3));
+        assert_eq!(Some(&3), xs.iter().intersperse(&0).nth(4));
+        assert_eq!(None, xs.iter().intersperse(&0).nth(5));
+        assert_eq!(None, xs.iter().intersperse(&0).nth(6));
+        assert_eq!(5, xs.iter().intersperse(&0).collect::<Vec<_>>().len());
         let ys = xs.iter().intersperse(&0).collect::<Vec<&u8>>();
         println!("ys = {:?}", ys);
         assert_eq!(vec![&1, &0, &2, &0, &3], ys);
