@@ -16,11 +16,11 @@ fn f2() {
     println!("f2");
     let mut args = args();
     loop {
-        let a = args.next();
-        if a.is_none() {
+        if let Some(a) = args.next() {
+            println!("{:?}", a);
+        } else {
             break;
-        };
-        println!("{:?}", a);
+        }
     }
 }
 fn f3() {
