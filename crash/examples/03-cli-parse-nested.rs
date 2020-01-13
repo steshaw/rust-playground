@@ -23,15 +23,17 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
     let height_s = require_arg()?;
 
     // Require end of arguments here.
-    match args.next() {
+    let mut require_no_more_args = || match args.next() {
         None => Ok(()),
         Some(_) => Err(TooMany)
-    }?;
+    };
 
-    let p_i = |s: String| s.parse().or(Err(InvalidInteger(s)));
+    require_no_more_args()?;
 
-    let width = p_i(width_s)?;
-    let height = p_i(height_s)?;
+    let parse_u32 = |s: String| s.parse().or(Err(InvalidInteger(s)));
+
+    let width = parse_u32(width_s)?;
+    let height = parse_u32(height_s)?;
 
     Ok(Frame { width, height })
 }
