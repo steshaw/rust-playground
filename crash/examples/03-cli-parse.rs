@@ -11,6 +11,7 @@ enum ArgsErr {
     InvalidInteger(String),
 }
 
+#[allow(clippy::or_fun_call)]
 fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
     fn k(width_s: &str, height_s: &str) -> Result<Frame, ArgsErr> {
         let width = width_s
@@ -22,7 +23,6 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
 
         Ok(Frame { width, height })
     }
-    // FIXME: Early returns and panics galore!
     let args = args.collect::<Vec<_>>();
     let a1_s = args.get(1);
     let a2_s = args.get(2);
@@ -37,24 +37,6 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
             Err(ArgsErr::TooMany)
         }
     }
-
-    /*
-    if args.len() < 3 {
-        return Err(ArgsErr::TooFew);
-    }
-    if args.len() > 3 {
-        return Err(ArgsErr::TooMany);
-    }
-    if let Ok(width) = a1_s.parse::<u32>() {
-        if let Ok(height) = a2_s.parse::<u32>() {
-            Ok(Frame { width, height })
-        } else {
-            Err(ArgsErr::InvalidInteger(a2_s.to_string()))
-        }
-    } else {
-        Err(ArgsErr::InvalidInteger(a1_s.to_string()))
-    }
-    */
 }
 
 fn main() {
