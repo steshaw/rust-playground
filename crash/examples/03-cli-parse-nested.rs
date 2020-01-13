@@ -22,9 +22,11 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
     let width_s = get_arg()?;
     let height_s = get_arg()?;
 
-    if args.next().is_some() {
-        return Err(TooMany);
-    };
+    // Require end of arguments here.
+    match args.next() {
+        None => Ok(()),
+        Some(_) => Err(TooMany)
+    }?;
 
     let p_i = |s: String| s.parse().or(Err(InvalidInteger(s)));
 
