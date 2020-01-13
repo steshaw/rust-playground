@@ -23,9 +23,9 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
             None => Err(TooFew),
             Some(height_s) => match args.next() {
                 Some(_) => Err(TooMany),
-                None => match width_s.parse::<u32>() {
+                None => match width_s.parse() {
                     Err(_) => Err(InvalidInteger(width_s)),
-                    Ok(width) => match height_s.parse::<u32>() {
+                    Ok(width) => match height_s.parse() {
                         Err(_) => Err(InvalidInteger(height_s)),
                         Ok(height) => Ok(Frame { width, height }),
                     },
