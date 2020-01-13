@@ -36,11 +36,9 @@ fn f4() {
         println!("{:?}", a);
     }
 }
-fn sep_line() {
-    println!();
-}
 fn main() {
     if false {
+        let sep_line = || println!();
         let fns: Vec<fn()> = vec![f1, f2, f3, f4];
         let fns = intersperse_vec(sep_line as fn(), fns);
         for f in fns {
@@ -49,8 +47,8 @@ fn main() {
     }
 
     let fns = [f1, f2, f3, f4];
-    let sep = || println!();
-    for f in fns.iter().intersperse(&(sep_line as fn())) {
+    // FIXME: Can the horrors of this be addressed?
+    for f in fns.iter().intersperse(&((|| println!()) as fn())) {
         f();
     }
 }
