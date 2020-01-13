@@ -12,6 +12,13 @@
 
 // XXX: Is is better to use `T: Clone` or `T: Copy`
 // XXX: Is is a way to avoid the additional constaint on T (using refs)?
+//
+
+#[derive(Clone, Copy, Debug)]
+enum Next<T> {
+    Inject(T),
+    Iter(Option<T>),
+}
 
 #[derive(Debug)]
 #[allow(clippy::option_option)]
@@ -22,8 +29,7 @@ where
 {
     iter: I,
     t: T,
-    nexts: [Option<I::Item>; 2],
-    inject: bool,
+    nexts: [Next<I::Item>; 2],
 }
 
 impl<T, I> Intersperse<T, I>
@@ -32,13 +38,8 @@ where
     T: Copy,
 {
     fn new(mut iter: I, t: T) -> Intersperse<T, I> {
-        let nexts = [iter.next(), iter.next()];
-        Intersperse {
-            iter,
-            t,
-            nexts,
-            inject: false,
-        }
+        let nexts = [Next::Iter(iter.next()), Next::Inject(t)];
+        Intersperse { iter, t, nexts }
     }
 }
 
@@ -50,22 +51,29 @@ where
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
-        if self.inject {
-            self.inject = false;
-            Some(self.t)
-        } else {
-            // Save result.
-            let r = self.nexts[0];
+        let n = self.nexts[0];
+        match n {
+            Next::Iter(next) => {
+                let r = next;
 
-            // Inject next time if there are more.
-            let is_more = self.nexts[1].is_some();
-            self.inject = is_more;
+                // Shuffle
+                self.nexts[0] = self.nexts[1];
+                self.nexts[1] = Next::Iter(self.iter.next());
 
-            // Shuffle
-            self.nexts[0] = self.nexts[1];
-            self.nexts[1] = self.iter.next();
+                r
+            }
+            Next::Inject(t) => {
+                if let Next::Iter(None) = self.nexts[1] {
+                    // Terminate iteration.
+                    None
+                } else {
+                    // Shuffle
+                    self.nexts[0] = self.nexts[1];
+                    self.nexts[1] = Next::Inject(t);
 
-            r
+                    Some(t)
+                }
+            }
         }
     }
 }
