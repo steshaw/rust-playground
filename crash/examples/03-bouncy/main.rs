@@ -183,24 +183,18 @@ fn main() -> Result<(), String> {
     let num_frames = 300;
     let mut game = Game::new(frame);
     let log_enabled = true;
-    let do_game = true;
-    if do_game {
-        if log_enabled {
-            println!("Game initial => {:#?}", game)
-        };
-        clear();
-        println!("{}", game.frame);
-        for _ in 0..num_frames {
-            println!("{}", game);
-            game.step();
-            thread::sleep(time::Duration::from_millis(16));
-        }
-        if log_enabled {
-            println!("Game final => {:#?}", game)
-        };
-    } else {
-        clear();
-        print!("{}", game.frame);
+    if log_enabled {
+        println!("Game initial => {:#?}", game)
+    };
+    clear();
+    println!("{}", game.frame);
+    for _ in 0..num_frames {
+        println!("{}", game);
+        game.step();
+        thread::sleep(time::Duration::from_millis(16));
     }
+    if log_enabled {
+        println!("Game final => {:#?}", game)
+    };
     Ok(())
 }
