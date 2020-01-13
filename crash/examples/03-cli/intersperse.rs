@@ -16,6 +16,7 @@ use std::iter::Peekable;
 // XXX: Is is a way to avoid the additional constaint on T (using refs)?
 
 #[derive(Debug)]
+#[allow(clippy::option_option)]
 pub struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
@@ -23,6 +24,7 @@ where
 {
     iter: Peekable<I>,
     t: T,
+    next: [Option<I::Item>;2],
     inject: bool,
 }
 
@@ -31,10 +33,12 @@ where
     I: Iterator<Item = T>,
     T: Copy,
 {
-    fn new(iter: I, t: T) -> Intersperse<T, I> {
+    fn new(mut iter: I, t: T) -> Intersperse<T, I> {
+        let next = [iter.next(), iter.next()];
         Intersperse {
             iter: iter.peekable(),
             t,
+            next,
             inject: false,
         }
     }
@@ -49,16 +53,21 @@ where
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
         if self.inject {
-            let is_more = self.iter.peek().is_some();
-            if is_more {
-                self.inject = false;
-                Some(self.t)
-            } else {
-                None
-            }
+            self.inject = false;
+            Some(self.t)
         } else {
-            self.inject = true;
-            self.iter.next()
+            // Save result.
+            let r = self.next[0];
+
+            // Inject next time if there are more.
+            let is_more = self.next[1].is_some();
+            self.inject = is_more;
+
+            // Shuffle
+            self.next[0] = self.next[1];
+            self.next[1] = self.iter.next();
+
+            r
         }
     }
 }
@@ -130,10 +139,15 @@ mod tests {
     fn test_intersperse() {
         println!("\nintersperse_test:");
 
-        let xs = [1, 2, 3];
-        let ys = xs;
-        //let ys = xs.iter().intersperse(42).collect::<Vec<u8>>();
+        let xs = [];
+        let ys = xs.iter().intersperse(&0).collect::<Vec<&u8>>();
         println!("ys = {:?}", ys);
+        assert_eq!(vec!() as Vec<&u8>, ys);
+
+        let xs = [1, 2, 3];
+        let ys = xs.iter().intersperse(&0).collect::<Vec<&u8>>();
+        println!("ys = {:?}", ys);
+        assert_eq!(vec![&1, &0, &2, &0, &3], ys);
 
         let xs = vec![1, 2, 3];
         let ys: Vec<i32> = xs.iter().intersperse(&0).copied().collect();
