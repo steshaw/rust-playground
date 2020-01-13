@@ -15,12 +15,8 @@ fn f1() {
 fn f2() {
     println!("f2");
     let mut args = args();
-    loop {
-        if let Some(a) = args.next() {
-            println!("{:?}", a);
-        } else {
-            break;
-        }
+    while let Some(a) = args.next() {
+        println!("{:?}", a);
     }
 }
 fn f3() {
