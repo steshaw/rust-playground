@@ -14,13 +14,11 @@ enum ArgsErr {
 #[allow(clippy::or_fun_call)]
 fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
     fn k(width_s: &str, height_s: &str) -> Result<Frame, ArgsErr> {
-        let width = width_s
-            .parse::<u32>()
-            .or(Err(ArgsErr::InvalidInteger(width_s.to_string())))?;
-        let height = height_s
-            .parse::<u32>()
-            .or(Err(ArgsErr::InvalidInteger(height_s.to_string())))?;
-
+        fn p(u32_s : &str) -> Result<u32, ArgsErr> {
+            u32_s.parse::<u32>().or(Err(ArgsErr::InvalidInteger(u32_s.to_string())))
+        }
+        let width = p(width_s)?;
+        let height = p(height_s)?;
         Ok(Frame { width, height })
     }
     let args = args.collect::<Vec<_>>();
