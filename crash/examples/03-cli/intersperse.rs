@@ -34,7 +34,7 @@ where
     fn new(mut iter: I, t: T) -> Intersperse<T, I> {
         let next = [iter.next(), iter.next()];
         Intersperse {
-            iter: iter,
+            iter,
             t,
             next,
             inject: false,
