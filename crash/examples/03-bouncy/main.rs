@@ -170,9 +170,9 @@ impl Display for Game {
     }
 }
 
-fn main() -> Result<(), String> {
+fn main() -> Result<(), parse_args::ArgsErr> {
     let args = std::env::args().skip(1).collect::<Vec<_>>();
-    let frame = parse_args(args).or_else(|e| Err(format!("{:?}", e)))?;
+    let frame = parse_args(args)?;
     let mut game = Game::new(frame);
     let log_enabled = true;
 
