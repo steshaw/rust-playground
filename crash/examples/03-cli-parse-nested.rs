@@ -12,12 +12,15 @@ enum ArgsErr {
 }
 
 #[allow(clippy::or_fun_call)]
-fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
+fn parse_args(mut args: std::env::Args) -> Result<Frame, ArgsErr> {
     use self::ArgsErr::*;
 
-    let mut args = args.skip(1);
+    //let mut args = args.skip(1);
 
     let mut require_arg = || args.next().ok_or(TooFew);
+
+    // Ignore command name.
+    require_arg()?;
 
     let width_s = require_arg()?;
     let height_s = require_arg()?;
