@@ -27,15 +27,16 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
         Some(height_s) => height_s,
     };
 
-    match args.next() {
-        Some(_) => Err(TooMany),
-        None => match width_s.parse() {
+    if args.next().is_some() {
+        return Err(TooMany);
+    };
+
+    match width_s.parse() {
             Err(_) => Err(InvalidInteger(width_s)),
             Ok(width) => match height_s.parse() {
                 Err(_) => Err(InvalidInteger(height_s)),
                 Ok(height) => Ok(Frame { width, height }),
             },
-        },
     }
 }
 
