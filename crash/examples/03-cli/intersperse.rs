@@ -22,7 +22,7 @@ where
 {
     iter: I,
     t: T,
-    next: [Option<I::Item>;2],
+    next: [Option<I::Item>; 2],
     inject: bool,
 }
 
