@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::{thread, time};
 
 mod parse_args;
-use self::parse_args::{Frame, parse_args};
+use parse_args::{Frame, parse_args};
 
 const ESC: &str = "\x1B";
 
