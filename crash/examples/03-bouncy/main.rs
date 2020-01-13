@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::{thread, time};
 
 mod parse_args;
-use parse_args::Frame;
+use self::parse_args::{Frame, parse_args};
 
 const ESC: &str = "\x1B";
 
@@ -171,13 +171,13 @@ impl Display for Game {
 }
 
 fn main() -> Result<(), String> {
-    let frame_e = parse_args::parse_args(std::env::args());
+    let frame_e = parse_args(std::env::args());
 
     let frame = match frame_e {
         Ok(frame) => frame,
         Err(e) => {
             return Err(format!("{:?}", e));
-        },
+        }
     };
 
     let num_frames = 300;
