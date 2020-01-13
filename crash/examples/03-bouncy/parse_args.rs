@@ -12,6 +12,8 @@ pub enum ArgsErr {
 }
 
 // FIXME: Can we use a more general type here?
+// NOTE: This was a newtype around std::env::Args but needed to be more general for testing.
+// NOTE: It's quite frustrating to get right. Still right but working.
 struct ParseArgs(std::vec::IntoIter<String>);
 
 impl ParseArgs {
