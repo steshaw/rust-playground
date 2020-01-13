@@ -14,12 +14,6 @@
 // XXX: Is is a way to avoid the additional constaint on T (using refs)?
 //
 
-#[derive(Clone, Copy, Debug)]
-enum Next<T> {
-    Inject(T),
-    Iter(Option<T>),
-}
-
 #[derive(Debug)]
 #[allow(clippy::option_option)]
 pub struct Intersperse<T, I>
@@ -29,7 +23,8 @@ where
 {
     iter: I,
     t: T,
-    nexts: [Next<I::Item>; 2],
+    nexts: [Option<I::Item>; 2],
+    inject: bool,
 }
 
 impl<T, I> Intersperse<T, I>
@@ -38,8 +33,13 @@ where
     T: Copy,
 {
     fn new(mut iter: I, t: T) -> Intersperse<T, I> {
-        let nexts = [Next::Iter(iter.next()), Next::Inject(t)];
-        Intersperse { iter, t, nexts }
+        let nexts = [iter.next(), iter.next()];
+        Intersperse {
+            iter,
+            t,
+            nexts,
+            inject: false,
+        }
     }
 }
 
@@ -51,29 +51,30 @@ where
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
-        let n = self.nexts[0];
-        match n {
-            Next::Iter(next) => {
-                let r = next;
-
-                // Shuffle
-                self.nexts[0] = self.nexts[1];
-                self.nexts[1] = Next::Iter(self.iter.next());
-
-                r
-            }
-            Next::Inject(t) => {
-                if let Next::Iter(None) = self.nexts[1] {
-                    // Terminate iteration.
-                    None
-                } else {
-                    // Shuffle
-                    self.nexts[0] = self.nexts[1];
-                    self.nexts[1] = Next::Inject(t);
-
-                    Some(t)
+        if self.inject {
+            self.inject = false;
+            Some(self.t)
+        } else {
+            let r = match self.nexts {
+                [Some(a), Some(_)] => {
+                    self.inject = true;
+                    Some(a)
                 }
-            }
+                [Some(a), None] => {
+                    self.inject = false;
+                    Some(a)
+                }
+                [None, Some(_)] => {
+                    panic!("Got [None, Some(_)]");
+                }
+                [None, None] => None,
+            };
+
+            // Shuffle
+            self.nexts[0] = self.nexts[1];
+            self.nexts[1] = self.iter.next();
+
+            r
         }
     }
 }
