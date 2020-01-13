@@ -9,6 +9,7 @@ pub enum ArgsErr {
     TooFew,
     TooMany,
     InvalidInteger(String),
+    IntegerTooSmall(u32),
 }
 
 // FIXME: Can we use a more general type here?
@@ -44,10 +45,22 @@ pub fn parse_args(args: Vec<String>) -> Result<Frame, ArgsErr> {
 
     require_no_more_args()?;
 
-    let parse_u32 = |s: String| s.parse().or(Err(InvalidInteger(s)));
+    let parse_dimension = |s: String| {
+        let dim = s.parse().or(Err(InvalidInteger(s)));
+        match dim {
+            Ok(dim) => {
+                if dim < 2 {
+                    Err(IntegerTooSmall(dim))
+                } else {
+                    Ok(dim)
+                }
+            }
+            Err(e) => Err(e),
+        }
+    };
 
-    let width = parse_u32(width_s)?;
-    let height = parse_u32(height_s)?;
+    let width = parse_dimension(width_s)?;
+    let height = parse_dimension(height_s)?;
 
     Ok(Frame { width, height })
 }
