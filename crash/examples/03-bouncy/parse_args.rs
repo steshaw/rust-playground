@@ -1,22 +1,28 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Frame {
     pub width: u32,
     pub height: u32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ArgsErr {
     TooFew,
     TooMany,
     InvalidInteger(String),
 }
 
-struct ParseArgs(std::env::Args);
+struct ParseArgs<T>(T)
+where
+    T: Iterator<Item = String>;
 
-impl ParseArgs {
+impl<T> ParseArgs<T>
+where
+    T: Iterator<Item = String>,
+{
     /*
-    fn new() -> ParseArgs {
-        unimplemented!()
+    fn new(args: Vec<String>) -> ParseArgs<T>
+    {
+        ParseArgs(args.into_iter())
     }
     */
 
@@ -26,14 +32,10 @@ impl ParseArgs {
 }
 
 #[allow(clippy::or_fun_call)]
-pub fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
+pub fn parse_args(args: Vec<String>) -> Result<Frame, ArgsErr> {
     use self::ArgsErr::*;
 
-    //let mut args = args.skip(1);
-    let mut args = ParseArgs(args);
-
-    // Ignore command name.
-    args.require_arg()?;
+    let mut args = ParseArgs(args.into_iter());
 
     let width_s = args.require_arg()?;
     let height_s = args.require_arg()?;
@@ -56,11 +58,47 @@ pub fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
 
 #[cfg(test)]
 mod tests {
+    use self::ArgsErr::*;
     use super::*;
 
     #[test]
     fn not_really_a_test() {
-        let frame_e = parse_args(std::env::args());
-        println!("{:?}", frame_e);
+        assert_eq!(
+            Err(TooFew),
+            parse_args(std::env::args().skip(1).collect::<Vec<_>>())
+        );
+        assert_eq!(Err(TooFew), parse_args(vec![]));
+        assert_eq!(Err(TooFew), parse_args(vec!["one".to_string()]));
+        assert_eq!(
+            Err(InvalidInteger("one".to_string())),
+            parse_args(vec!["one".to_string(), "two".to_string()])
+        );
+        assert_eq!(
+            Err(InvalidInteger("two".to_string())),
+            parse_args(vec!["1".to_string(), "two".to_string()])
+        );
+        assert_eq!(
+            Err(InvalidInteger(" 1".to_string())),
+            parse_args(vec![" 1".to_string(), "two".to_string()])
+        );
+        assert_eq!(
+            Err(InvalidInteger("1 ".to_string())),
+            parse_args(vec!["1 ".to_string(), "two".to_string()])
+        );
+        assert_eq!(
+            Ok(Frame {
+                width: 40,
+                height: 20
+            }),
+            parse_args(vec!["40".to_string(), "20".to_string()])
+        );
+        assert_eq!(
+            Err(TooMany),
+            parse_args(vec![
+                "one".to_string(),
+                "two".to_string(),
+                "three".to_string()
+            ])
+        );
     }
 }

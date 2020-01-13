@@ -171,7 +171,8 @@ impl Display for Game {
 }
 
 fn main() -> Result<(), String> {
-    let frame_e = parse_args(std::env::args());
+    let args = std::env::args().skip(1).collect::<Vec<_>>();
+    let frame_e = parse_args(args);
 
     let frame = match frame_e {
         Ok(frame) => frame,
