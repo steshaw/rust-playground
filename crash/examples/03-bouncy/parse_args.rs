@@ -11,20 +11,12 @@ pub enum ArgsErr {
     InvalidInteger(String),
 }
 
-struct ParseArgs<T>(T)
-where
-    T: Iterator<Item = String>;
+struct ParseArgs(std::vec::IntoIter<String>);
 
-impl<T> ParseArgs<T>
-where
-    T: Iterator<Item = String>,
-{
-    /*
-    fn new(args: Vec<String>) -> ParseArgs<T>
-    {
+impl ParseArgs {
+    fn new(args: Vec<String>) -> Self /*ParseArgs<std::vec::IntoIter<String>> */ {
         ParseArgs(args.into_iter())
     }
-    */
 
     fn require_arg(&mut self) -> Result<String, ArgsErr> {
         self.0.next().ok_or(ArgsErr::TooFew)
@@ -35,7 +27,8 @@ where
 pub fn parse_args(args: Vec<String>) -> Result<Frame, ArgsErr> {
     use self::ArgsErr::*;
 
-    let mut args = ParseArgs(args.into_iter());
+    let mut args = ParseArgs::new(args);
+    //let mut args = ParseArgs(args.into_iter());
 
     let width_s = args.require_arg()?;
     let height_s = args.require_arg()?;
