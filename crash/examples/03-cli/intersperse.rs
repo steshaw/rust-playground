@@ -10,8 +10,6 @@
 // TODO: Seems it might be available with +nightly.
 //
 
-use std::iter::Peekable;
-
 // XXX: Is is better to use `T: Clone` or `T: Copy`
 // XXX: Is is a way to avoid the additional constaint on T (using refs)?
 
@@ -22,7 +20,7 @@ where
     I: Iterator<Item = T>,
     T: Copy,
 {
-    iter: Peekable<I>,
+    iter: I,
     t: T,
     next: [Option<I::Item>;2],
     inject: bool,
@@ -36,7 +34,7 @@ where
     fn new(mut iter: I, t: T) -> Intersperse<T, I> {
         let next = [iter.next(), iter.next()];
         Intersperse {
-            iter: iter.peekable(),
+            iter: iter,
             t,
             next,
             inject: false,
