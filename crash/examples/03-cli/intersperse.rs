@@ -22,7 +22,7 @@ where
 {
     iter: I,
     t: T,
-    next: [Option<I::Item>; 2],
+    nexts: [Option<I::Item>; 2],
     inject: bool,
 }
 
@@ -32,11 +32,11 @@ where
     T: Copy,
 {
     fn new(mut iter: I, t: T) -> Intersperse<T, I> {
-        let next = [iter.next(), iter.next()];
+        let nexts = [iter.next(), iter.next()];
         Intersperse {
             iter,
             t,
-            next,
+            nexts,
             inject: false,
         }
     }
@@ -55,15 +55,15 @@ where
             Some(self.t)
         } else {
             // Save result.
-            let r = self.next[0];
+            let r = self.nexts[0];
 
             // Inject next time if there are more.
-            let is_more = self.next[1].is_some();
+            let is_more = self.nexts[1].is_some();
             self.inject = is_more;
 
             // Shuffle
-            self.next[0] = self.next[1];
-            self.next[1] = self.iter.next();
+            self.nexts[0] = self.nexts[1];
+            self.nexts[1] = self.iter.next();
 
             r
         }
