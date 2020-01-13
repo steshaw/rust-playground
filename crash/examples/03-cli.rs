@@ -35,7 +35,10 @@ fn f4() {
 }
 fn main() {
     let mut first = true;
-    for f in [f1, f2, f3, f4].iter() {
+    let fns : Vec<fn()> = vec![f1, f2, f3, f4];
+    let fns = &fns;
+//    let fns = fns.join(f1);
+    for f in fns.iter() {
         if first {
             first = false
         } else {
