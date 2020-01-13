@@ -62,7 +62,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn not_really_a_test() {
+    fn test() {
         assert_eq!(
             Err(TooFew),
             parse_args(std::env::args().skip(1).collect::<Vec<_>>())
