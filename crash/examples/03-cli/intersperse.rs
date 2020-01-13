@@ -101,9 +101,10 @@ pub fn intersperse_vec<T: Copy>(a: T, xs: Vec<T>) -> Vec<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
-    fn some_tests() {
-        println!("intersperse_vec:");
+    fn test_intersperse_vec() {
+        println!("\ntest_intersperse_vec:");
         let xs: Vec<u32> = vec![1, 2, 3];
         let ys = intersperse_vec(0, xs);
         assert_eq!(vec![1, 0, 2, 0, 3], ys);
@@ -123,12 +124,25 @@ mod tests {
         let expected: Vec<&String> = vec![&one, &boop, &two, &boop, &three];
         assert_eq!(expected, ys);
         println!("ys = {:?}", ys);
+    }
 
-        println!();
-        println!("intersperse:");
+    #[test]
+    fn test_intersperse() {
+        println!("\nintersperse_test:");
+
+        let xs = [1, 2, 3];
+        let ys = xs;
+        //let ys = xs.iter().intersperse(42).collect::<Vec<u8>>();
+        println!("ys = {:?}", ys);
+
         let xs = vec![1, 2, 3];
         let ys: Vec<i32> = xs.iter().intersperse(&0).copied().collect();
         assert_eq!(vec![1, 0, 2, 0, 3], ys);
+        println!("ys = {:?}", ys);
+
+        let xs = vec!["one", "two", "three"];
+        let ys: Vec<&&str> = xs.iter().intersperse(&"boop").collect();
+        assert_eq!(vec![&"one", &"boop", &"two", &"boop", &"three"], ys);
         println!("ys = {:?}", ys);
 
         let xs = vec!["one", "two", "three"];
