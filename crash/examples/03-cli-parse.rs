@@ -19,7 +19,10 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
                 .parse::<u32>()
                 .or(Err(ArgsErr::InvalidInteger(u32_s.to_string())))
         }
-        p(width_s).and_then(|width| p(height_s).and_then(|height| Ok(Frame { width, height })))
+        Ok(Frame {
+            width: p(width_s)?,
+            height: p(height_s)?,
+        })
     }
     let args = args.collect::<Vec<_>>();
     let a1_s = args.get(1);
