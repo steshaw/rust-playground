@@ -12,15 +12,32 @@
 
 use std::iter::Peekable;
 
+// XXX: Is is better to use `T: Clone` or `T: Copy`
+// XXX: Is is a way to avoid the additional constaint on T (using refs)?
+
 #[derive(Debug)]
 pub struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
     T: Clone,
 {
-    inject: bool,
-    t: T,
     iter: Peekable<I>,
+    t: T,
+    inject: bool,
+}
+
+impl<T, I> Intersperse<T, I>
+where
+    I: Iterator<Item = T>,
+    T: Clone,
+{
+    fn new(iter: I, t: T) -> Intersperse<T, I> {
+        Intersperse {
+            iter: iter.peekable(),
+            t,
+            inject: false,
+        }
+    }
 }
 
 impl<T, I> Iterator for Intersperse<T, I>
@@ -58,11 +75,7 @@ pub trait IntersperseExt {
         Self: Iterator<Item = T> + Sized,
         T: Clone,
     {
-        Intersperse {
-            inject: false,
-            t,
-            iter: self.peekable(),
-        }
+        Intersperse::new(self, t)
     }
 }
 
