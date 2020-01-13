@@ -19,7 +19,7 @@ use std::iter::Peekable;
 pub struct Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     iter: Peekable<I>,
     t: T,
@@ -29,7 +29,7 @@ where
 impl<T, I> Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     fn new(iter: I, t: T) -> Intersperse<T, I> {
         Intersperse {
@@ -43,22 +43,22 @@ where
 impl<T, I> Iterator for Intersperse<T, I>
 where
     I: Iterator<Item = T>,
-    T: Clone,
+    T: Copy,
 {
     type Item = <I as Iterator>::Item;
 
     fn next(&mut self) -> Option<<Self as Iterator>::Item> {
-        if !self.inject {
-            self.inject = !self.inject;
-            self.iter.next()
-        } else {
-            let next = self.iter.peek();
-            if next.is_some() {
-                self.inject = !self.inject;
-                Some(self.t.clone())
+        if self.inject {
+            let is_more = self.iter.peek().is_some();
+            if is_more {
+                self.inject = false;
+                Some(self.t)
             } else {
-                self.iter.next() // Iteration ends.
+                None
             }
+        } else {
+            self.inject = true;
+            self.iter.next()
         }
     }
 }
@@ -73,7 +73,7 @@ pub trait IntersperseExt {
     fn intersperse<T>(self, t: T) -> Intersperse<T, Self>
     where
         Self: Iterator<Item = T> + Sized,
-        T: Clone,
+        T: Copy,
     {
         Intersperse::new(self, t)
     }
