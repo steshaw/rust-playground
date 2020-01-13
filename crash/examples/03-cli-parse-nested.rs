@@ -17,19 +17,23 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
 
     let mut args = args.skip(1);
 
+    let width_s = match args.next() {
+        None => return Err(TooFew),
+        Some(width_s) => width_s,
+    };
+
+    let height_s = match args.next() {
+        None => return Err(TooFew),
+        Some(height_s) => height_s,
+    };
+
     match args.next() {
-        None => Err(TooFew),
-        Some(width_s) => match args.next() {
-            None => Err(TooFew),
-            Some(height_s) => match args.next() {
-                Some(_) => Err(TooMany),
-                None => match width_s.parse() {
-                    Err(_) => Err(InvalidInteger(width_s)),
-                    Ok(width) => match height_s.parse() {
-                        Err(_) => Err(InvalidInteger(height_s)),
-                        Ok(height) => Ok(Frame { width, height }),
-                    },
-                },
+        Some(_) => Err(TooMany),
+        None => match width_s.parse() {
+            Err(_) => Err(InvalidInteger(width_s)),
+            Ok(width) => match height_s.parse() {
+                Err(_) => Err(InvalidInteger(height_s)),
+                Ok(height) => Ok(Frame { width, height }),
             },
         },
     }
