@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::{thread, time};
 
 mod parse_args;
-use parse_args::{Frame, parse_args};
+use parse_args::{parse_args, Frame};
 
 const ESC: &str = "\x1B";
 
@@ -172,30 +172,25 @@ impl Display for Game {
 
 fn main() -> Result<(), String> {
     let args = std::env::args().skip(1).collect::<Vec<_>>();
-    let frame_e = parse_args(args);
-
-    let frame = match frame_e {
-        Ok(frame) => frame,
-        Err(e) => {
-            return Err(format!("{:?}", e));
-        }
-    };
-
-    let num_frames = 300;
+    let frame = parse_args(args).or_else(|e| Err(format!("{:?}", e)))?;
     let mut game = Game::new(frame);
     let log_enabled = true;
+
     if log_enabled {
         println!("Game initial => {:#?}", game)
     };
+
     clear();
-    println!("{}", game.frame);
+    let num_frames = 300;
     for _ in 0..num_frames {
         println!("{}", game);
         game.step();
         thread::sleep(time::Duration::from_millis(16));
     }
+
     if log_enabled {
         println!("Game final => {:#?}", game)
     };
+
     Ok(())
 }
