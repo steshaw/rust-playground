@@ -12,6 +12,7 @@ fn f1() {
     println!("{:?}", args.next());
     println!("{:?}", args.next());
 }
+#[allow(clippy::while_let_on_iterator)]
 fn f2() {
     println!("f2");
     let mut args = args();
