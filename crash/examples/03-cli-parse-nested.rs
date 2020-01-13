@@ -31,12 +31,13 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
         return Err(TooMany);
     };
 
-    match width_s.parse() {
-            Err(_) => Err(InvalidInteger(width_s)),
-            Ok(width) => match height_s.parse() {
-                Err(_) => Err(InvalidInteger(height_s)),
-                Ok(height) => Ok(Frame { width, height }),
-            },
+    let width = match width_s.parse() {
+        Err(_) => return Err(InvalidInteger(width_s)),
+        Ok(width) => width,
+    };
+    match height_s.parse() {
+        Err(_) => Err(InvalidInteger(height_s)),
+        Ok(height) => Ok(Frame { width, height }),
     }
 }
 
