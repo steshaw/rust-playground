@@ -17,10 +17,10 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
 
     let mut args = args.skip(1);
 
-    let mut get_arg = || args.next().ok_or(TooFew);
+    let mut require_arg = || args.next().ok_or(TooFew);
 
-    let width_s = get_arg()?;
-    let height_s = get_arg()?;
+    let width_s = require_arg()?;
+    let height_s = require_arg()?;
 
     // Require end of arguments here.
     match args.next() {
