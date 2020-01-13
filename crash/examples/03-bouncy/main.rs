@@ -3,7 +3,7 @@ use std::fmt::{Display, Formatter};
 use std::{thread, time};
 
 mod parse_args;
-use parse_args::{Frame};
+use parse_args::Frame;
 
 const ESC: &str = "\x1B";
 
@@ -105,14 +105,6 @@ impl Ball {
     }
 }
 
-/*
-#[derive(Debug)]
-struct Frame {
-    width: u32,
-    height: u32,
-}
-*/
-
 impl Display for Frame {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         let write_row = |fmt: &mut Formatter| {
@@ -179,7 +171,7 @@ impl Display for Game {
 }
 
 fn main() -> Result<(), String> {
-    let frame_e = crate::parse_args::parse_args(std::env::args());
+    let frame_e = parse_args::parse_args(std::env::args());
 
     let frame = match frame_e {
         Ok(frame) => frame,
@@ -190,7 +182,7 @@ fn main() -> Result<(), String> {
 
     let num_frames = 300;
     let mut game = Game::new(frame);
-    let log_enabled = false;
+    let log_enabled = true;
     let do_game = true;
     if do_game {
         if log_enabled {
