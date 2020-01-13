@@ -181,6 +181,7 @@ fn main() -> Result<(), parse_args::ArgsErr> {
     };
 
     clear();
+    print!("{}", game.frame);
     let num_frames = 300;
     for _ in 0..num_frames {
         println!("{}", game);
