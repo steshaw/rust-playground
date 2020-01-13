@@ -11,10 +11,11 @@ pub enum ArgsErr {
     InvalidInteger(String),
 }
 
+// FIXME: Can we use a more general type here?
 struct ParseArgs(std::vec::IntoIter<String>);
 
 impl ParseArgs {
-    fn new(args: Vec<String>) -> Self /*ParseArgs<std::vec::IntoIter<String>> */ {
+    fn new(args: Vec<String>) -> Self {
         ParseArgs(args.into_iter())
     }
 
