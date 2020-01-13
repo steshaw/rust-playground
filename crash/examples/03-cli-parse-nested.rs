@@ -25,7 +25,7 @@ fn parse_args(args: std::env::Args) -> Result<Frame, ArgsErr> {
     // Require end of arguments here.
     let mut require_no_more_args = || match args.next() {
         None => Ok(()),
-        Some(_) => Err(TooMany)
+        Some(_) => Err(TooMany),
     };
 
     require_no_more_args()?;
