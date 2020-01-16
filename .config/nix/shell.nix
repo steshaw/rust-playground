@@ -40,6 +40,7 @@ in
         rust
 
         cacert
+        cargo-edit
         watchexec
 
         clang
