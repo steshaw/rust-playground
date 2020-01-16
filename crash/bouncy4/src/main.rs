@@ -49,9 +49,16 @@ impl Game {
     }
     fn draw(&self, w: &Window) {
         // Draw border.
-        w.draw_box('|', '-');
+        w.mv(0, 0);
+        // XXX: Box drawing characters do not display :-(.
+        let use_box_drawing_chars = false;
+        if use_box_drawing_chars {
+            w.draw_box('│', '─');
+        } else {
+            w.draw_box('|', '-');
+        }
 
-        let use_mv = false;
+        let use_mv = true;
         if use_mv {
             w.mvaddch(self.ball.y as i32 + 1, self.ball.x as i32 + 1, 'o');
         } else {
