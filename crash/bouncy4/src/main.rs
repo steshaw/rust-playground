@@ -1,6 +1,6 @@
 #![feature(bool_to_option)]
 
-use pancurses::{curs_set, endwin, initscr, Window};
+use pancurses::{curs_set, endwin, initscr, Input, Window};
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
@@ -152,15 +152,19 @@ fn main() -> Result<(), Err> {
 
     let mut game = Game::new(frame);
 
+    let timeout_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
+    w.timeout(timeout_duration.as_millis() as i32);
+
     let result = validate(&game, max_x, max_y).and_then(|_| {
-        let sleep_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
         for _i in 0..300 {
             w.clear();
             game.draw(&w);
             w.refresh();
 
             game.step();
-            std::thread::sleep(sleep_duration);
+            if let Some(Input::Character('q')) = w.getch() {
+                break;
+            }
         }
         w.mv(max_y as i32 - 2, 1);
         w.printw("[Hit any key to exit]");
