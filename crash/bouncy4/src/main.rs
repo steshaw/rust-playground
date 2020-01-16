@@ -18,6 +18,7 @@ struct Ball {
     horiz_dir: HorizDir,
 }
 
+#[derive(Debug)]
 struct Frame {
     width: u32,
     height: u32,
@@ -29,11 +30,7 @@ struct Game {
 }
 
 impl Game {
-    fn new() -> Game {
-        let frame = Frame {
-            width: 60,
-            height: 30,
-        };
+    fn new(frame: Frame) -> Game {
         let ball = Ball {
             x: 2,
             y: 4,
@@ -108,12 +105,27 @@ impl Display for Game {
 }
 
 fn main() {
+    // Yikes unchecked casts:
+    if false {
+        for i in -5i32..6i32 {
+            println!("{} -> {}", i, i as u32);
+        }
+    }
+
     let window = initscr();
     window.printw("Hello Rust");
 
-    let mut game = Game::new();
+    let (max_y, max_x) = window.get_max_yx();
+
+    let frame = Frame {
+        width: max_x as u32 - 3,
+        height: max_y as u32 - 3,
+    };
+    println!("{:?}", frame);
+
+    let mut game = Game::new(frame);
     let sleep_duration = std::time::Duration::from_millis(33);
-    for i in 0..1000 {
+    for i in 0..100 {
         window.clear();
         window.printw(format!("{}", game));
         window.refresh();
