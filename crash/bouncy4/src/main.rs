@@ -1,3 +1,5 @@
+#![feature(bool_to_option)]
+
 use pancurses::{curs_set, endwin, initscr, Window};
 use std::fmt::{Display, Formatter};
 
@@ -111,7 +113,22 @@ impl Display for Game {
     }
 }
 
-fn main() {
+#[derive(Debug)]
+enum Err {
+    BadWindowDimensions,
+}
+
+fn sensible(dim: u32, initial_pos: u32) -> Result<(), Err> {
+    (dim >= 20 && dim >= initial_pos)
+        .then(|| ())
+        .ok_or(Err::BadWindowDimensions)
+}
+
+fn validate(game: &Game, max_x: u32, max_y: u32) -> Result<(), Err> {
+    sensible(max_x as u32, game.ball.x).and_then(|_| sensible(max_y as u32, game.ball.y))
+}
+
+fn main() -> Result<(), Err> {
     // Yikes unchecked casts:
     if false {
         for i in -5i32..6i32 {
@@ -123,26 +140,34 @@ fn main() {
     let _prev_cursor = curs_set(0);
 
     let (max_y, max_x) = w.get_max_yx();
+    let max_y = max_y as u32;
+    let max_x = max_x as u32;
+    println!("max_y = {}, max_x = {}", max_y, max_x);
 
     let frame = Frame {
-        width: max_x as u32 - 2,
-        height: max_y as u32 - 2,
+        width: max_x - 2,
+        height: max_y - 2,
     };
     println!("{:?}", frame);
 
     let mut game = Game::new(frame);
-    let sleep_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
-    for _i in 0..300 {
-        w.clear();
-        game.draw(&w);
-        w.refresh();
 
-        game.step();
-        std::thread::sleep(sleep_duration);
-    }
-    w.mv(max_y - 2, 1);
+    let result = validate(&game, max_x, max_y).and_then(|_| {
+        let sleep_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
+        for _i in 0..300 {
+            w.clear();
+            game.draw(&w);
+            w.refresh();
 
-    w.printw("[Hit any key to exit]");
-    w.getch();
+            game.step();
+            std::thread::sleep(sleep_duration);
+        }
+        w.mv(max_y as i32 - 2, 1);
+        w.printw("[Hit any key to exit]");
+        w.getch();
+        Ok(())
+    });
+
     endwin();
+    result
 }
