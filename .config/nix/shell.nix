@@ -42,6 +42,7 @@ in
         cacert
         cargo-edit
         watchexec
+        ncurses
 
         clang
         clang-tools
