@@ -1,3 +1,4 @@
+use pancurses::{endwin, initscr};
 use std::fmt::{Display, Formatter};
 
 enum VertDir {
@@ -39,7 +40,7 @@ impl Game {
             vert_dir: VertDir::Up,
             horiz_dir: HorizDir::Left,
         };
-        Game {frame, ball}
+        Game { frame, ball }
     }
 
     fn step(&mut self) {
@@ -106,12 +107,21 @@ impl Display for Game {
     }
 }
 
-fn main () {
+fn main() {
+    let window = initscr();
+    window.printw("Hello Rust");
+
     let mut game = Game::new();
     let sleep_duration = std::time::Duration::from_millis(33);
-    loop {
-        println!("{}", game);
+    for i in 0..1000 {
+        window.clear();
+        window.printw(format!("{}", game));
+        window.refresh();
+
         game.step();
         std::thread::sleep(sleep_duration);
     }
+
+    window.getch();
+    endwin();
 }
