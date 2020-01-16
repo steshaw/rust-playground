@@ -128,6 +128,42 @@ fn validate(game: &Game, max_x: u32, max_y: u32) -> Result<(), Err> {
     sensible(max_x as u32, game.ball.x).and_then(|_| sensible(max_y as u32, game.ball.y))
 }
 
+fn game_loop(w: &Window) -> Result<(), Err> {
+    let (max_y, max_x) = w.get_max_yx();
+    let mut max_y = max_y as u32;
+    let mut max_x = max_x as u32;
+    let frame = Frame {
+        width: max_x - 2,
+        height: max_y - 2,
+    };
+    let mut game = Game::new(frame);
+    validate(&game, max_x, max_y)?;
+    loop {
+        let (new_max_y, new_max_x) = w.get_max_yx();
+        let new_max_y = new_max_y as u32;
+        let new_max_x = new_max_x as u32;
+        if new_max_x != max_x || new_max_y != max_y {
+            max_y = new_max_y;
+            max_x = new_max_x;
+            let frame = Frame {
+                width: max_x - 2,
+                height: max_y - 2,
+            };
+            game.frame = frame;
+            validate(&game, max_x, max_y)?;
+        }
+
+        w.clear();
+        game.draw(&w);
+        w.refresh();
+        if let Some(Input::Character('q')) = w.getch() {
+            break;
+        }
+        game.step();
+    }
+    Ok(())
+}
+
 fn main() -> Result<(), Err> {
     // Yikes unchecked casts:
     if false {
@@ -138,38 +174,10 @@ fn main() -> Result<(), Err> {
 
     let w = initscr();
     let _prev_cursor = curs_set(0);
-
-    let (max_y, max_x) = w.get_max_yx();
-    let max_y = max_y as u32;
-    let max_x = max_x as u32;
-    println!("max_y = {}, max_x = {}", max_y, max_x);
-
-    let frame = Frame {
-        width: max_x - 2,
-        height: max_y - 2,
-    };
-    println!("{:?}", frame);
-
-    let mut game = Game::new(frame);
-
     let timeout_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
     w.timeout(timeout_duration.as_millis() as i32);
 
-    let result = validate(&game, max_x, max_y).and_then(|_| {
-        loop {
-            w.clear();
-            game.draw(&w);
-            w.refresh();
-            if let Some(Input::Character('q')) = w.getch() {
-                break;
-            }
-            game.step();
-        }
-        w.mv(max_y as i32 - 2, 1);
-        w.printw("[Hit any key to exit]");
-        w.getch();
-        Ok(())
-    });
+    let result = game_loop(&w);
 
     endwin();
     result
