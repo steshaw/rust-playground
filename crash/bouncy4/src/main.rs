@@ -125,15 +125,16 @@ fn main() {
 
     let mut game = Game::new(frame);
     let sleep_duration = std::time::Duration::from_millis(33);
-    for i in 0..100 {
+    for i in 0..150 {
         window.clear();
-        window.printw(format!("{}", game));
+        window.printw(game.to_string());
         window.refresh();
 
         game.step();
         std::thread::sleep(sleep_duration);
     }
 
+    window.printw("[Hit any key to exit]");
     window.getch();
     endwin();
 }
