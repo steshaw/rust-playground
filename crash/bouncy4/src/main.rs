@@ -3,6 +3,8 @@
 use pancurses::{curs_set, endwin, initscr, Input, Window};
 use std::fmt::{Display, Formatter};
 
+type XY = (u32, u32);
+
 #[derive(Debug)]
 enum VertDir {
     Up,
@@ -27,6 +29,15 @@ struct Ball {
 struct Frame {
     width: u32,
     height: u32,
+}
+impl Frame {
+    fn new(x_y: XY) -> Frame {
+        // Shift to make room for the border.
+        Frame {
+            width: x_y.0 - 2,
+            height: x_y.1 - 2,
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -119,38 +130,31 @@ enum Err {
 }
 
 fn sensible(dim: u32, initial_pos: u32) -> Result<(), Err> {
-    (dim >= 20 && dim >= initial_pos)
+    (dim >= 10 && dim >= initial_pos)
         .then(|| ())
         .ok_or(Err::BadWindowDimensions)
 }
 
-fn validate(game: &Game, max_x: u32, max_y: u32) -> Result<(), Err> {
-    sensible(max_x as u32, game.ball.x).and_then(|_| sensible(max_y as u32, game.ball.y))
+fn validate(game: &Game, x_y: XY) -> Result<(), Err> {
+    sensible(x_y.0, game.ball.x).and_then(|_| sensible(x_y.1 as u32, game.ball.y))
+}
+
+fn get_x_y(w: &Window) -> XY {
+    let (max_y, max_x) = w.get_max_yx();
+    (max_x as u32, max_y as u32)
 }
 
 fn game_loop(w: &Window) -> Result<(), Err> {
-    let (max_y, max_x) = w.get_max_yx();
-    let mut max_y = max_y as u32;
-    let mut max_x = max_x as u32;
-    let frame = Frame {
-        width: max_x - 2,
-        height: max_y - 2,
-    };
-    let mut game = Game::new(frame);
-    validate(&game, max_x, max_y)?;
+    let mut x_y = get_x_y(w);
+    let mut game = Game::new(Frame::new(x_y));
+    validate(&game, x_y)?;
     loop {
-        let (new_max_y, new_max_x) = w.get_max_yx();
-        let new_max_y = new_max_y as u32;
-        let new_max_x = new_max_x as u32;
-        if new_max_x != max_x || new_max_y != max_y {
-            max_y = new_max_y;
-            max_x = new_max_x;
-            let frame = Frame {
-                width: max_x - 2,
-                height: max_y - 2,
-            };
+        let new_x_y = get_x_y(w);
+        if new_x_y != x_y {
+            x_y = new_x_y;
+            let frame = Frame::new(x_y);
             game.frame = frame;
-            validate(&game, max_x, max_y)?;
+            validate(&game, x_y)?;
         }
 
         w.clear();
