@@ -160,11 +160,10 @@ fn main() -> Result<(), Err> {
             w.clear();
             game.draw(&w);
             w.refresh();
-
-            game.step();
             if let Some(Input::Character('q')) = w.getch() {
                 break;
             }
+            game.step();
         }
         w.mv(max_y as i32 - 2, 1);
         w.printw("[Hit any key to exit]");
