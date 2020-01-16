@@ -25,18 +25,50 @@ struct Ball {
     horiz_dir: HorizDir,
 }
 
+impl Ball {
+    fn new() -> Ball {
+        Ball {
+            x: 2,
+            y: 4,
+            vert_dir: VertDir::Up,
+            horiz_dir: HorizDir::Left,
+        }
+    }
+}
+
+#[derive(Debug)]
+enum Err {
+    BadWindowDimensions(String),
+}
+
 #[derive(Debug)]
 struct Frame {
     width: u32,
     height: u32,
 }
+
+fn sensible_dim(dim_s: &str, dim: u32, initial_pos: u32) -> Result<(), Err> {
+    (dim >= 10)
+        .then(|| ())
+        .ok_or(Err::BadWindowDimensions(format!("{} must be >= 10", dim_s)))?;
+    (dim >= initial_pos)
+        .then(|| ())
+        .ok_or(Err::BadWindowDimensions(format!(
+            "{} must be >= position of the ball {}: {}",
+            dim_s, initial_pos, dim
+        )))?;
+    Ok(())
+}
+
 impl Frame {
-    fn new(x_y: XY) -> Frame {
+    fn new(x_y: XY, ball: &Ball) -> Result<Frame, Err> {
+        sensible_dim("x", x_y.0, ball.x)?;
+        sensible_dim("y", x_y.1 as u32, ball.y)?;
         // Shift to make room for the border.
-        Frame {
+        Ok(Frame {
             width: x_y.0 - 2,
             height: x_y.1 - 2,
-        }
+        })
     }
 }
 
@@ -47,13 +79,7 @@ struct Game {
 }
 
 impl Game {
-    fn new(frame: Frame) -> Game {
-        let ball = Ball {
-            x: 2,
-            y: 4,
-            vert_dir: VertDir::Up,
-            horiz_dir: HorizDir::Left,
-        };
+    fn new(frame: Frame, ball: Ball) -> Game {
         Game { frame, ball }
     }
     fn step(&mut self) {
@@ -124,21 +150,6 @@ impl Display for Game {
     }
 }
 
-#[derive(Debug)]
-enum Err {
-    BadWindowDimensions,
-}
-
-fn sensible(dim: u32, initial_pos: u32) -> Result<(), Err> {
-    (dim >= 10 && dim >= initial_pos)
-        .then(|| ())
-        .ok_or(Err::BadWindowDimensions)
-}
-
-fn validate(game: &Game, x_y: XY) -> Result<(), Err> {
-    sensible(x_y.0, game.ball.x).and_then(|_| sensible(x_y.1 as u32, game.ball.y))
-}
-
 fn get_x_y(w: &Window) -> XY {
     let (max_y, max_x) = w.get_max_yx();
     (max_x as u32, max_y as u32)
@@ -146,15 +157,13 @@ fn get_x_y(w: &Window) -> XY {
 
 fn game_loop(w: &Window) -> Result<(), Err> {
     let mut x_y = get_x_y(w);
-    let mut game = Game::new(Frame::new(x_y));
-    validate(&game, x_y)?;
+    let ball = Ball::new();
+    let mut game = Game::new(Frame::new(x_y, &ball)?, ball);
     loop {
         let new_x_y = get_x_y(w);
         if new_x_y != x_y {
             x_y = new_x_y;
-            let frame = Frame::new(x_y);
-            game.frame = frame;
-            validate(&game, x_y)?;
+            game.frame = Frame::new(x_y, &game.ball)?;
         }
 
         w.clear();
