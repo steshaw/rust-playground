@@ -156,7 +156,7 @@ fn main() -> Result<(), Err> {
     w.timeout(timeout_duration.as_millis() as i32);
 
     let result = validate(&game, max_x, max_y).and_then(|_| {
-        for _i in 0..300 {
+        loop {
             w.clear();
             game.draw(&w);
             w.refresh();
