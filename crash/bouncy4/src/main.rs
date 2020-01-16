@@ -1,16 +1,19 @@
-use pancurses::{endwin, initscr};
+use pancurses::{endwin, initscr, Window};
 use std::fmt::{Display, Formatter};
 
+#[derive(Debug)]
 enum VertDir {
     Up,
     Down,
 }
 
+#[derive(Debug)]
 enum HorizDir {
     Left,
     Right,
 }
 
+#[derive(Debug)]
 struct Ball {
     x: u32,
     y: u32,
@@ -24,6 +27,7 @@ struct Frame {
     height: u32,
 }
 
+#[derive(Debug)]
 struct Game {
     frame: Frame,
     ball: Ball,
@@ -39,10 +43,29 @@ impl Game {
         };
         Game { frame, ball }
     }
-
     fn step(&mut self) {
         self.ball.bounce(&self.frame);
         self.ball.mv();
+    }
+    fn draw(&self, w: &Window) {
+        // Draw border.
+        w.draw_box('|', '-');
+
+        w.mvaddch(self.ball.y as i32 + 1, self.ball.x as i32 + 1, 'o');
+        w.mv(0, 0);
+        /*
+        for row in 0..self.frame.height {
+            for column in 0..self.frame.width {
+                w.mv((row + 1) as i32, (column + 1) as i32);
+                let c = if row == self.ball.y && column == self.ball.x {
+                    let c = 'o';
+                    w.addch(c);
+                } else {
+                    (); //' '
+                };
+            }
+        }
+        */
     }
 }
 
@@ -75,32 +98,7 @@ impl Ball {
 
 impl Display for Game {
     fn fmt(&self, fmt: &mut Formatter) -> std::fmt::Result {
-        let top_bottom = |fmt: &mut Formatter| {
-            write!(fmt, "+");
-            for _ in 0..self.frame.width {
-                write!(fmt, "-");
-            }
-            write!(fmt, "+\n")
-        };
-
-        top_bottom(fmt)?;
-
-        for row in 0..self.frame.height {
-            write!(fmt, "|");
-
-            for column in 0..self.frame.width {
-                let c = if row == self.ball.y && column == self.ball.x {
-                    'o'
-                } else {
-                    ' '
-                };
-                write!(fmt, "{}", c);
-            }
-
-            write!(fmt, "|\n");
-        }
-
-        top_bottom(fmt)
+        write!(fmt, "{:?}", self) // Piggyback on Debug.
     }
 }
 
@@ -112,29 +110,30 @@ fn main() {
         }
     }
 
-    let window = initscr();
-    window.printw("Hello Rust");
+    let w = initscr();
+    w.printw("Hello Rust");
 
-    let (max_y, max_x) = window.get_max_yx();
+    let (max_y, max_x) = w.get_max_yx();
 
     let frame = Frame {
-        width: max_x as u32 - 3,
-        height: max_y as u32 - 3,
+        width: max_x as u32 - 2,
+        height: max_y as u32 - 2,
     };
     println!("{:?}", frame);
 
     let mut game = Game::new(frame);
-    let sleep_duration = std::time::Duration::from_millis(33);
-    for i in 0..150 {
-        window.clear();
-        window.printw(game.to_string());
-        window.refresh();
+    let sleep_duration = std::time::Duration::from_millis(if false { 16 } else { 33 });
+    for _i in 0..300 {
+        w.clear();
+        game.draw(&w);
+        w.refresh();
 
         game.step();
         std::thread::sleep(sleep_duration);
     }
 
-    window.printw("[Hit any key to exit]");
-    window.getch();
+    w.mv(max_y - 2, 1);
+    w.printw("[Hit any key to exit]");
+    w.getch();
     endwin();
 }
