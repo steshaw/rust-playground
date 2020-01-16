@@ -1,4 +1,4 @@
-use pancurses::{endwin, initscr, Window};
+use pancurses::{curs_set, endwin, initscr, Window};
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
@@ -51,21 +51,23 @@ impl Game {
         // Draw border.
         w.draw_box('|', '-');
 
-        w.mvaddch(self.ball.y as i32 + 1, self.ball.x as i32 + 1, 'o');
-        w.mv(0, 0);
-        /*
-        for row in 0..self.frame.height {
-            for column in 0..self.frame.width {
-                w.mv((row + 1) as i32, (column + 1) as i32);
-                let c = if row == self.ball.y && column == self.ball.x {
-                    let c = 'o';
+        let use_mv = false;
+        if use_mv {
+            w.mvaddch(self.ball.y as i32 + 1, self.ball.x as i32 + 1, 'o');
+        } else {
+            // Similar to old way.
+            for row in 0..self.frame.height {
+                for column in 0..self.frame.width {
+                    w.mv((row + 1) as i32, (column + 1) as i32);
+                    let c = if row == self.ball.y && column == self.ball.x {
+                        'o'
+                    } else {
+                        ' '
+                    };
                     w.addch(c);
-                } else {
-                    (); //' '
-                };
+                }
             }
         }
-        */
     }
 }
 
@@ -111,7 +113,7 @@ fn main() {
     }
 
     let w = initscr();
-    w.printw("Hello Rust");
+    let _prev_cursor = curs_set(0);
 
     let (max_y, max_x) = w.get_max_yx();
 
@@ -131,8 +133,8 @@ fn main() {
         game.step();
         std::thread::sleep(sleep_duration);
     }
-
     w.mv(max_y - 2, 1);
+
     w.printw("[Hit any key to exit]");
     w.getch();
     endwin();
