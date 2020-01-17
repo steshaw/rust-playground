@@ -19,12 +19,12 @@ impl Iterator for UltimateAnswers {
 }
 
 struct Count {
-    current: u32,
-    to: u32,
+    current: u8,
+    to: u8,
 }
 
 impl Count {
-    fn new(to: u32) -> Count {
+    fn new(to: u8) -> Count {
         Count { current: 0, to }
     }
 }
@@ -38,7 +38,7 @@ fn when<T>(b: bool, t: T) -> Option<T> {
 }
 
 impl Iterator for Count {
-    type Item = u32;
+    type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
         self.current += 1; // FIXME: Potential overflow.
         when(self.current <= self.to, self.current)
@@ -90,6 +90,14 @@ fn main() {
 
     println!();
     println!("Count(10): {:?}", Count::new(10).collect::<Vec<_>>());
+    let one_to_ten = Count::new(10);
+    for n in one_to_ten {
+        println!("n = {}", n);
+    }
+    let mut one_to_ten = Count::new(10);
+    for i in u8::min_value()..=u8::max_value() {
+        println!("{}: next() => {:?}", i, one_to_ten.next());
+    }
 
     println!();
     let fibs = Fibonacci::new().take(10).collect::<Vec<_>>();
