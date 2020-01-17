@@ -128,7 +128,6 @@ impl<I> Iterator for Doubler<I>
 where
     I: Iterator,
     I::Item: ops::Add<Output = I::Item>,
-    I::Item: From<u8>,
     I::Item: Copy,
 {
     type Item = I::Item;
