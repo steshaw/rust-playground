@@ -8,16 +8,18 @@ pub struct Person {
     age: u32,
 }
 
-pub fn inc_age_imm(person: Person) -> Person {
-    Person {
-        name: person.name,
-        age: person.age + 1,
+impl Person {
+    pub fn inc_age_imm(self) -> Self {
+        Person {
+            name: self.name,
+            age: self.age + 1,
+        }
     }
-}
 
-pub fn inc_age_mut(mut person: Person) -> Person {
-    person.age += 1;
-    person
+    pub fn inc_age_mut(mut self: Self) -> Self {
+        self.age += 1;
+        self
+    }
 }
 
 pub fn main() {
@@ -46,8 +48,8 @@ pub fn main() {
     */
 
     println!("alice1 = {:#?}", alice1);
-    let alice2 = inc_age_imm(alice1);
+    let alice2 = alice1.inc_age_imm();
     println!("alice2 = {:#?}", alice2);
-    let alice3 = inc_age_mut(alice2);
+    let alice3 = alice2.inc_age_mut();
     println!("alice3 = {:#?}", alice3);
 }
