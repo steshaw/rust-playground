@@ -33,14 +33,14 @@ trait When<T, F>
 where
     F: FnOnce() -> T,
 {
-    fn then(self, f: F) -> Option<T>;
+    fn true_as_some(self, f: F) -> Option<T>;
 }
 
 impl<T, F> When<T, F> for bool
 where
     F: FnOnce() -> T,
 {
-    fn then(self, f: F) -> Option<T> {
+    fn true_as_some(self, f: F) -> Option<T> {
         if self {
             Some(f())
         } else {
@@ -52,7 +52,7 @@ where
 impl Iterator for Count {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
-        (self.current < self.to).then(|| {
+        (self.current < self.to).true_as_some(|| {
             self.current += 1; // FIXME: Potential overflow.
             self.current
         })
