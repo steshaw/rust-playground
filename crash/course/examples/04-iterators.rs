@@ -60,7 +60,7 @@ impl Iterator for Count {
 }
 
 struct Fibonacci {
-    state: (u128, u128),
+    state: (u8, u8),
 }
 
 impl Fibonacci {
@@ -70,7 +70,7 @@ impl Fibonacci {
 }
 
 impl Iterator for Fibonacci {
-    type Item = u128;
+    type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
         let result = Some(self.state.0);
         self.state = (self.state.1, self.state.0 + self.state.1);
@@ -114,7 +114,7 @@ fn main() {
     }
 
     println!();
-    let fibs = Fibonacci::new().take(185).collect::<Vec<_>>();
+    let fibs = Fibonacci::new().take(12).collect::<Vec<_>>();
     println!("fibs = {:?}", fibs);
 
     println!();
@@ -136,6 +136,6 @@ fn main() {
         println!("{}", i);
     }
 
-    println!("sum 1 to 10 sum : {}", (1..=10).sum::<u16>());
+    println!("sum 1 to 10 sum : {}", (1..=10).sum::<u8>());
     println!("sum 1 to 10 fold: {}", (1..=10).fold(0, |acc, n| acc + n));
 }
