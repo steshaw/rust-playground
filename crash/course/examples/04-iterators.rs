@@ -72,9 +72,12 @@ impl Fibonacci {
 impl Iterator for Fibonacci {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
-        let result = Some(self.state.0);
-        self.state = (self.state.1, self.state.0 + self.state.1);
-        result
+        let result = self.state.0;
+        let next = self.state.0.checked_add(self.state.1);
+        next.map(|next| {
+            self.state = (self.state.1, next);
+            result
+        })
     }
 }
 
@@ -114,7 +117,7 @@ fn main() {
     }
 
     println!();
-    let fibs = Fibonacci::new().take(12).collect::<Vec<_>>();
+    let fibs = Fibonacci::new().take(20).collect::<Vec<_>>();
     println!("fibs = {:?}", fibs);
 
     println!();
