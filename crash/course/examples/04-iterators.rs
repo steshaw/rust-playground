@@ -111,12 +111,12 @@ impl Iterator for Fibonacci {
                     }
                 }
                 Some(result)
-            },
+            }
             Last(n) => {
                 let result = Some(*n);
                 *self = Done;
                 result
-            },
+            }
             Done => None,
         }
     }
@@ -136,6 +136,14 @@ where
     }
 }
 
+fn sum<I>(iter: I) -> u8
+where
+    I: Iterator<Item = u8>,
+{
+    iter.fold(0, ops::Add::add)
+}
+
+#[allow(clippy::unnecessary_fold)]
 fn main() {
     println!("Empties = {:?}", Empty.collect::<Vec<_>>());
 
@@ -183,6 +191,17 @@ fn main() {
         println!("{}", i);
     }
 
-    println!("sum 1 to 10 sum : {}", (1..=10).sum::<u8>());
-    println!("sum 1 to 10 fold: {}", (1..=10).fold(0, |acc, n| acc + n));
+    println!("sum 1 to 10, .sum():     {}", (1..=10).sum::<u8>());
+    println!(
+        "sum 1 to 10, fold fn:    {}",
+        (1..=10).fold(0, |acc, n| acc + n)
+    );
+    println!(
+        "sum 1 to 10, fold add:   {}",
+        (1..=10).fold(0, ops::Add::add)
+    );
+    println!(
+        "sum 1 to 10, sum:        {}",
+        sum(1..=10)
+    );
 }
