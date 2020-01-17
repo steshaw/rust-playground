@@ -1,7 +1,6 @@
 #![feature(bool_to_option)]
 
-use std::convert::From;
-use std::ops::Mul;
+use std::ops;
 
 struct Empty;
 
@@ -66,11 +65,13 @@ struct Doubler<I>(I);
 impl<I> Iterator for Doubler<I>
 where
     I: Iterator,
-    I::Item: Mul<Output = I::Item> + From<u8>,
+    I::Item: ops::Add<Output = I::Item>,
+    I::Item: From<u8>,
+    I::Item: Copy,
 {
     type Item = I::Item;
     fn next(&mut self) -> Option<Self::Item> {
-        self.0.next().map(|n| n * 2.into())
+        self.0.next().map(|n| n + n)
     }
 }
 
