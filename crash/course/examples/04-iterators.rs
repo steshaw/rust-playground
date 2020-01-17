@@ -95,4 +95,21 @@ fn main() {
     let orig_iter = 1..11u64;
     let doubled_iter = Doubler(orig_iter);
     println!("doubles = {:?}", doubled_iter.collect::<Vec<_>>());
+
+    println!();
+    let doubles = (1..11).map(|n| n + 2).collect::<Vec<_>>();
+    println!("idiomatic doubles = {:?}", doubles);
+
+    println!();
+    for i in (1..11)
+        .skip(3)
+        .map(|x| x + 1)
+        .inspect(|i| println!("inspected: {}", i))
+        .filter(|x| x % 2 == 0)
+    {
+        println!("{}", i);
+    }
+
+    println!("sum 1 to 10 sum : {}", (1..=10).sum::<u16>());
+    println!("sum 1 to 10 fold: {}", (1..=10).fold(0, |acc, n| acc + n));
 }
