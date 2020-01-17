@@ -1,5 +1,8 @@
 #![feature(bool_to_option)]
 
+use std::convert::From;
+use std::ops::Mul;
+
 struct Empty;
 
 impl Iterator for Empty {
@@ -62,11 +65,12 @@ struct Doubler<I>(I);
 
 impl<I> Iterator for Doubler<I>
 where
-    I: Iterator<Item = u32>,
+    I: Iterator,
+    I::Item: Mul<Output = I::Item> + From<u8>,
 {
-    type Item = u32;
-    fn next(&mut self) -> Option<u32> {
-        self.0.next().map(|n| n * 2)
+    type Item = I::Item;
+    fn next(&mut self) -> Option<Self::Item> {
+        self.0.next().map(|n| n * 2.into())
     }
 }
 
@@ -87,7 +91,7 @@ fn main() {
     println!("fibs = {:?}", fibs);
 
     println!();
-    let orig_iter = 1..11;
+    let orig_iter = 1..11u64;
     let doubled_iter = Doubler(orig_iter);
     println!("doubles = {:?}", doubled_iter.collect::<Vec<_>>());
 }
