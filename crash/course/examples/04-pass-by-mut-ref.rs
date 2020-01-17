@@ -8,6 +8,7 @@ fn inc_age_imm(person: &mut Person) {
     person.age += 1
 }
 
+#[allow(unused_assignments)]
 fn inc_age_mut<'a>(mut person: &'a mut Person, replacement: &'a mut Person) {
     person = replacement;
     person.age += 1
