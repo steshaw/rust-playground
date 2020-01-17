@@ -1,3 +1,5 @@
+mod pass_by_value;
+
 fn main() {
-    println!("Hello, world!");
+    pass_by_value::main();
 }
