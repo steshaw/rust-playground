@@ -53,7 +53,7 @@ impl Iterator for Count {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
         (self.current < self.to).true_as_some(|| {
-            self.current += 1; // FIXME: Potential overflow.
+            self.current += 1;
             self.current
         })
     }
