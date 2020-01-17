@@ -29,15 +29,19 @@ impl Count {
     }
 }
 
+fn when<T>(b: bool, t: T) -> Option<T> {
+    if b {
+        Some(t)
+    } else {
+        None
+    }
+}
+
 impl Iterator for Count {
     type Item = u32;
     fn next(&mut self) -> Option<Self::Item> {
-        if self.current < self.to {
-            self.current += 1;
-            Some(self.current)
-        } else {
-            None
-        }
+        self.current += 1; // FIXME: Potential overflow.
+        when(self.current <= self.to, self.current)
     }
 }
 
