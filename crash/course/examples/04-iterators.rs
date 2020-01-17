@@ -1,3 +1,4 @@
+use std::num;
 use std::ops;
 
 struct Empty;
@@ -136,12 +137,67 @@ where
     }
 }
 
-fn sum<I>(from : I::Item, iter: I) -> I::Item
+trait Zero {
+    fn zero() -> Self;
+}
+impl Zero for u8 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for u16 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for u32 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for u64 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for u128 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for i8 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for i16 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for i32 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for i64 {
+    fn zero() -> Self {
+        0
+    }
+}
+impl Zero for i128 {
+    fn zero() -> Self {
+        0
+    }
+}
+
+fn sum<I>(iter: I) -> I::Item
 where
     I: Iterator,
     I::Item: ops::Add<Output = I::Item>,
+    I::Item: Zero,
 {
-    iter.fold(from, ops::Add::add)
+    iter.fold(I::Item::zero(), ops::Add::add)
 }
 
 #[allow(clippy::unnecessary_fold)]
@@ -192,21 +248,21 @@ fn main() {
         println!("{}", i);
     }
 
-    println!("sum 1 to 10, .sum():     {}", (1..=10).sum::<u8>());
+    println!("sum 1 to 10, .sum():          {}", (1..=10).sum::<u8>());
     println!(
-        "sum 1 to 10, fold fn:    {}",
+        "sum 1 to 10, fold fn:         {}",
         (1..=10).fold(0, |acc, n| acc + n)
     );
     println!(
-        "sum 1 to 10, fold add:   {}",
+        "sum 1 to 10, fold add:        {}",
         (1..=10).fold(0, ops::Add::add)
     );
-    println!("sum 1 to 10, sum   u8:        {}", sum(0, 1..=10u8));
-    println!("sum 1 to 10, sum  u16:        {}", sum(0, 1..=10u16));
-    println!("sum 1 to 10, sum  u32:        {}", sum(0, 1..=10u32));
-    println!("sum 1 to 10, sum u128:        {}", sum(0, 1..=10u128));
-    println!("sum 1 to 10, sum   i8:        {}", sum(0, 1..=10i8));
-    println!("sum 1 to 10, sum  i16:        {}", sum(0, 1..=10i16));
-    println!("sum 1 to 10, sum  i32:        {}", sum(0, 1..=10i32));
-    println!("sum 1 to 10, sum i128:        {}", sum(0, 1..=10i128));
+    println!("sum 1 to 10, sum   u8:        {}", sum(1..=10u8));
+    println!("sum 1 to 10, sum  u16:        {}", sum(1..=10u16));
+    println!("sum 1 to 10, sum  u32:        {}", sum(1..=10u32));
+    println!("sum 1 to 10, sum u128:        {}", sum(1..=10u128));
+    println!("sum 1 to 10, sum   i8:        {}", sum(1..=10i8));
+    println!("sum 1 to 10, sum  i16:        {}", sum(1..=10i16));
+    println!("sum 1 to 10, sum  i32:        {}", sum(1..=10i32));
+    println!("sum 1 to 10, sum i128:        {}", sum(1..=10i128));
 }
