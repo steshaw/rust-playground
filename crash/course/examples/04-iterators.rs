@@ -136,11 +136,12 @@ where
     }
 }
 
-fn sum<I>(iter: I) -> u8
+fn sum<I>(from : I::Item, iter: I) -> I::Item
 where
-    I: Iterator<Item = u8>,
+    I: Iterator,
+    I::Item: ops::Add<Output = I::Item>,
 {
-    iter.fold(0, ops::Add::add)
+    iter.fold(from, ops::Add::add)
 }
 
 #[allow(clippy::unnecessary_fold)]
@@ -200,8 +201,12 @@ fn main() {
         "sum 1 to 10, fold add:   {}",
         (1..=10).fold(0, ops::Add::add)
     );
-    println!(
-        "sum 1 to 10, sum:        {}",
-        sum(1..=10)
-    );
+    println!("sum 1 to 10, sum   u8:        {}", sum(0, 1..=10u8));
+    println!("sum 1 to 10, sum  u16:        {}", sum(0, 1..=10u16));
+    println!("sum 1 to 10, sum  u32:        {}", sum(0, 1..=10u32));
+    println!("sum 1 to 10, sum u128:        {}", sum(0, 1..=10u128));
+    println!("sum 1 to 10, sum   i8:        {}", sum(0, 1..=10i8));
+    println!("sum 1 to 10, sum  i16:        {}", sum(0, 1..=10i16));
+    println!("sum 1 to 10, sum  i32:        {}", sum(0, 1..=10i32));
+    println!("sum 1 to 10, sum i128:        {}", sum(0, 1..=10i128));
 }
