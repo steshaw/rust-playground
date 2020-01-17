@@ -29,21 +29,30 @@ impl Count {
     }
 }
 
-fn when<T, F>(b: bool, f: F) -> Option<T>
+trait When<T, F>
 where
     F: FnOnce() -> T,
 {
-    if b {
-        Some(f())
-    } else {
-        None
+    fn when(self, f: F) -> Option<T>;
+}
+
+impl<T, F> When<T, F> for bool
+where
+    F: FnOnce() -> T,
+{
+    fn when(self, f: F) -> Option<T> {
+        if self {
+            Some(f())
+        } else {
+            None
+        }
     }
 }
 
 impl Iterator for Count {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
-        when(self.current < self.to, || {
+        (self.current < self.to).when(|| {
             self.current += 1; // FIXME: Potential overflow.
             self.current
         })
