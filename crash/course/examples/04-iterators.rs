@@ -59,25 +59,66 @@ impl Iterator for Count {
     }
 }
 
-struct Fibonacci {
-    state: (u8, u8),
+struct Fibonacci0(u8, u8);
+impl Fibonacci0 {
+    fn new() -> Fibonacci0 {
+        Fibonacci0(0, 1)
+    }
+}
+impl Iterator for Fibonacci0 {
+    type Item = u8;
+    fn next(&mut self) -> Option<Self::Item> {
+        let result = self.0;
+        let next = self.0.checked_add(self.1);
+        match next {
+            None => None,
+            Some(next) => {
+                *self = Fibonacci0(self.1, next);
+                Some(result)
+            }
+        }
+    }
+}
+
+enum Fibonacci {
+    Running { state: (u8, u8) },
+    Last(u8),
+    Done,
 }
 
 impl Fibonacci {
     fn new() -> Fibonacci {
-        Fibonacci { state: (0, 1) }
+        Fibonacci::Running { state: (0, 1) }
     }
 }
 
 impl Iterator for Fibonacci {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
-        let result = self.state.0;
-        let next = self.state.0.checked_add(self.state.1);
-        next.map(|next| {
-            self.state = (self.state.1, next);
-            result
-        })
+        use Fibonacci::*;
+        match self {
+            Running { state } => {
+                let result = state.0;
+                let next = state.0.checked_add(state.1);
+                match next {
+                    None => {
+                        *self = Last(state.1);
+                    }
+                    Some(next) => {
+                        *self = Running {
+                            state: (state.1, next),
+                        };
+                    }
+                }
+                Some(result)
+            },
+            Last(n) => {
+                let result = Some(*n);
+                *self = Done;
+                result
+            },
+            Done => None,
+        }
     }
 }
 
@@ -117,8 +158,12 @@ fn main() {
     }
 
     println!();
+    let fibs = Fibonacci0::new().take(20).collect::<Vec<_>>();
+    println!("fibs0 = {:?}", fibs);
+
+    println!();
     let fibs = Fibonacci::new().take(20).collect::<Vec<_>>();
-    println!("fibs = {:?}", fibs);
+    println!("fibs1 = {:?}", fibs);
 
     println!();
     let orig_iter = 1..11u64;
