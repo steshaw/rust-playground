@@ -114,7 +114,7 @@ fn main() {
     }
 
     println!();
-    let fibs = Fibonacci::new().take(10).collect::<Vec<_>>();
+    let fibs = Fibonacci::new().take(185).collect::<Vec<_>>();
     println!("fibs = {:?}", fibs);
 
     println!();
