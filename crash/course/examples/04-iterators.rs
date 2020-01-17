@@ -1,4 +1,3 @@
-use std::num;
 use std::ops;
 
 struct Empty;
