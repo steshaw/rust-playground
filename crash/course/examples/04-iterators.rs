@@ -1,5 +1,3 @@
-#![feature(bool_to_option)]
-
 use std::ops;
 
 struct Empty;
@@ -34,10 +32,12 @@ impl Count {
 impl Iterator for Count {
     type Item = u32;
     fn next(&mut self) -> Option<Self::Item> {
-        (self.current < self.to).then(|| {
+        if self.current < self.to {
             self.current += 1;
-            self.current
-        })
+            Some(self.current)
+        } else {
+            None
+        }
     }
 }
 
@@ -85,7 +85,7 @@ fn main() {
     );
 
     println!();
-    println!("1..10: {:?}", Count::new(10).collect::<Vec<_>>());
+    println!("Count(10): {:?}", Count::new(10).collect::<Vec<_>>());
 
     println!();
     let fibs = Fibonacci::new().take(10).collect::<Vec<_>>();
