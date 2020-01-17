@@ -29,9 +29,12 @@ impl Count {
     }
 }
 
-fn when<T>(b: bool, t: T) -> Option<T> {
+fn when<T, F>(b: bool, f: F) -> Option<T>
+where
+    F: FnOnce() -> T,
+{
     if b {
-        Some(t)
+        Some(f())
     } else {
         None
     }
@@ -40,8 +43,10 @@ fn when<T>(b: bool, t: T) -> Option<T> {
 impl Iterator for Count {
     type Item = u8;
     fn next(&mut self) -> Option<Self::Item> {
-        self.current += 1; // FIXME: Potential overflow.
-        when(self.current <= self.to, self.current)
+        when(self.current < self.to, || {
+            self.current += 1; // FIXME: Potential overflow.
+            self.current
+        })
     }
 }
 
