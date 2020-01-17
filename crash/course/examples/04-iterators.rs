@@ -58,14 +58,9 @@ impl Iterator for Fibonacci {
     }
 }
 
-struct Doubler<I>(I)
-where
-    I: Iterator<Item = u32>;
+struct Doubler<I>(I);
 
-impl<I> Iterator for Doubler<I>
-where
-    I: Iterator<Item = u32>,
-{
+impl<I: Iterator<Item = u32>> Iterator for Doubler<I> {
     type Item = u32;
     fn next(&mut self) -> Option<u32> {
         self.0.next().map(|n| n * 2)
