@@ -22,5 +22,5 @@ if [[ -n ${file:-} ]]; then
   example=${base_file%.rs}
   clear
   msg "Running example ${example}"
-  cargo run --example "${example}" "${@}"
+  RUST_BACKTRACE=1 cargo run --example "${example}" "${@}"
 fi
