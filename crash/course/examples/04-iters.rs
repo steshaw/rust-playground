@@ -13,7 +13,7 @@ mod iteration_ref1 {
         //nums = vec![]; // Compile error! Good.
 
         for i in 1..3 {
-            for j in &nums {
+            for j in nums.iter() {
                 let _: &u32 = j;
                 println!("{},{}", i, j);
             }
