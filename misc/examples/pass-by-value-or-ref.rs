@@ -10,6 +10,7 @@ mod inc {
         n_inc + 1
     }
     pub fn main() {
+        println!("\ninc");
         let n_main: usize = 100;
         println!("{}", inc(n_main));
     }
@@ -25,6 +26,7 @@ mod usize {
         *n_inc_ref + 1
     }
     pub fn main() {
+        println!("\nusize");
         let n_main: usize = 100;
         let n_main_ref: &usize = &n_main;
         println!("{}", inc_ref1(n_main_ref));
@@ -43,6 +45,7 @@ mod u32 {
         *n_inc_ref + 1
     }
     pub fn main() {
+        println!("\nu32");
         let n_main: u32 = 100;
         let n_main_ref: &u32 = &n_main;
         println!("{}", inc_ref1(n_main_ref));
@@ -59,6 +62,7 @@ mod u128 {
         *n_inc_ref + 1
     }
     pub fn main() {
+        println!("\nu128");
         let n_main: u128 = 100;
         let n_main_ref: &u128 = &n_main;
         println!("{}", inc_ref1(n_main_ref));
@@ -75,6 +79,7 @@ mod array {
         }
     }
     pub fn main() {
+        println!("\narray");
         let array_main: [Vec<u8>; 3] = [vec![1], vec![2, 4], vec![]];
         // The array is copied into print_array here but since Vec isn't
         // Copy, the array is considered "moved" and therefore cannot be
@@ -88,6 +93,22 @@ mod array {
     }
 }
 
+mod array_by_ref {
+    fn print(array_ref: &[Vec<u8>]) {
+        for e in array_ref.iter() {
+            println!("{:?}", e)
+        }
+    }
+    pub fn main() {
+        println!("\narray_by_ref");
+        let array_main: [Vec<u8>; 3] = [vec![1], vec![2, 4], vec![]];
+        let array_main_ref: &[Vec<u8>] = &array_main;
+        print(array_main_ref);
+        print(array_main_ref);
+        print(array_main_ref);
+    }
+}
+
 // Uses code similar to the 'array' module.
 mod structure {
     #[derive(Clone, Debug)]
@@ -97,12 +118,13 @@ mod structure {
             println!("dropping {:?}", self);
         }
     }
-    fn print_array<T : std::fmt::Debug>(array: [T; 3]) {
+    fn print_array<T: std::fmt::Debug>(array: [T; 3]) {
         for e in array.iter() {
             println!("{:?}", e)
         }
     }
     pub fn main() {
+        println!("\nstructure");
         let arr: [Struct; 3] = [Struct("1".into()), Struct("2".into()), Struct("3".into())];
         #[allow(unused_variables)]
         let arr_ref = &arr;
@@ -131,5 +153,6 @@ fn main() {
     u32::main();
     u128::main();
     array::main();
+    array_by_ref::main();
     structure::main();
 }
