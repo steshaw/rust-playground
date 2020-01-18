@@ -1,5 +1,6 @@
 mod closure {
     pub fn main() {
+        println!("\nclosure");
         let nums = vec![1, 2, 3, 4, 5];
         (1..3).for_each(|i| nums.iter().for_each(|j| println!("{},{}", i, j)));
     }
@@ -59,11 +60,25 @@ mod iteration_mut_ref {
     }
 }
 
+mod into {
+    pub fn main() {
+        println!("\ninto");
+        for i in 1..3 {
+            let nums = vec![1, 2, 3];
+            // NOTE: into_iter() is implicit here but we are exploring the
+            // differences between iter(), iter_mut(), and into_iter().
+            for j in nums.into_iter() {
+                let _: u32 = j;
+                println!("{},{}", i, j);
+            }
+        }
+    }
+}
+
 fn main() {
-    if false {
-        closure::main()
-    };
+    closure::main();
     iteration_ref1::main();
     iteration_ref2::main();
     iteration_mut_ref::main();
+    into::main();
 }
