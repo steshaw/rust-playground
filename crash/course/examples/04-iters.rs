@@ -51,7 +51,7 @@ mod iteration_mut_ref {
         nums = vec![];
 
         for i in 1..3 {
-            for j in &mut nums {
+            for j in nums.iter_mut() {
                 let _: &mut u32 = j;
                 println!("{},{}", i, j);
             }
