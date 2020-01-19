@@ -41,8 +41,9 @@ in
 
         cacert
         cargo-edit
-        watchexec
+        gtk3
         ncurses
+        watchexec
 
         clang
         clang-tools
