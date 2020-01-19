@@ -55,7 +55,7 @@ mod fn_mut {
         validate_fn_once(&welcome);
 
         welcome();
-        //println!("name = {}", name); Compile error: borrow of moved value: `name`.
+        //println!("name = {}", name); // error[E0382]: borrow of moved value: `name`
         welcome();
     }
 }
