@@ -23,6 +23,7 @@ mod michael_fn_ref {
     use super::*;
 
     pub fn main() {
+        println!("\nmichael_fn_ref");
         let name = "Fred".to_string();
         let say_hi = || println!("Hello, {}", name);
         call_fn(say_hi);
@@ -36,6 +37,7 @@ mod michael_fn_ref {
 mod fn_ref {
     use super::*;
     pub fn main() {
+        println!("\nfn_ref");
         let name = "Fred".to_string();
 
         let welcome = move || {
@@ -59,6 +61,7 @@ mod fn_ref {
 mod michael_fn_mut {
     use super::*;
     pub fn main() {
+        println!("\nmichael_fn_mut");
         let mut say_hi = {
             let mut name = String::from("Alice");
             move || {
@@ -75,6 +78,7 @@ mod michael_fn_mut {
 mod fn_mut {
     use super::*;
     pub fn main() {
+        println!("\nfn_mut");
         let mut name = String::from("Fred");
 
         let mut welcome = move || {
@@ -97,6 +101,7 @@ mod fn_mut {
 mod michael_fn_once {
     use super::*;
     pub fn main() {
+        println!("\nmichael_fn_once");
         let say_hi = {
             let name = String::from("Alice");
             || {
@@ -114,6 +119,7 @@ mod michael_fn_once {
 mod michael_fn_once_fixed {
     use super::*;
     pub fn main() {
+        println!("\nmichael_fn_once_fixed");
         let say_hi = {
             let name = "Alice".to_string();
             move || println!("Hello, {}", name)
@@ -128,6 +134,7 @@ mod michael_fn_once_fixed {
 mod michael_fn_once2 {
     use super::*;
     pub fn main() {
+        println!("\nmichael_fn_once2");
         let say_hi = {
             let name = String::from("Alice");
             || std::mem::drop(name)
@@ -141,6 +148,7 @@ mod michael_fn_once2 {
 mod fn_once {
     use super::*;
     pub fn main() {
+        println!("\nfn_once");
         let name = String::from("Fred");
 
         let welcome = || {
