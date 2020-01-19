@@ -167,6 +167,22 @@ mod fn_once {
     }
 }
 
+mod fn_mut_ref2 {
+    use super::*;
+    pub fn main() {
+        let mut name = String::from("Alice");
+        let mut say_hi = || {
+            name += " and Bob";
+            println!("Hello, {}", name);
+        };
+        //call_fn(say_hi);
+        call_fn_mut(&mut say_hi);
+        call_fn_once(&mut say_hi);
+
+        println!("name = {}", name);
+    }
+}
+
 fn main() {
     michael_fn_ref::main();
     fn_ref::main();
@@ -176,4 +192,5 @@ fn main() {
     michael_fn_once_fixed::main();
     michael_fn_once2::main();
     fn_once::main();
+    fn_mut_ref2::main();
 }
