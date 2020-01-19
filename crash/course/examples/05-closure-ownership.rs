@@ -4,7 +4,7 @@ fn main() {
         // Owned by smaller scope.
         let name_outer = String::from("Alice");
 
-        || {
+        move || {
             // Use by reference.
             let name_inner = &name_outer; // Compile error: `name_outer` does not live long enough.
             println!("Hello, {}", name_inner);
