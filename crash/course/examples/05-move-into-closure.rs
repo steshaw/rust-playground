@@ -71,7 +71,12 @@ mod michael_fn_mut {
         };
         //call_fn(say_hi);
         call_fn_mut(&mut say_hi);
+        call_fn_mut(&mut say_hi);
         call_fn_once(&mut say_hi);
+        call_fn_once(&mut say_hi);
+
+        say_hi();
+        say_hi();
     }
 }
 
