@@ -19,7 +19,8 @@ fn write_file() {
         writeln!(file, "Hello!")
     } else {
         file.write_all(b"Hello, world!\n")
-    }.expect("Cannot write to file");
+    }
+    .expect("Cannot write to file");
     file.flush().expect("Cannot flush file");
 }
 
@@ -58,8 +59,15 @@ fn new_way() {
         window.set_default_size(350, 70);
 
         let button = Button::new_with_label("Click me!");
-        button.connect_clicked(|_| {
+        let file_name = "clicky.log";
+        button.connect_clicked(move |_| {
+            let mut file = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open("clicky.log")
+                .expect(&format!("Cannot open {}", file_name));
             println!("Clicked!");
+            writeln!(file, "Clicked!").expect(&format!("Cannot write {}", file_name));
         });
         window.add(&button);
         window.show_all();
@@ -70,7 +78,7 @@ fn new_way() {
 
 fn test_write_file() {
     for _ in 1..=5 {
-    write_file();
+        write_file();
     }
 }
 
@@ -78,7 +86,7 @@ fn main() {
     if false {
         test_write_file();
     }
-    let enable_new_way = false;
+    let enable_new_way = true;
     if enable_new_way {
         new_way();
     } else {
