@@ -1,17 +1,26 @@
-use gtk::prelude::*;
 use gio::prelude::*;
+use gtk::prelude::*;
 
-use gtk::{Button};
-use gtk::{Window, WindowType};
+use gtk::Button;
 use gtk::{Application, ApplicationWindow};
+use gtk::{Window, WindowType};
 
 use std::fs::File;
+use std::fs::OpenOptions;
 //use std::io::prelude::*;
 use std::io::Write;
 
 fn write_file() {
-    let mut file = File::create("clicky.log").expect("cannot open file :-(");
-    file.write_all(b"Hello, world!\n").expect("cannot write to file :-(");
+    let file_name = "clicky.log";
+    let mut file = File::create(file_name).expect(&format!("cannot open {} :-(", file_name));
+    let mut file = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(file_name)
+        .expect(&format!("Cannot open {} for append", file_name));
+    file.write_all(b"Hello, world!\n")
+        .expect("cannot write to file :-(");
+    file.flush().expect("Cannot flush file");
 }
 
 fn old_way() {
@@ -40,10 +49,8 @@ fn old_way() {
 }
 
 fn new_way() {
-    let app = Application::new(
-        Some("com.github.gtk-rs.examples.basic"),
-        Default::default(),
-    ).expect("Failed to initialise GTK application");
+    let app = Application::new(Some("com.github.gtk-rs.examples.basic"), Default::default())
+        .expect("Failed to initialise GTK application");
 
     app.connect_activate(|app| {
         let window = ApplicationWindow::new(app);
