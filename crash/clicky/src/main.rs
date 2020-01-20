@@ -6,6 +6,7 @@ use gtk::{Application, ApplicationWindow};
 use gtk::{Window, WindowType};
 
 use std::cell::RefCell;
+use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
 
@@ -22,6 +23,12 @@ fn write_file() {
         file.write_all(b"Hello, world!\n")
     }
     .expect("Cannot write to file");
+    file.flush().expect("Cannot flush file");
+}
+
+fn write_init_cell_file(file: &RefCell<File>) {
+    let mut file = file.borrow_mut();
+    writeln!(file, "Initialising clicky...").expect("Cannot write to file");
     file.flush().expect("Cannot flush file");
 }
 
@@ -67,6 +74,7 @@ fn new_way() {
             .open("clicky.log")
             .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
         let cell_file = RefCell::new(file);
+        write_init_cell_file(&cell_file);
         button.connect_clicked(move |_| {
             println!("Clicked!");
 
