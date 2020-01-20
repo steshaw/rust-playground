@@ -6,7 +6,8 @@ use gtk::{Window, WindowType};
 use gtk::{Application, ApplicationWindow};
 
 use std::fs::File;
-use std::io::prelude::*;
+//use std::io::prelude::*;
+use std::io::Write;
 
 fn write_file() {
     let mut file = File::create("clicky.log").expect("cannot open file :-(");
