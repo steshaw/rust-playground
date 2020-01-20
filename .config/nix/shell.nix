@@ -1,52 +1,71 @@
+let pinnedPkgs = import ./pkgs.nix;
+in { pkgs ? pinnedPkgs }:
 let
-  pinnedPkgs = import ./pkgs.nix;
-in
-{ pkgs ? pinnedPkgs }:
-  let
-    mozOverlay = import (
-      builtins.fetchTarball
-        "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz"
-    );
-    mozPkgs = pkgs {
-      overlays = [
-        mozOverlay
-      ];
-    };
+  #
+  # Using Mozilla Rust overlay:
+  #   https://github.com/mozilla/nixpkgs-mozilla.
+  #
+  mozOverlay = import (builtins.fetchTarball
+    "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz");
+  mozPkgs = pkgs { overlays = [ mozOverlay ]; };
 
-    useNightly = true;
+  rustStableExtensions = [
+    "clippy-preview"
+    #"lldb-preview"
+    "llvm-tools-preview"
+    #"miri-preview"
+    "rls-preview"
+    "rust-analysis"
+    "rust-src"
+    "rust-std"
+    #"rustc-dev"
+    "rustfmt-preview"
+  ];
 
-    rust = if useNightly then
-      let
-        rustChannel = mozPkgs.rustChannelOf {
-          date = "2020-01-11";
+  rustNightlyExtensions = [
+    #"clippy-preview"
+    #"lldb-preview"
+    "llvm-tools-preview"
+    "miri-preview"
+    "rls-preview"
+    "rust-analysis"
+    "rust-src"
+    "rust-std"
+    "rustc-dev"
+    "rustfmt-preview"
+  ];
+
+  enableNightly = false;
+  rust = if enableNightly then
+    let
+      enableLatest = false;
+      rustChannel = if enableLatest then
+        mozPkgs.latest.rustChannels.nightly
+      else
+        mozPkgs.rustChannelOf {
+          date = "2019-12-15";
           channel = "nightly";
         };
-      in
-        rustChannel.rust
-    else
-      mozPkgs.latest.rustChannels.stable.rust.override {
-        extensions = [
-          "clippy-preview"
-          "rls-preview"
-          "rust-src"
-          "rustfmt-preview"
-        ];
-      };
-  in
-    with mozPkgs;
-    stdenv.mkDerivation {
-      name = "moz_overlay_shell";
-      buildInputs = [
-        rust
+    in rustChannel.rust.override { extensions = rustNightlyExtensions; }
+  else
+    mozPkgs.latest.rustChannels.stable.rust.override {
+      extensions = rustStableExtensions;
+    };
 
-        cacert
-        cargo-edit
-        gtk3
-        ncurses
-        watchexec
+in with mozPkgs;
+stdenv.mkDerivation {
+  name = "learning-rust-shell";
+  buildInputs = [
+    rust
 
-        clang
-        clang-tools
-        gnumake
-      ];
-    }
+    cacert
+    cargo-edit
+    gtk3
+    ncurses
+    watchexec
+
+    clang
+    clang-tools
+    gnumake
+  ];
+}
