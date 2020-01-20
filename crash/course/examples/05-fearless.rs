@@ -1,5 +1,7 @@
 use std::sync::Arc;
 use std::sync::Mutex;
+use std::thread::sleep;
+use std::time::Duration;
 
 fn main() {
     let message = Arc::new(Mutex::new("Fearless".to_string()));
@@ -18,6 +20,6 @@ fn main() {
                 }
             };
         });
-        std::thread::sleep(std::time::Duration::from_millis(1000));
+        sleep(Duration::from_millis(1000));
     }
 }
