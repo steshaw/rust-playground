@@ -41,6 +41,9 @@ fn new_way() {
         window.set_default_size(350, 70);
 
         let button = Button::new_with_label("Click me!");
+        button.connect_clicked(|_| {
+            println!("Clicked!");
+        });
         window.add(&button);
         window.show_all();
     });
