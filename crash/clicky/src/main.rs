@@ -5,21 +5,21 @@ use gtk::Button;
 use gtk::{Application, ApplicationWindow};
 use gtk::{Window, WindowType};
 
-use std::fs::File;
 use std::fs::OpenOptions;
-//use std::io::prelude::*;
-use std::io::Write;
+use std::io::prelude::*;
 
 fn write_file() {
     let file_name = "clicky.log";
-    let mut file = File::create(file_name).expect(&format!("cannot open {} :-(", file_name));
     let mut file = OpenOptions::new()
         .create(true)
         .append(true)
         .open(file_name)
         .expect(&format!("Cannot open {} for append", file_name));
-    file.write_all(b"Hello, world!\n")
-        .expect("cannot write to file :-(");
+    if false {
+        writeln!(file, "Hello!")
+    } else {
+        file.write_all(b"Hello, world!\n")
+    }.expect("Cannot write to file");
     file.flush().expect("Cannot flush file");
 }
 
@@ -68,7 +68,16 @@ fn new_way() {
     app.run(&[]);
 }
 
+fn test_write_file() {
+    for _ in 1..=5 {
+    write_file();
+    }
+}
+
 fn main() {
+    if false {
+        test_write_file();
+    }
     let enable_new_way = false;
     if enable_new_way {
         new_way();
