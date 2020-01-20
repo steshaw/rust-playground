@@ -49,9 +49,18 @@ fn old_way() {
         Inhibit(false)
     });
 
-    button.connect_clicked(|_| {
+    let file_name = "clicky.log";
+    let file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .open("clicky.log")
+        .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
+    let cell_file = RefCell::new(file);
+    button.connect_clicked(move |_| {
         println!("Clicked!");
-        write_file();
+        let mut file = cell_file.borrow_mut();
+        file.write_all(b"Clicked\n")
+            .unwrap_or_else(|err| panic!("Cannot write Clicked to {}: {}", file_name, err));
     });
 
     gtk::main();
@@ -108,7 +117,7 @@ fn main() {
     if false {
         test_write_file();
     }
-    let enable_new_way = true;
+    let enable_new_way = false;
     if enable_new_way {
         new_way();
     } else {
