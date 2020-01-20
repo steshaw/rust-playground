@@ -33,21 +33,9 @@ fn write_init_cell_file(file: &RefCell<File>) {
     file.flush().expect("Cannot flush file");
 }
 
-#[derive(Debug)]
-struct StringlyError(String);
-
-impl std::fmt::Display for StringlyError {
-    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
-        unimplemented!()
-    }
-}
-
-impl error::Error for StringlyError {}
-
 fn old_way() -> Result<(), Box<dyn error::Error>> {
-    if gtk::init().is_err() {
-        return Err(Box::new(StringlyError("Failed to initialise GTK".into())));
-    }
+    gtk::init()?;
+
     let window = Window::new(WindowType::Toplevel);
     window.set_title("First GTK+ Program");
     window.set_default_size(350, 70);
