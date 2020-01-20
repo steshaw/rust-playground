@@ -11,5 +11,6 @@ fn main() {
             *mutex_guard += "!";
             println!("{}", *mutex_guard);
         });
+        std::thread::sleep(std::time::Duration::from_millis(1000));
     }
 }
