@@ -5,9 +5,9 @@ use gtk::Button;
 use gtk::{Application, ApplicationWindow};
 use gtk::{Window, WindowType};
 
+use std::cell::RefCell;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
-use std::rc::Rc;
 
 fn write_file() {
     let file_name = "clicky.log";
@@ -61,14 +61,18 @@ fn new_way() {
 
         let button = Button::new_with_label("Click me!");
         let file_name = "clicky.log";
+        let file = OpenOptions::new()
+            .create(true)
+            .write(true)
+            .open("clicky.log")
+            .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
+        let cell_file = RefCell::new(file);
         button.connect_clicked(move |_| {
-            let mut file = OpenOptions::new()
-                .create(true)
-                .append(true)
-                .open("clicky.log")
-                .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
             println!("Clicked!");
-            writeln!(file, "Clicked!").unwrap_or_else(|_| panic!("Cannot write {}", file_name));
+            cell_file
+                .borrow_mut()
+                .write_all(b"Clicked\n")
+                .unwrap_or_else(|err| panic!("Cannot write {}: {}", file_name, err));
         });
         window.add(&button);
         window.show_all();
