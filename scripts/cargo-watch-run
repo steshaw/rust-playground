@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-${DEBUG:-}
-
-[[ ${1:-} == watch-run ]] && shift
-
-watchexec --watch src --exts rs "clear && cargo run $*"

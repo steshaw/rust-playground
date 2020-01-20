@@ -5,6 +5,14 @@ use gtk::{Button};
 use gtk::{Window, WindowType};
 use gtk::{Application, ApplicationWindow};
 
+use std::fs::File;
+use std::io::prelude::*;
+
+fn write_file() {
+    let mut file = File::create("clicky.log").expect("cannot open file :-(");
+    file.write_all(b"Hello, world!\n").expect("cannot write to file :-(");
+}
+
 fn old_way() {
     if gtk::init().is_err() {
         println!("Failed to initialize GTK.");
@@ -24,6 +32,7 @@ fn old_way() {
 
     button.connect_clicked(|_| {
         println!("Clicked!");
+        write_file();
     });
 
     gtk::main();
