@@ -52,7 +52,7 @@ fn new_way() {
 }
 
 fn main() {
-    let enable_new_way = true;
+    let enable_new_way = false;
     if enable_new_way {
         new_way();
     } else {
