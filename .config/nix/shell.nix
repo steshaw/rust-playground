@@ -35,7 +35,7 @@ let
     "rustfmt-preview"
   ];
 
-  enableNightly = false;
+  enableNightly = true;
   rust = if enableNightly then
     let
       enableLatest = false;
