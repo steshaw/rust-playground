@@ -4,19 +4,33 @@ use std::sync::Mutex;
 use std::thread::sleep;
 use std::time::Duration;
 
+use rand;
+use rand::Rng;
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    if false {
+        for _ in 0..3 {
+            let mut rng = rand::thread_rng();
+            let n: u8 = rng.gen_range(0, 10);
+            println!("n = {}", n);
+        }
+        return Ok(());
+    }
+
     let message = Arc::new(Mutex::new("Fearless".to_string()));
     let mut threads = Vec::new();
     for i in 1..=10 {
         let message = message.clone();
         threads.push(std::thread::spawn(move || {
-            let result = message.lock();
-            if i == 3 {
-                panic!("Poison this at {}", i)
-            };
-            match result {
+            match message.lock() {
                 Err(err) => eprintln!("Poisoned: {}", err),
                 Ok(mut mutex_guard) => {
+                    // Randomly fail 10% of the time.
+                    let n: u8 = rand::thread_rng().gen_range(0, 10);
+                    if n == 0 {
+                        panic!("Thread {} has poisoned mutex", i)
+                    };
+
                     *mutex_guard += "!";
                     println!("{}", *mutex_guard);
                 }
