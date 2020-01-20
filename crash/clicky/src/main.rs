@@ -69,10 +69,17 @@ fn new_way() {
         let cell_file = RefCell::new(file);
         button.connect_clicked(move |_| {
             println!("Clicked!");
-            cell_file
-                .borrow_mut()
-                .write_all(b"Clicked\n")
-                .unwrap_or_else(|err| panic!("Cannot write {}: {}", file_name, err));
+
+            // Two borrow_mut's in the same scope cause a dynamic panic!
+            // https://doc.rust-lang.org/std/cell/index.html#introducing-mutability-inside-of-something-immutable
+            // thread 'main' panicked at 'already borrowed: BorrowMutError', src/libcore/result.rs:1165:5
+            let mut file = cell_file.borrow_mut();
+            file.write_all(b"Clicked\n")
+                .unwrap_or_else(|err| panic!("Cannot write Clicked to {}: {}", file_name, err));
+
+            let mut file = cell_file.borrow_mut();
+            file.write_all(b"Toot!\n")
+                .unwrap_or_else(|err| panic!("Cannot write Toot to {}: {}", file_name, err));
         });
         window.add(&button);
         window.show_all();
