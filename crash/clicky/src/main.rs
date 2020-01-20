@@ -73,9 +73,11 @@ fn new_way() {
             // Two borrow_mut's in the same scope cause a dynamic panic!
             // https://doc.rust-lang.org/std/cell/index.html#introducing-mutability-inside-of-something-immutable
             // thread 'main' panicked at 'already borrowed: BorrowMutError', src/libcore/result.rs:1165:5
-            let mut file = cell_file.borrow_mut();
-            file.write_all(b"Clicked\n")
-                .unwrap_or_else(|err| panic!("Cannot write Clicked to {}: {}", file_name, err));
+            {
+                let mut file = cell_file.borrow_mut();
+                file.write_all(b"Clicked\n")
+                    .unwrap_or_else(|err| panic!("Cannot write Clicked to {}: {}", file_name, err));
+            }
 
             let mut file = cell_file.borrow_mut();
             file.write_all(b"Toot!\n")
