@@ -68,4 +68,6 @@ stdenv.mkDerivation {
     clang-tools
     gnumake
   ];
+
+  RUST_BACKTRACE = 1;
 }
