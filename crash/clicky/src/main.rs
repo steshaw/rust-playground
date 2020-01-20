@@ -6,6 +6,7 @@ use gtk::{Application, ApplicationWindow};
 use gtk::{Window, WindowType};
 
 use std::cell::RefCell;
+use std::error;
 use std::fs::File;
 use std::fs::OpenOptions;
 use std::io::prelude::*;
@@ -32,10 +33,20 @@ fn write_init_cell_file(file: &RefCell<File>) {
     file.flush().expect("Cannot flush file");
 }
 
-fn old_way() {
+#[derive(Debug)]
+struct StringlyError(String);
+
+impl std::fmt::Display for StringlyError {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
+        unimplemented!()
+    }
+}
+
+impl error::Error for StringlyError {}
+
+fn old_way() -> Result<(), Box<dyn error::Error>> {
     if gtk::init().is_err() {
-        println!("Failed to initialize GTK.");
-        return;
+        return Err(Box::new(StringlyError("Failed to initialise GTK".into())));
     }
     let window = Window::new(WindowType::Toplevel);
     window.set_title("First GTK+ Program");
@@ -53,17 +64,18 @@ fn old_way() {
     let file = OpenOptions::new()
         .create(true)
         .write(true)
-        .open("clicky.log")
-        .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
+        .open("clicky.log")?;
     let cell_file = RefCell::new(file);
     button.connect_clicked(move |_| {
         println!("Clicked!");
         let mut file = cell_file.borrow_mut();
         file.write_all(b"Clicked\n")
-            .unwrap_or_else(|err| panic!("Cannot write Clicked to {}: {}", file_name, err));
+            .unwrap_or_else(|err| eprintln!("Cannot write message to {}: {}", file_name, err));
     });
 
     gtk::main();
+
+    Ok(())
 }
 
 fn new_way() {
@@ -113,14 +125,15 @@ fn test_write_file() {
     }
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     if false {
         test_write_file();
     }
     let enable_new_way = false;
     if enable_new_way {
         new_way();
+        Ok(())
     } else {
-        old_way();
+        old_way()
     }
 }
