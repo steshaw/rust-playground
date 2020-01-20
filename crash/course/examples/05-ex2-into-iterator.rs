@@ -20,9 +20,7 @@ impl IntoIterator for InfiniteUnit {
 }
 
 fn main() {
-    let mut count = 0;
-    for unit in InfiniteUnit {
-        count += 1;
+    for (count, unit) in InfiniteUnit.into_iter().enumerate() {
         println!("{:?}: count == {}", unit, count);
         if count >= 5 {
             break;
