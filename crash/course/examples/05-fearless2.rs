@@ -1,9 +1,9 @@
 // Fearless concurrency — following along with the article.
 
+use std::sync::{Arc, Mutex};
 use std::thread::sleep;
 use std::thread::spawn;
 use std::time::Duration;
-use std::sync::{Arc, Mutex};
 
 fn main() {
     let msg0 = Arc::new(Mutex::new("Fearless".to_string()));
@@ -19,4 +19,3 @@ fn main() {
         sleep(Duration::from_millis(100));
     }
 }
-
