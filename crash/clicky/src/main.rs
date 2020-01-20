@@ -7,6 +7,7 @@ use gtk::{Window, WindowType};
 
 use std::fs::OpenOptions;
 use std::io::prelude::*;
+use std::rc::Rc;
 
 fn write_file() {
     let file_name = "clicky.log";
@@ -14,7 +15,7 @@ fn write_file() {
         .create(true)
         .append(true)
         .open(file_name)
-        .expect(&format!("Cannot open {} for append", file_name));
+        .unwrap_or_else(|_| panic!("Cannot open {} for append", file_name));
     if false {
         writeln!(file, "Hello!")
     } else {
@@ -65,9 +66,9 @@ fn new_way() {
                 .create(true)
                 .append(true)
                 .open("clicky.log")
-                .expect(&format!("Cannot open {}", file_name));
+                .unwrap_or_else(|_| panic!("Cannot open {}", file_name));
             println!("Clicked!");
-            writeln!(file, "Clicked!").expect(&format!("Cannot write {}", file_name));
+            writeln!(file, "Clicked!").unwrap_or_else(|_| panic!("Cannot write {}", file_name));
         });
         window.add(&button);
         window.show_all();
