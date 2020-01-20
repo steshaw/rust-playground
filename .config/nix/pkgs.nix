@@ -7,6 +7,6 @@ import (
     name = "nixpkgs-20191207-121557";
     url = https://github.com/nixos/nixpkgs/;
     # `git ls-remote https://github.com/NixOS/nixpkgs-channels nixpkgs-unstable`
-    rev = "fb1bc1b891f5c95b98a333e46b043018ff50d254";
+    rev = "8da81465c19fca393a3b17004c743e4d82a98e4f";
   }
 )
