@@ -14,7 +14,7 @@ fn print_person(mut person: Person) {
         }
     }
     match person.age {
-        Some(ref mut age) => {
+        Some(ref mut age) => { // Ex 1.
             println!("Age is {}", age);
             *age += 1;
         },
