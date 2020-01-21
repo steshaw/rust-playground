@@ -4,7 +4,7 @@ struct Person {
     age: u32,
 }
 
-fn get_older_name<'a, 'b: 'a>(person1: &'a Person, person2: &'b Person) -> &'a String {
+fn get_older_name<'a>(person1: &'a Person, person2: &'a Person) -> &'a String {
     if person1.age >= person2.age {
         &person1.name
     } else {
