@@ -6,7 +6,7 @@ impl<T> Iterator for Single<T> {
     type Item = T;
     fn next(&mut self) -> Option<Self::Item> {
         let mut result = None;
-        std::mem::swap(&mut result, &mut self.next);
+        std::mem::swap(&mut self.next, &mut result);
         result
     }
 }
