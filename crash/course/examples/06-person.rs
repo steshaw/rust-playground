@@ -4,8 +4,7 @@ struct Person {
     age: Option<u32>,
 }
 
-fn print_person(person: Person) {
-    println!("person = {:?}", person);
+fn print_person(mut person: Person) {
     match person.name {
         Some(name) => println!("Name is {}", name),
         None => println!("No name provided"),
@@ -15,6 +14,8 @@ fn print_person(person: Person) {
         Some(age) => println!("Age is {}", age),
         None => println!("No age provided"),
     }
+    person.name = None;
+    println!("person = {:?}", person);
 }
 
 fn main() {
