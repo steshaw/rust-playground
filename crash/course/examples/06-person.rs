@@ -5,8 +5,8 @@ struct Person {
 }
 
 fn print_person(person: Person) {
-    match &person.name {
-        Some(name) => {
+    match person.name {
+        Some(ref name) => {
             println!("Name is {}", name);
         }
         None => {
