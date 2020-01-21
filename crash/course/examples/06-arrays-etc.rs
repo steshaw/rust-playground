@@ -65,8 +65,42 @@ mod slices {
         print_vals(&a);
     }
 }
+mod deref {
+    pub fn main() {
+        let v = vec![1, 2, 3];
+        let _: &Vec<u32> = &v;
+        let _: &[u32] = &v;
+    }
+}
+mod my_array{
+    use std::ops::Deref;
+
+    struct MyArray([u8; 5]);
+
+    impl MyArray {
+        fn new() -> MyArray {
+            MyArray([42; 5])
+        }
+    }
+
+    impl Deref for MyArray {
+        type Target = [u8];
+        fn deref(&self) -> &Self::Target {
+            &self.0
+        }
+    }
+
+    pub fn main() {
+        let ma = MyArray::new();
+        let _: &MyArray = &ma;
+        let _: &[u8] = &ma;
+        super::slices::print_vals(&ma);
+    }
+}
 fn main() {
     arrays::main();
     vec::main();
     slices::main();
+    deref::main();
+    my_array::main();
 }
