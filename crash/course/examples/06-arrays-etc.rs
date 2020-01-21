@@ -44,7 +44,29 @@ mod vec {
         assert_eq!(v, Vec::new());
     }
 }
+mod slices {
+    pub fn print_vals(v: &[u8]) {
+        for (i, n) in v.iter().enumerate() {
+            println!("v[{}] = {}", i, n);
+        }
+    }
+    pub fn main() {
+        let mut v: Vec<u8> = vec![1, 2, 3];
+        println!("v = {:?}", v);
+        assert_eq!(v, vec![1, 2, 3]);
+        print_vals(&v);
+
+        v.push(4);
+        println!("v = {:?}", v);
+        assert_eq!(v, vec![1, 2, 3, 4]);
+        print_vals(&v);
+
+        let a: [u8; 5] = [1, 2, 3, 4, 5];
+        print_vals(&a);
+    }
+}
 fn main() {
     arrays::main();
     vec::main();
+    slices::main();
 }
