@@ -5,16 +5,21 @@ struct Person {
 }
 
 fn print_person(mut person: Person) {
-    match person.name {
-        Some(name) => println!("Name is {}", name),
-        None => println!("No name provided"),
-    }
+    person.name = match person.name {
+        Some(name) => {
+            println!("Name is {}", name);
+            Some(name)
+        }
+        None => {
+            println!("No name provided");
+            None
+        }
+    };
 
     match person.age {
         Some(age) => println!("Age is {}", age),
         None => println!("No age provided"),
     }
-    person.name = None;
     println!("person = {:?}", person);
 }
 
