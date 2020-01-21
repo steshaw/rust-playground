@@ -12,11 +12,7 @@ fn get_older_name<'a>(person1: &'a Person, person2: &'a Person) -> &'a String {
     }
 }
 
-fn main() {
-    let fred = Person {
-        name: "Fred".to_string(),
-        age: 35,
-    };
+fn k(fred: &Person) {
     let wilma = Person {
         name: "Wilma".to_string(),
         age: 35,
@@ -24,4 +20,12 @@ fn main() {
     let older_name: &String = get_older_name(&fred, &wilma);
     println!("older_name = {}", older_name);
     println!("fred = {:?}", fred);
+}
+
+fn main() {
+    let fred = Person {
+        name: "Fred".to_string(),
+        age: 35,
+    };
+    k(&fred);
 }
