@@ -12,6 +12,39 @@ mod arrays {
         println!("nums = {:?}", nums);
     }
 }
+mod vec {
+    pub fn main() {
+        let mut v: Vec<u32> = vec![1, 2, 3];
+        println!("v = {:?}", v);
+        v.push(4);
+        println!("v = {:?}", v);
+        v.push(4);
+        v.push(5);
+        v.push(6);
+        println!("v = {:?}", v);
+        assert_eq!(v.pop(), Some(6));
+        assert_eq!(v[2], 3); // NOTE: Indexing can panic!
+        assert_eq!(v.get(2), Some(&3));
+        assert_eq!(v.len(), 6);
+        v.truncate(2);
+        println!("v = {:?}", v);
+        assert_eq!(v, vec![1, 2]);
+        v.extend([42; 3].iter());
+        println!("v = {:?}", v);
+        assert_eq!(v, vec![1, 2, 42, 42, 42]);
+        v.append(&mut vec![99, 100]);
+        println!("v = {:?}", v);
+        assert_eq!(v, vec![1, 2, 42, 42, 42, 99, 100]);
+
+        // Drain all elements.
+        for n in v.drain(0..) {
+            println!("n = {}", n);
+        }
+        println!("v = {:?}", v);
+        assert_eq!(v, Vec::new());
+    }
+}
 fn main() {
     arrays::main();
+    vec::main();
 }
