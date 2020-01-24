@@ -1,9 +1,9 @@
 use std::sync::atomic::*;
-use std::sync::Arc;
+use std::sync::*;
 use std::thread::*;
 use std::time::Duration;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct Interval {
     counter: Arc<AtomicUsize>,
     running: Arc<AtomicBool>,
@@ -16,26 +16,27 @@ impl Drop for Interval {
 }
 
 impl Interval {
-    fn from_millis(millis: u64) -> Interval {
+    fn from_millis(millis: u64) -> Arc<Interval> {
         let duration = Duration::from_millis(millis);
 
         let running = Arc::new(AtomicBool::new(true));
         let counter = Arc::new(AtomicUsize::new(0));
 
-        let counter_t = counter.clone();
-        let running_t = running.clone();
+        let interval = Arc::new(Interval { counter, running });
+
+        let interval_t = interval.clone();
 
         spawn(move || {
             println!("Interval: thread launched!");
-            while running_t.load(Ordering::Relaxed) {
+            while interval_t.running.load(Ordering::SeqCst) {
+                println!("Interval: running = {:?}", interval_t);
                 sleep(duration);
-                let prev_counter = counter_t.fetch_add(1, Ordering::SeqCst);
-                println!("Interval: running = {:?}, prev_counter = {}", running_t, prev_counter);
+                let _ = interval_t.counter.fetch_add(1, Ordering::SeqCst);
             }
-            println!("Interval: thread ending, running = {:?}", running_t);
+            println!("Interval: thread ending, interval = {:?}", interval_t);
         });
 
-        Interval { counter, running }
+        interval
     }
 
     fn get_counter(&self) -> usize {
