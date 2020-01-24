@@ -3,7 +3,7 @@ fn output_arg(arg: &str) {
     println!(
         "arg: {}, characters: {}, bytes: {}",
         arg,
-        cs.collect::<Vec<_>>().len(),
+        cs.count(),
         arg.len()
     );
 }
