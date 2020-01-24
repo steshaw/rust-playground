@@ -28,10 +28,9 @@ impl Interval {
         spawn(move || {
             println!("Interval: thread launched!");
             while running_t.load(Ordering::Relaxed) {
-                println!("Interval: running = {:?}", running_t);
                 sleep(duration);
                 let prev_counter = counter_t.fetch_add(1, Ordering::SeqCst);
-                println!("prev_counter = {}", prev_counter);
+                println!("Interval: running = {:?}, prev_counter = {}", running_t, prev_counter);
             }
             println!("Interval: thread ending, running = {:?}", running_t);
         });
@@ -45,8 +44,18 @@ impl Interval {
 }
 
 fn main() {
-    let interval = Interval::from_millis(250);
-    sleep(Duration::from_millis(1000));
+    let interval = Interval::from_millis(500);
+    let mut last = interval.get_counter();
+
+    for i in 0..50 {
+        let curr = interval.get_counter();
+        if curr != last {
+            last = curr;
+            println!("i = {}, counter = {}", i, curr);
+        }
+        sleep(Duration::from_millis(100));
+    }
+
     println!("Stopping Interval");
     interval.running.store(false, Ordering::SeqCst);
     println!("Giving some time for Interval to stop");
