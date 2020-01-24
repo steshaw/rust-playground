@@ -20,7 +20,7 @@ fi
 if [[ -n ${file:-} ]]; then
   base_file=$(basename "${file}")
   example=${base_file%.rs}
-  clear
+  tput clear # Clears the scrollback buffer with TERM=tmux-256color.
   msg "Running example ${example}"
   RUST_BACKTRACE=1 cargo run --example "${example}" "${@}"
 fi
