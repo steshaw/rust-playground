@@ -11,8 +11,8 @@ fn main() {
     let args = std::env::args().collect::<Vec<_>>();
 
     if args.len() == 1 {
-        let default = "שלום";
-        output_arg(default);
+        let peace = "שלום";
+        output_arg(peace);
     } else {
         for a in args {
             output_arg(&a)
