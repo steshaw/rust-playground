@@ -38,6 +38,10 @@ impl Interval {
 
         Interval { counter, running }
     }
+
+    fn get_counter(&self) -> usize {
+        self.counter.load(Ordering::SeqCst)
+    }
 }
 
 fn main() {
@@ -47,4 +51,5 @@ fn main() {
     interval.running.store(false, Ordering::SeqCst);
     println!("Giving some time for Interval to stop");
     sleep(Duration::from_millis(1000));
+    println!("Final interval.counter = {}", interval.get_counter());
 }
