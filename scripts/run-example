@@ -22,5 +22,5 @@ if [[ -n ${file:-} ]]; then
   example=${base_file%.rs}
   tput clear # Clears the scrollback buffer with TERM=tmux-256color.
   msg "Running example ${example}"
-  RUST_BACKTRACE=1 cargo run --example "${example}" "${@}"
+  cargo run --example "${example}" "${@}"
 fi

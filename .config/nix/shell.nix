@@ -69,5 +69,5 @@ stdenv.mkDerivation {
     gnumake
   ];
 
-  RUST_BACKTRACE = 1;
+  #RUST_BACKTRACE = 1;
 }
