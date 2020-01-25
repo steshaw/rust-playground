@@ -4,13 +4,12 @@
 struct A<'a>(&'a str);
 
 #[derive(Debug, PartialEq)]
-struct B<'a, 'b> {
-    a: &'a A<'b>,
+struct B<'a> {
+    a: &'a A<'a>,
     msg: &'a str,
 }
 
-//fn foo() {}
-
+#[allow(clippy::many_single_char_names)]
 fn main() {
     let s = "a".to_string();
     let a = A(&s);
@@ -27,8 +26,9 @@ fn main() {
     assert_eq!(s1, s);
 
     let c = "c".to_string();
+    let a = A(&c);
     let r = B {
-        a: &A(&c),
+        a: &a,
         msg: "hi",
     }
     .a
