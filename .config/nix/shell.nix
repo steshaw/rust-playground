@@ -1,5 +1,11 @@
-let pinnedPkgs = import ./pkgs.nix;
-in { pkgs ? pinnedPkgs }:
+{ sources ? import ./sources.nix }:
+with
+{
+  overlay = _: pkgs:
+    {
+      niv = (import sources.niv { }).niv;
+    };
+};
 let
   #
   # Using Mozilla Rust overlay:
@@ -7,7 +13,10 @@ let
   #
   mozOverlay = import (builtins.fetchTarball
     "https://github.com/mozilla/nixpkgs-mozilla/archive/master.tar.gz");
-  mozPkgs = pkgs { overlays = [ mozOverlay ]; };
+  mozPkgs = import sources.nixpkgs {
+    overlays = [ overlay mozOverlay ];
+    config = { };
+  };
 
   rustStableExtensions = [
     "clippy-preview"
@@ -35,24 +44,28 @@ let
     "rustfmt-preview"
   ];
 
-  enableNightly = true;
-  rust = if enableNightly then
-    let
-      enableLatest = false;
-      rustChannel = if enableLatest then
-        mozPkgs.latest.rustChannels.nightly
-      else
-        mozPkgs.rustChannelOf {
-          date = "2019-12-15";
-          channel = "nightly";
-        };
-    in rustChannel.rust.override { extensions = rustNightlyExtensions; }
-  else
-    mozPkgs.latest.rustChannels.stable.rust.override {
-      extensions = rustStableExtensions;
-    };
+  enableNightly = false;
+  rust =
+    if enableNightly then
+      let
+        enableLatest = false;
+        rustChannel =
+          if enableLatest then
+            mozPkgs.latest.rustChannels.nightly
+          else
+            mozPkgs.rustChannelOf {
+              date = "2019-12-15";
+              channel = "nightly";
+            };
+      in
+      rustChannel.rust.override { extensions = rustNightlyExtensions; }
+    else
+      mozPkgs.latest.rustChannels.stable.rust.override {
+        extensions = rustStableExtensions;
+      };
 
-in with mozPkgs;
+in
+with mozPkgs;
 stdenv.mkDerivation {
   name = "learning-rust-shell";
   buildInputs = [
