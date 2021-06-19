@@ -1,5 +1,5 @@
 //
-// Adapted from insersion from https://c2rust.com/
+// Adapted the insertion exapmle from https://c2rust.com/
 //
 
 #![allow(dead_code, mutable_transmutes, non_camel_case_types, non_snake_case,
@@ -23,7 +23,7 @@ pub unsafe extern "C" fn insertion_sort(n: libc::c_int, p: *mut libc::c_int) {
     };
 }
 
-pub fn main() {
+fn main() {
     let mut array = vec![3,1,4,6,3,9];
     println!("before = {:?}", array);
     unsafe {
