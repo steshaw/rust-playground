@@ -45,6 +45,10 @@ name = "bob"
 version = "1.0.0"
 
 [[package]]
+name = "book"
+version = "0.1.0"
+
+[[package]]
 name = "bouncy4"
 version = "0.1.0"
 dependencies = [

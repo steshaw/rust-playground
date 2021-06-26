@@ -2,6 +2,7 @@
 
 members = [
     "bob",
+    "book",
     "by-example",
     "crash/bouncy4",
     "crash/clicky",
