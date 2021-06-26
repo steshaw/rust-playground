@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "crash/bouncy4",
+    "crash/clicky",
+    "crash/course",
+]
