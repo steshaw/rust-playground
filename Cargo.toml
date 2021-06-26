@@ -9,5 +9,6 @@ members = [
     "crash/clicky",
     "crash/course",
     "gigasecond",
+    "hello-world",
     "misc",
 ]
