@@ -2,5 +2,7 @@
 
 set -euo pipefail
 
-echo "${@}"
+if [[ $# -gt 0 ]]; then
+  echo "${@}"
+fi
 echo 'Boo!' 1>&2
