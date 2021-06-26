@@ -1,5 +1,3 @@
-#![feature(bool_to_option)]
-
 use pancurses::{curs_set, endwin, initscr, Input, Window};
 use std::fmt::{Display, Formatter};
 
