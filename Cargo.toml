@@ -10,5 +10,6 @@ members = [
     "crash/course",
     "gigasecond",
     "hello-world",
+    "leap",
     "misc",
 ]
