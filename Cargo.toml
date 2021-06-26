@@ -12,4 +12,5 @@ members = [
     "hello-world",
     "leap",
     "misc",
+    "./multiple-lifetimes",
 ]
