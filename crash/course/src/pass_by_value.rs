@@ -1,1 +1,1 @@
-../examples/04-pass-by-value.rs
+../examples/05-pass-by-value.rs
