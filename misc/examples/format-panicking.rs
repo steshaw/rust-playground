@@ -12,7 +12,8 @@ impl fmt::Display for FormatError {
 struct FormatNoPanic;
 
 impl fmt::Display for FormatNoPanic {
-    #[no_panic]
+    // Uncomment the following to fail at compile-time.
+    //#[no_panic]
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         Ok(())
     }
