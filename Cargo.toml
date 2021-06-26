@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "bob",
     "by-example",
     "crash/bouncy4",
     "crash/clicky",
