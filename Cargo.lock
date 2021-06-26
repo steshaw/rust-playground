@@ -60,6 +60,13 @@ name = "by-example"
 version = "0.1.0"
 
 [[package]]
+name = "c2rust"
+version = "0.1.0"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "cairo-rs"
 version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
