@@ -13,4 +13,5 @@ members = [
     "leap",
     "misc",
     "./multiple-lifetimes",
+    "./raindrops",
 ]
