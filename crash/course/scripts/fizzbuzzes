@@ -13,5 +13,5 @@ g fizzbuzz.bash
 g cargo run --quiet --example 01-kick-fizzbuzz-1
 
 for n in {1..6}; do
-  g cargo run --quiet --example 01-kick-fizzbuzz ${n}
+  g cargo run --quiet --example 01-kick-fizzbuzz "${n}"
 done
