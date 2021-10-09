@@ -12,8 +12,14 @@ struct Info {
 
 fn info(op: Op) -> Info {
     match op {
-        BRK => Info{code: 0x00, size: 1},
-        JSR => Info{code: 0x20, size: 3},
+        BRK => Info {
+            code: 0x00,
+            size: 1,
+        },
+        JSR => Info {
+            code: 0x20,
+            size: 3,
+        },
     }
 }
 
