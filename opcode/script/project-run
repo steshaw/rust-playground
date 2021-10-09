@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+rust() {
+  echo Rust
+  rustc opcode.rs
+  ./opcode
+  rm opcode
+}
+
+echo Kotlin
+time kotlinc -script opcode.kts
+echo --
+
+echo Rust
+time rust
+echo --
+
+echo Haskell
+time runhaskell opcode.hs
