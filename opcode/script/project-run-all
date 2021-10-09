@@ -2,19 +2,12 @@
 
 set -euo pipefail
 
-rust() {
-  echo Rust
-  rustc opcode.rs
-  ./opcode
-  rm opcode
-}
-
 echo Kotlin
 time kotlinc -script opcode.kts
 echo --
 
 echo Rust
-time rust
+time project-run-rs
 echo --
 
 echo Haskell

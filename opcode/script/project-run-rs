@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+out=/tmp/opcode
+rustc -o ${out} opcode.rs
+${out}
+rm ${out}

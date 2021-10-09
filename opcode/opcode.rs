@@ -5,27 +5,32 @@ enum Op {
 }
 use Op::*;
 
+impl Op {
+    fn info(self) -> Info {
+        match self {
+            BRK => Info::new(0x00, 1),
+            JSR => Info::new(0x20, 3),
+        }
+    }
+}
+
 struct Info {
     code: u32,
     size: u8,
 }
 
-fn info(op: Op) -> Info {
-    match op {
-        BRK => Info {
-            code: 0x00,
-            size: 1,
-        },
-        JSR => Info {
-            code: 0x20,
-            size: 3,
-        },
+impl Info {
+    fn new(code: u32, size: u8) -> Self {
+        Info {
+            code: code,
+            size: size,
+        }
     }
 }
 
 fn main() {
     for op in vec![BRK, JSR] {
-        let i = info(op);
+        let i = op.info();
         println!("{:?}= {} (size {})", op, i.code, i.size)
     }
 }
