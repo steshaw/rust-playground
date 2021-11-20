@@ -8,6 +8,3 @@ edition = "2018"
 
 [dependencies]
 no-panic = "0.1.12"
-
-[profile.dev]
-opt-level = 1
