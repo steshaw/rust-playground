@@ -1,3 +1,8 @@
+* rust-playground
+
+Warning: requires Rust nightly
+
+** References
 1. [[https://stevedonovan.github.io/rust-gentle-intro/readme.html]]
 2. [[https://doc.rust-lang.org/book/title-page.html]]
 3. [[https://www.snoyman.com/series/rust-crash-course]]
