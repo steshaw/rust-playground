@@ -8,3 +8,10 @@ Warning: requires Rust nightly
 3. [[https://www.snoyman.com/series/rust-crash-course]]
    Or start at [[https://www.snoyman.com/blog/2018/10/introducing-rust-crash-course]]
 4. [[http://cliffle.com/p/dangerust/]]
+
+
+** Dependencies
+
+** macOS
+
+Currently not using Nix to install dependencies. Use =brew install gtk+3= instead.
