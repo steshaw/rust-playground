@@ -2,5 +2,6 @@
 name = "multiple-lifetimes"
 version = "0.1.0"
 authors = ["Steven Shaw <steven@steshaw.org>"]
+edition = "2021"
 
 [dependencies]

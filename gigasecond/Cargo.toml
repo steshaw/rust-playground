@@ -1,6 +1,8 @@
 [package]
 name = "gigasecond"
-version = "1.0.0"
+version = "0.1.0"
+authors = ["Steven Shaw <steven@steshaw.org>"]
+edition = "2021"
 
 [dependencies]
 chrono = "0.4.0"

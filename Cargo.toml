@@ -7,14 +7,14 @@ members = [
     "./by-example",
     "./c2rust",
     "./crash/bouncy4",
-    "./crash/clicky",
+    "./crash/clicky", # requires gtk3
     "./crash/course",
+    "./enum-eg",
     "./gigasecond",
     "./hello-world",
-    "./intro",
+    #"./intro",
     "./leap",
     "./misc",
     "./multiple-lifetimes",
     "./raindrops",
-    "./enum-eg",
 ]
