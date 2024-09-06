@@ -61,7 +61,7 @@ fn sensible_dim(dim_s: &str, dim: u32, initial_pos: u32) -> Result<(), Err> {
 impl Frame {
     fn new(x_y: XY, ball: &Ball) -> Result<Frame, Err> {
         sensible_dim("x", x_y.0, ball.x)?;
-        sensible_dim("y", x_y.1 as u32, ball.y)?;
+        sensible_dim("y", x_y.1, ball.y)?;
         // Shift to make room for the border.
         Ok(Frame {
             width: x_y.0 - 2,
@@ -165,7 +165,7 @@ fn game_loop(w: &Window) -> Result<(), Err> {
         }
 
         w.clear();
-        game.draw(&w);
+        game.draw(w);
         w.refresh();
         if let Some(Input::Character('q')) = w.getch() {
             break;
