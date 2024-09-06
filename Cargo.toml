@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "./beer-song",
     "./bob",
     "./book",
     "./by-example",
