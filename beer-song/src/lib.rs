@@ -9,8 +9,16 @@ pub fn verse(n: u32) -> String {
 pub fn sing(start: u32, end: u32) -> String {
     println!("start={} end={}", start, end);
     let mut result = verse(start);
+/*
+    let mut result = verse(start);
     let mut n = start - 1;
     println!("n (init) = {}", n);
+*/
+    for n in (end..start).rev() {
+        println!("n (top) = {}", n);
+        result = result + "\n" + &verse(n);
+    }
+    /*
     loop {
         println!("n (top) = {}", n);
         result = result + "\n" + &verse(n);
@@ -22,5 +30,6 @@ pub fn sing(start: u32, end: u32) -> String {
         n -= 1;
         println!("n (bot) = {}", n);
     }
+    */
     result
 }
