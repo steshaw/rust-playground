@@ -11,15 +11,13 @@ struct Point {
 
 const P: Point = Point { x: 2.3, y: 12.4 };
 
-/*
 #[bench]
 fn array_concat(b: &mut Bencher) {
     b.iter(|| {
-        r: &str = &[DATE, T, TIME].concat();
-        test::black_box(datetime);
+        let r: &str = &["(", &P.x.to_string(), ", ", &P.y.to_string(), ")"].concat();
+        test::black_box(r);
     });
 }
-*/
 
 #[bench]
 fn array_join_long(b: &mut Bencher) {
