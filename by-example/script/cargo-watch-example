@@ -8,4 +8,4 @@ if [[ $1 == 'watch-example' ]]; then
 fi
 example=$1
 
-cargo watch --exec "run --example ${example}"
+cargo watch "run --example ${example}"
