@@ -26,12 +26,12 @@ fn try_daniel(contacts: &Contacts) {
 }
 
 fn main() {
-    let mut contacts: Contacts = HashMap::new();
-
-    contacts.insert("Daniel", "798-1364".to_string());
-    contacts.insert("Ashley", "645-7689".to_string());
-    contacts.insert("Katie", "435-8291".to_string());
-    contacts.insert("Robert", "956-1745".to_string());
+    let mut contacts: Contacts = HashMap::from([
+        ("Daniel", "798-1364".to_string()),
+        ("Ashley", "645-7689".to_string()),
+        ("Katie", "435-8291".to_string()),
+        ("Robert", "956-1745".to_string()),
+    ]);
 
     println!("one");
     try_daniel(&mut contacts);
