@@ -12,6 +12,14 @@ fn call(number: &str) -> &str {
     }
 }
 
+fn try_daniel(contacts: &HashMap<&str, &str>) {
+    // Takes a reference and returns Option<&V>
+    match contacts.get(&"Daniel") {
+        Some(&number) => println!("Calling Daniel: {}", call(number)),
+        _ => println!("Don't have Daniel's number."),
+    }
+}
+
 fn main() {
     let mut contacts = HashMap::new();
 
@@ -20,15 +28,14 @@ fn main() {
     contacts.insert("Katie", "435-8291");
     contacts.insert("Robert", "956-1745");
 
-    // Takes a reference and returns Option<&V>
-    match contacts.get(&"Daniel") {
-        Some(&number) => println!("Calling Daniel: {}", call(number)),
-        _ => println!("Don't have Daniel's number."),
-    }
+    try_daniel(&mut contacts);
 
     // `HashMap::insert()` returns `None`
     // if the inserted value is new, `Some(value)` otherwise
     contacts.insert("Daniel", "164-6743");
+
+    // Try again that we've updated Daniel's phone number.
+    try_daniel(&mut contacts);
 
     match contacts.get(&"Ashley") {
         Some(&number) => println!("Calling Ashley: {}", call(number)),
@@ -43,3 +50,4 @@ fn main() {
         println!("Calling {}: {}", contact, call(number));
     }
 }
+
