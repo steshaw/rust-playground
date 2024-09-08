@@ -1,1 +1,3 @@
-fn main() { println!("nothing yet"); }
+fn main() {
+    println!("nothing yet");
+}
