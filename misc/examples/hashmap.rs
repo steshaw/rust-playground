@@ -1,5 +1,6 @@
 // From https://doc.rust-lang.org/rust-by-example/std/hash.html
 
+use std::collections::hash_map::Entry;
 use std::collections::HashMap;
 
 fn call(number: &str) -> &str {
@@ -12,10 +13,14 @@ fn call(number: &str) -> &str {
     }
 }
 
-fn try_daniel(contacts: &HashMap<&str, &str>) {
+type Contacts = HashMap<&'static str, String>;
+
+fn try_daniel(contacts: &Contacts) {
     // Takes a reference and returns Option<&V>
     match contacts.get(&"Daniel") {
-        Some(&number) => println!("Calling Daniel: {}", call(number)),
+        Some(number) => println!(
+            "Calling Daniel at {}: {}", number, call(&number)
+        ),
         _ => println!("Don't have Daniel's number."),
     }
 }
@@ -23,31 +28,48 @@ fn try_daniel(contacts: &HashMap<&str, &str>) {
 fn main() {
     let mut contacts = HashMap::new();
 
-    contacts.insert("Daniel", "798-1364");
-    contacts.insert("Ashley", "645-7689");
-    contacts.insert("Katie", "435-8291");
-    contacts.insert("Robert", "956-1745");
+    contacts.insert("Daniel", "798-1364".to_string());
+    contacts.insert("Ashley", "645-7689".to_string());
+    contacts.insert("Katie", "435-8291".to_string());
+    contacts.insert("Robert", "956-1745".to_string());
 
+    println!("one");
     try_daniel(&mut contacts);
 
     // `HashMap::insert()` returns `None`
     // if the inserted value is new, `Some(value)` otherwise
-    contacts.insert("Daniel", "164-6743");
-
+    println!("two");
+    contacts.insert("Daniel", "164-6743".to_string());
     // Try again that we've updated Daniel's phone number.
     try_daniel(&mut contacts);
 
+    println!("three");
+    let entry = contacts.entry("Daniel");
+    match entry {
+        Entry::Occupied(mut oc) => {
+            let v = oc.get_mut();
+            *v = format!("{}!", v);
+        }
+        Entry::Vacant(vc) => {
+            vc.insert("Inserted".to_string());
+        }
+    }
+    try_daniel(&mut contacts);
+
+    println!("four");
     match contacts.get(&"Ashley") {
-        Some(&number) => println!("Calling Ashley: {}", call(number)),
+        Some(number) => println!("Calling Ashley: {}", call(&number)),
         _ => println!("Don't have Ashley's number."),
     }
 
+    println!("five");
     contacts.remove(&"Ashley");
 
+    println!("six");
     // `HashMap::iter()` returns an iterator that yields
     // (&'a key, &'a value) pairs in arbitrary order.
-    for (contact, &number) in contacts.iter() {
-        println!("Calling {}: {}", contact, call(number));
+    for (contact, number) in contacts.iter() {
+        println!("Calling {} at {}: {}", contact, number, call(&number));
     }
 }
 
