@@ -7,6 +7,7 @@ fn main() {
     // determines which additional argument will be replaced. Arguments start
     // at 0 immediately after the format string.
     println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
+    println!("{alice}, this is {bob}. {bob}, this is {alice}", alice="Alice", bob="Bob");
 
     // As can named arguments.
     println!("{subject} {verb} {object}",
@@ -34,8 +35,7 @@ fn main() {
     println!("{number:0>width$}", number=1, width=5);
 
     // Rust even checks to make sure the correct number of arguments are used.
-    println!("My name is {0}, {1} {0}", "Bond");
-    // FIXME ^ Add the missing argument: "James"
+    println!("My name is {0}, {1} {0}", "Bond", "James");
 
     // Only types that implement fmt::Display can be formatted with `{}`. User-
     // defined types do not implement fmt::Display by default.
