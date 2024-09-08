@@ -26,7 +26,7 @@ fn try_daniel(contacts: &Contacts) {
 }
 
 fn main() {
-    let mut contacts = HashMap::new();
+    let mut contacts: Contacts = HashMap::new();
 
     contacts.insert("Daniel", "798-1364".to_string());
     contacts.insert("Ashley", "645-7689".to_string());
