@@ -9,7 +9,6 @@ fn zero_pieces() {
 }
 
 #[test]
-#[ignore]
 fn one_piece() {
     let input = &["nail"];
     let output = build_proverb(input);
