@@ -29,7 +29,6 @@ fn two_pieces() {
 }
 
 #[test]
-#[ignore]
 fn three_pieces() {
     let input = &["nail", "shoe", "horse"];
     let output = build_proverb(input);
