@@ -42,7 +42,6 @@ fn three_pieces() {
 }
 
 #[test]
-#[ignore]
 fn full_proverb() {
     let input = &[
         "nail", "shoe", "horse", "rider", "message", "battle", "kingdom",
