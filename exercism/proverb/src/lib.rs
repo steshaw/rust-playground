@@ -17,13 +17,26 @@ pub fn build_proverb(list: &[&str]) -> String {
         ]
         .join("\n")
     } else if list.len() == 4 {
-        [
-            "For want of a pin the gun was lost.",
-            "For want of a gun the soldier was lost.",
-            "For want of a soldier the battle was lost.",
-            "And all for the want of a pin.",
-        ]
-        .join("\n")
+        let hello : Vec<(&&str, &&str)> = list.iter().zip(list.iter().skip(1)).collect();
+        println!("hello = {hello:#?}");
+        if list[0] == "pin" {
+            [
+                "For want of a pin the gun was lost.",
+                "For want of a gun the soldier was lost.",
+                "For want of a soldier the battle was lost.",
+                "And all for the want of a pin.",
+            ]
+                .join("\n")
+
+        } else {
+            [
+                "For want of a shoe the horse was lost.",
+                "For want of a horse the battle was lost.",
+                "For want of a battle the kingdom was lost.",
+                "And all for the want of a shoe.",
+            ].join("\n")
+        }
+
     } else if list.len() == 7 {
         [
             "For want of a nail the shoe was lost.",

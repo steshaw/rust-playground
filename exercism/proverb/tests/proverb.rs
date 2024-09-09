@@ -73,3 +73,17 @@ fn four_pieces_modernized() {
     .join("\n");
     assert_eq!(output, expected);
 }
+
+#[test]
+fn short() {
+    // Example adapted from "Short Variation" (see Wikipedia).
+    let input = &["shoe", "horse", "battle", "kingdom"];
+    let output = build_proverb(input);
+    let expected: String = [
+        "For want of a shoe the horse was lost.",
+        "For want of a horse the battle was lost.",
+        "For want of a battle the kingdom was lost.",
+        "And all for the want of a shoe.",
+    ].join("\n");
+    assert_eq!(output, expected);
+}
