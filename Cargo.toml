@@ -11,6 +11,7 @@ members = [
     "./crash/bouncy4",
     "./crash/clicky", # requires gtk3
     "./crash/course",
+    "./exercism/proverb",
     "./enum-eg",
     "./gigasecond",
     "./hello-world",
