@@ -1,4 +1,6 @@
-use std::fmt; // Import `fmt`
+use std::fmt;
+use std::fmt::Formatter;
+// Import `fmt`
 
 // A structure holding two numbers. `Debug` will be derived so the results can
 // be contrasted with `Display`.
@@ -16,8 +18,8 @@ impl fmt::Display for MinMax {
 // Define a structure where the fields are nameable for comparison.
 #[derive(Debug)]
 struct Point2D {
-    x: f64,
-    y: f64,
+    x: i8,
+    y: i8,
 }
 
 // Similarly, implement `Display` for `Point2D`.
@@ -25,6 +27,15 @@ impl fmt::Display for Point2D {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // Customize so only `x` and `y` are denoted.
         write!(f, "x: {}, y: {}", self.x, self.y)
+    }
+}
+
+impl fmt::Binary for Point2D {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "x: ")?;
+        fmt::Binary::fmt(&self.x, f)?;
+        write!(f, ", y: ")?;
+        fmt::Binary::fmt(&self.y, f)
     }
 }
 
@@ -40,7 +51,7 @@ fn main() {
 
     println!("The big range is {big_range} and the small is {small_range}");
 
-    let point = Point2D { x: 3.3, y: 7.2 };
+    let point = Point2D { x: 3, y: 7 };
 
     println!("Point2D:");
     println!("  Display: {}", point);
@@ -48,5 +59,8 @@ fn main() {
 
     // Error. Both `Debug` and `Display` were implemented, but `{:b}`
     // requires `fmt::Binary` to be implemented. This will not work.
-    // println!("What does Point2D look like in binary: {:b}?", point);
+    // Update: We implemented `fmt::Binary` to see what would happen!
+    println!("Point2D (as binary):");
+    println!("  Display binary: {:b}", point);
+    println!("  Debug: {:#b}", point);
 }
