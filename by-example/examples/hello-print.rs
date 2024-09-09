@@ -30,7 +30,9 @@ fn main() {
 
     // You can right-justify text with a specified width. This will
     // output "    1". (Four white spaces and a "1", for a total width of 5.)
-    println!("{number:>5}", number = 1);
+    for i in [1, 99, 981, 1_024, 65_536, 131_072] {
+        println!("[[{number:>5}]]", number = i);
+    }
 
     // You can pad numbers with extra zeroes,
     println!("{number:0>5}", number = 1); // 00001
