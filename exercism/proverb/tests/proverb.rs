@@ -61,7 +61,6 @@ fn full_proverb() {
 }
 
 #[test]
-#[ignore]
 fn four_pieces_modernized() {
     let input = &["pin", "gun", "soldier", "battle"];
     let output = build_proverb(input);

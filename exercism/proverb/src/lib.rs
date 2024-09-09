@@ -16,6 +16,14 @@ pub fn build_proverb(list: &[&str]) -> String {
             "And all for the want of a nail.",
         ]
         .join("\n")
+    } else if list.len() == 4 {
+        [
+            "For want of a pin the gun was lost.",
+            "For want of a gun the soldier was lost.",
+            "For want of a soldier the battle was lost.",
+            "And all for the want of a pin.",
+        ]
+        .join("\n")
     } else if list.len() == 7 {
         [
             "For want of a nail the shoe was lost.",
@@ -25,7 +33,8 @@ pub fn build_proverb(list: &[&str]) -> String {
             "For want of a message the battle was lost.",
             "For want of a battle the kingdom was lost.",
             "And all for the want of a nail.",
-        ].join("\n")
+        ]
+        .join("\n")
     } else {
         "Oh my!".to_string()
     }
