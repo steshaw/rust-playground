@@ -1,11 +1,11 @@
 use std::collections::HashSet;
 
 pub fn sum_of_multiples(limit: u32, factors: &[u32]) -> u32 {
-    let mut multiples = HashSet::new();
-    factors.iter().filter(|&&f| f > 0).for_each(|&f| {
-        for x in (f..limit).step_by(f as usize) {
-            multiples.insert(x);
-        }
-    });
-    multiples.into_iter().sum()
+    factors
+        .iter()
+        .filter(|&&f| f > 0)
+        .flat_map(|&f| (f..limit).step_by(f as usize))
+        .collect::<HashSet<_>>()
+        .iter()
+        .sum()
 }
