@@ -84,6 +84,7 @@ fn short() {
         "For want of a horse the battle was lost.",
         "For want of a battle the kingdom was lost.",
         "And all for the want of a shoe.",
-    ].join("\n");
+    ]
+    .join("\n");
     assert_eq!(output, expected);
 }
