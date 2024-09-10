@@ -15,7 +15,6 @@ fn prime_number() {
 }
 
 #[test]
-#[ignore]
 fn another_prime_number() {
     let factors = factors(3);
     let expected = [3];
