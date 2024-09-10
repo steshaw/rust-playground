@@ -6,6 +6,14 @@ fn zero_is_an_armstrong_number() {
 }
 
 #[test]
+fn examples_from_notes() {
+    assert!(is_armstrong_number(9));
+    assert!(!is_armstrong_number(10));
+    assert!(is_armstrong_number(153));
+    assert!(!is_armstrong_number(154));
+}
+
+#[test]
 #[ignore]
 fn single_digit_numbers_are_armstrong_numbers() {
     assert!(is_armstrong_number(5))
