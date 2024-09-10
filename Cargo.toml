@@ -14,6 +14,7 @@ members = [
     "./enum-eg",
     "./exercism/rust/armstrong-numbers",
     "./exercism/rust/difference-of-squares",
+    "./exercism/rust/prime-factors",
     "./exercism/rust/grains",
     "./exercism/rust/proverb",
     "./gigasecond",
