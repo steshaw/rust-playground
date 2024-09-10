@@ -1,3 +1,5 @@
+#![feature(iter_intersperse)]
+
 pub fn build_proverb(list: &[&str]) -> String {
     list.iter()
         .zip(list.iter().skip(1))
@@ -9,6 +11,6 @@ pub fn build_proverb(list: &[&str]) -> String {
                 .take(1)
                 .map(|first| format!("And all for the want of a {}.", first)),
         )
-        .collect::<Vec<_>>()
-        .join("\n")
+        .intersperse("\n".to_string())
+        .collect()
 }
