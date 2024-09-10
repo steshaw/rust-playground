@@ -9,8 +9,5 @@ pub fn factors(n: u64) -> Vec<u64> {
         }
         candidate += 1;
     }
-    if m > 1 {
-        primes.push(m);
-    }
     primes
 }
