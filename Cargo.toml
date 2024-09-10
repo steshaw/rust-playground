@@ -13,6 +13,7 @@ members = [
     "./crash/course",
     "./enum-eg",
     "./exercism/rust/armstrong-numbers",
+    "./exercism/rust/difference-of-squares",
     "./exercism/rust/grains",
     "./exercism/rust/proverb",
     "./gigasecond",

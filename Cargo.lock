@@ -160,6 +160,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "difference-of-squares"
+version = "1.2.0"
+
+[[package]]
 name = "enum-eg"
 version = "0.1.0"
 dependencies = [
