@@ -16,19 +16,16 @@ fn square_of_sum_100() {
 }
 
 #[test]
-#[ignore]
 fn sum_of_squares_1() {
     assert_eq!(1, squares::sum_of_squares(1));
 }
 
 #[test]
-#[ignore]
 fn sum_of_squares_5() {
     assert_eq!(55, squares::sum_of_squares(5));
 }
 
 #[test]
-#[ignore]
 fn sum_of_squares_100() {
     assert_eq!(338_350, squares::sum_of_squares(100));
 }
