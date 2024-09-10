@@ -12,6 +12,7 @@ members = [
     "./crash/clicky", # requires gtk3
     "./crash/course",
     "./exercism/rust/proverb",
+    "./exercism/rust/armstrong-numbers",
     "./enum-eg",
     "./gigasecond",
     "./hello-world",
