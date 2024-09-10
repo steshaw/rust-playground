@@ -22,6 +22,13 @@ fn another_prime_number() {
 }
 
 #[test]
+fn test_four() {
+    let factors = factors(4);
+    let expected = [2, 2];
+    assert_eq!(factors, expected);
+}
+
+#[test]
 #[ignore]
 fn square_of_a_prime() {
     let factors = factors(9);

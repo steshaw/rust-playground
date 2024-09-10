@@ -1,6 +1,15 @@
 pub fn factors(n: u64) -> Vec<u64> {
     if n > 1 {
-        vec![n]
+        let mut m = n;
+        let mut primes = vec![];
+        if m % 2 == 0 {
+            primes.push(2);
+            m /= 2;
+        }
+        if m > 1 {
+            primes.push(m);
+        }
+        primes
     } else {
         vec![]
     }
