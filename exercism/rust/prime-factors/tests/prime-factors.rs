@@ -36,6 +36,13 @@ fn test_six() {
 }
 
 #[test]
+fn test_eight() {
+    let factors = factors(8);
+    let expected = [2, 2, 2];
+    assert_eq!(factors, expected);
+}
+
+#[test]
 #[ignore]
 fn square_of_a_prime() {
     let factors = factors(9);
