@@ -2,3 +2,6 @@
 edition = "2021"
 name = "sum-of-multiples"
 version = "1.5.0"
+
+[dependencies]
+itertools = "0.13.0"
