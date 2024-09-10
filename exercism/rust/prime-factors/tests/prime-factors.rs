@@ -8,7 +8,6 @@ fn no_factors() {
 }
 
 #[test]
-#[ignore]
 fn prime_number() {
     let factors = factors(2);
     let expected = [2];
