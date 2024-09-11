@@ -15,7 +15,6 @@ fn second_prime() {
 }
 
 #[test]
-#[ignore]
 fn sixth_prime() {
     let output = nth(5);
     let expected = 13;
