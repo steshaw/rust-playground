@@ -88,8 +88,6 @@ fn zero_len() {
     let input = "123";
     let length = 0;
     let output = series(input, length);
-    let expected = &[
-        "", "", "",
-    ];
+    let expected = &["", "", ""];
     assert_eq!(output, expected);
 }
