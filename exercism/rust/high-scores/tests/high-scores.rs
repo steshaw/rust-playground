@@ -20,14 +20,12 @@ fn latest_score_empty() {
 }
 
 #[test]
-#[ignore]
 fn personal_best() {
     let high_scores = HighScores::new(&[40, 100, 70]);
     assert_eq!(high_scores.personal_best(), Some(100));
 }
 
 #[test]
-#[ignore]
 fn personal_best_empty() {
     let high_scores = HighScores::new(&[]);
     assert_eq!(high_scores.personal_best(), None);
