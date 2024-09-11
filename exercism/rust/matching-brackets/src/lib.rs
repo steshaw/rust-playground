@@ -1,22 +1,24 @@
 pub fn brackets_are_balanced(string: &str) -> bool {
-    let mut foo = string.chars().filter(|ch|
-        *ch == '[' || *ch == ']' || *ch == '{' || *ch == '}' || *ch == '[' || *ch == ']'
-    ).collect::<String>();
-    println!("foo = {foo:#?}");
-    while foo.len() > 0 {
-        println!("foo = {foo:#?}");
-        let m = match (foo.chars().next().unwrap(), foo.chars().last().unwrap()) {
-            ('[', ']') => true,
-            ('{', '}') => true,
-            ('(', ')') => true,
-            _ => false,
-        };
-        if !m {
-            return false;
+    // Remove all characters but the brackets.
+    let mut brackets = string
+        .chars()
+        .filter(|ch| {
+            *ch == '['
+                || *ch == ']'
+                || *ch == '{'
+                || *ch == '}'
+                || *ch == '('
+                || *ch == ')'
+        })
+        .collect::<String>();
+    while brackets.len() > 0 {
+        let l = brackets.len();
+        brackets = brackets.replace("[]", "");
+        brackets = brackets.replace("()", "");
+        brackets = brackets.replace("{}", "");
+        if brackets.len() == l {
+            break;
         }
-        // Delete matching pair
-        foo = foo.as_str()[1..foo.len()-1].to_string();
-        println!("foo (updated) = {foo:#?}");
     }
-    true
+    brackets.len() == 0
 }
