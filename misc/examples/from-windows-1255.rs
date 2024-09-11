@@ -1,10 +1,9 @@
-#!/usr/bin/env cargo-eval
-//! ```cargo
-//! [dependencies]
-//! anyhow = "1.0.87"
-//! encoding_rs = "0.8.34"
-//! ```
-//!
+#!/usr/bin/env -S cargo +nightly -Zscript --quiet
+---cargo
+[dependencies]
+anyhow = "1.0.87"
+encoding_rs = "0.8.34"
+---
 
 //
 // Experimenting with Michael Snoyman's tweet about a quick Window's 1255 decoder.
