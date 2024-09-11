@@ -1,13 +1,15 @@
 #[derive(Debug)]
-pub struct HighScores;
+pub struct HighScores {
+    scores: Vec<u32>,
+}
 
 impl HighScores {
     pub fn new(scores: &[u32]) -> Self {
-        todo!("Construct a HighScores struct, given the scores: {scores:?}")
+        HighScores{scores: scores.to_vec()}
     }
 
     pub fn scores(&self) -> &[u32] {
-        todo!("Return all the scores as a slice")
+        self.scores.as_slice()
     }
 
     pub fn latest(&self) -> Option<u32> {
