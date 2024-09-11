@@ -8,7 +8,6 @@ fn list_of_scores() {
 }
 
 #[test]
-#[ignore]
 fn latest_score() {
     let high_scores = HighScores::new(&[100, 0, 90, 30]);
     assert_eq!(high_scores.latest(), Some(30));

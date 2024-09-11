@@ -13,7 +13,7 @@ impl HighScores {
     }
 
     pub fn latest(&self) -> Option<u32> {
-        todo!("Return the latest (last) score")
+        self.scores.last().cloned()
     }
 
     pub fn personal_best(&self) -> Option<u32> {
