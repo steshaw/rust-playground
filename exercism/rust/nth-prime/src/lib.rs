@@ -1,3 +1,6 @@
 pub fn nth(n: u32) -> u32 {
-    todo!("What is the 0-indexed {n}th prime number?")
+    match n {
+        0 => 2,
+        _ => todo!("Not implemented nth({n})")
+    }
 }
