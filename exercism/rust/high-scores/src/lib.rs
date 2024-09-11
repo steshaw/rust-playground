@@ -21,6 +21,8 @@ impl HighScores {
     }
 
     pub fn personal_top_three(&self) -> Vec<u32> {
-        todo!("Return 3 highest scores")
+        let mut s = self.scores.clone();
+        s.sort_by(|a, b| b.cmp(a));
+        s.iter().take(3).cloned().collect()
     }
 }
