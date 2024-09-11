@@ -1,13 +1,10 @@
-#!/usr/bin/env cargo -Zscript
-
+#!/usr/bin/env cargo-eval
 //! ```cargo
 //! [dependencies]
 //! anyhow = "1.0.87"
 //! encoding_rs = "0.8.34"
 //! ```
 //!
-
-// Warning: The "script" functionality above does not work.
 
 //
 // Experimenting with Michael Snoyman's tweet about a quick Window's 1255 decoder.
