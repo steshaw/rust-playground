@@ -96,3 +96,8 @@ fn complex_latex_expression() {
                  \\end{array}\\right)";
     assert!(brackets_are_balanced(input));
 }
+#[test]
+fn example_from_instructions() {
+    let input = "{what is (42)}?";
+    assert!(brackets_are_balanced(input));
+}

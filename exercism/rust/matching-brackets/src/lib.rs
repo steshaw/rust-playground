@@ -6,7 +6,7 @@ pub fn brackets_are_balanced(string: &str) -> bool {
 
 fn parse_brackets(chars: &mut Chars) -> Result<Option<char>, String> {
     let c = chars.next();
-    println!("parse_em c = {c:#?}");
+    println!("parse_brackets c = {c:#?}");
     match c {
         None => Ok(None),
         Some('(') => {
