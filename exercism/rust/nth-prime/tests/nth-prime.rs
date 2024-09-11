@@ -8,7 +8,6 @@ fn first_prime() {
 }
 
 #[test]
-#[ignore]
 fn second_prime() {
     let output = nth(1);
     let expected = 3;
