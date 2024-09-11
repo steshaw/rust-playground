@@ -9,11 +9,12 @@ pub fn brackets_are_balanced(string: &str) -> bool {
     brackets.retain(|c| bracket_chars.contains(&c));
     while brackets.len() > 0 {
         let l = brackets.len();
-        brackets = brackets.replace("[]", "");
-        brackets = brackets.replace("()", "");
-        brackets = brackets.replace("{}", "");
+        brackets = brackets
+            .replace("[]", "")
+            .replace("()", "")
+            .replace("{}", "");
         if brackets.len() == l {
-            break;
+            break; // Bail if we didn't reduce
         }
     }
     brackets.len() == 0
