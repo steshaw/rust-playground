@@ -678,6 +678,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "nth_prime"
+version = "2.1.0"
+
+[[package]]
 name = "num-integer"
 version = "0.1.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
