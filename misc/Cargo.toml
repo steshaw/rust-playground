@@ -8,3 +8,5 @@ edition = "2021"
 
 [dependencies]
 no-panic = "0.1.12"
+anyhow = "1.0.87"
+encoding_rs = "0.8.34"
