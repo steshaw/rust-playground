@@ -17,5 +17,5 @@ pub fn brackets_are_balanced(string: &str) -> bool {
             break; // Bail if we didn't reduce
         }
     }
-    brackets.len() == 0
+    brackets.is_empty()
 }
