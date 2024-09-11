@@ -6,43 +6,36 @@ fn paired_square_brackets() {
 }
 
 #[test]
-#[ignore]
 fn empty_string() {
     assert!(brackets_are_balanced(""));
 }
 
 #[test]
-#[ignore]
 fn unpaired_brackets() {
     assert!(!brackets_are_balanced("[["));
 }
 
 #[test]
-#[ignore]
 fn wrong_ordered_brackets() {
     assert!(!brackets_are_balanced("}{"));
 }
 
 #[test]
-#[ignore]
 fn wrong_closing_bracket() {
     assert!(!brackets_are_balanced("{]"));
 }
 
 #[test]
-#[ignore]
 fn paired_with_whitespace() {
     assert!(brackets_are_balanced("{ }"));
 }
 
 #[test]
-#[ignore]
 fn partially_paired_brackets() {
     assert!(!brackets_are_balanced("{[])"));
 }
 
 #[test]
-#[ignore]
 fn simple_nested_brackets() {
     assert!(brackets_are_balanced("{[]}"));
 }
