@@ -1,11 +1,31 @@
-pub fn nth(n: u32) -> u32 {
-    match n {
-        0 => 2,
-        1 => 3,
-        2 => 5,
-        3 => 7,
-        4 => 11,
-        5 => 13,
-        _ => todo!("Not implemented nth({n})")
+struct Primes {
+    primes: Vec<u32>,
+    next: u32,
+}
+
+impl Primes {
+    fn new() -> Self {
+        Primes { primes: Vec::new(), next: 2 }
     }
+}
+
+impl Iterator for Primes {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let n = (self.next..).find(|n|
+            self.primes.iter().all(|&prime| n % prime > 0)
+        ).unwrap();
+        self.primes.push(n);
+        self.next = n + 1;
+        Some(n)
+    }
+}
+
+fn primes() -> Primes {
+    Primes::new()
+}
+
+pub fn nth(n: u32) -> u32 {
+    primes().skip(n as usize).next().unwrap()
 }

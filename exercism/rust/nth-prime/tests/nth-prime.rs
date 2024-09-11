@@ -22,7 +22,6 @@ fn sixth_prime() {
 }
 
 #[test]
-#[ignore]
 fn big_prime() {
     let output = nth(10_000);
     let expected = 104_743;
