@@ -19,6 +19,7 @@ members = [
     "./exercism/rust/nth-prime",
     "./exercism/rust/prime-factors",
     "./exercism/rust/proverb",
+    "./exercism/rust/series",
     "./exercism/rust/sum-of-multiples",
     "./gigasecond",
     "./hello-world",
