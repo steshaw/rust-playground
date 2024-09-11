@@ -14,7 +14,6 @@ fn latest_score() {
 }
 
 #[test]
-#[ignore]
 fn latest_score_empty() {
     let high_scores = HighScores::new(&[]);
     assert_eq!(high_scores.latest(), None);
