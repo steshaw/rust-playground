@@ -27,5 +27,5 @@ fn primes() -> Primes {
 }
 
 pub fn nth(n: u32) -> u32 {
-    primes().skip(n as usize).next().unwrap()
+    primes().nth(n as usize).unwrap()
 }
