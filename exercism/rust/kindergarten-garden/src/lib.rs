@@ -28,16 +28,17 @@ fn letter_to_plant(c: char) -> &'static str {
 
 pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     let student_index = student_to_index(student);
+    let cup_index = student_index * 2;
     let rows = diagram.lines().collect::<Vec<&str>>();
     if rows.len() != 2 {
         panic!("Illegal diagram, length was {} instead of 2", rows.len());
     }
     // Pick out the student's plants in each row.
-    let row1 = rows[0][student_index * 2..student_index * 2 + 2]
+    let row1 = rows[0][cup_index..cup_index + 2]
         .to_string()
         .chars()
         .collect::<Vec<char>>();
-    let row2 = rows[1][student_index * 2..student_index * 2 + 2]
+    let row2 = rows[1][cup_index..cup_index + 2]
         .to_string()
         .chars()
         .collect::<Vec<char>>();
