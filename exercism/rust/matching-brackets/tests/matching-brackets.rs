@@ -11,6 +11,11 @@ fn empty_string() {
 }
 
 #[test]
+fn nonsense_with_good_brackets() {
+    assert!(brackets_are_balanced("(hello[there]again)foo"));
+}
+
+#[test]
 fn unpaired_brackets() {
     assert!(!brackets_are_balanced("[["));
 }
@@ -23,6 +28,11 @@ fn wrong_ordered_brackets() {
 #[test]
 fn wrong_closing_bracket() {
     assert!(!brackets_are_balanced("{]"));
+}
+
+#[test]
+fn extra_closing_bracket() {
+    assert!(!brackets_are_balanced("{}}"));
 }
 
 #[test]
