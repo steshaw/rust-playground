@@ -27,12 +27,11 @@ fn letter_to_plant(c: char) -> &'static str {
 }
 
 pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
-    let student_index = student_to_index(student);
-    let cup_index = student_index * 2;
     let rows: Vec<&str> = diagram.lines().collect::<Vec<_>>();
     if rows.len() != 2 {
         panic!("Illegal diagram, length was {} instead of 2", rows.len());
     }
+    let cup_index = student_to_index(student) * 2;
     rows.iter()
         .flat_map(|row| {
             // Pick out the student's plants in each row and convert to friendly names.
