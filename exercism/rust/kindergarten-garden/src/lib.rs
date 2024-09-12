@@ -28,8 +28,7 @@ fn letter_to_plant(c: char) -> &'static str {
 
 pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     let student_index = student_to_index(student);
-    println!("student index: {}", student_index);
-    let rows = diagram.split("\n").collect::<Vec<&str>>();
+    let rows = diagram.lines().collect::<Vec<&str>>();
     if rows.len() != 2 {
         panic!("Illegal diagram, length was {} instead of 2", rows.len());
     }
