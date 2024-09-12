@@ -3,8 +3,8 @@
 pub fn build_proverb(list: &[&str]) -> String {
     list.iter()
         .zip(list.iter().skip(1))
-        .map(|words| {
-            format!("For want of a {} the {} was lost.", words.0, words.1)
+        .map(|(first, second)| {
+            format!("For want of a {first} the {second} was lost.")
         })
         .chain(
             list.iter()
