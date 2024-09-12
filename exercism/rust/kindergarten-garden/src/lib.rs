@@ -36,7 +36,8 @@ pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     // Pick out the student's plants in each row and
     // convert to friendly names.
     rows.iter()
-        .flat_map(|row| row[cup_index..cup_index + 2].chars())
-        .map(|c| letter_to_plant(c))
+        .flat_map(|row| {
+            row[cup_index..cup_index + 2].chars().map(letter_to_plant)
+        })
         .collect::<Vec<&'static str>>()
 }
