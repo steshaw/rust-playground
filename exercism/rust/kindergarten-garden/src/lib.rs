@@ -33,10 +33,9 @@ pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     if rows.len() != 2 {
         panic!("Illegal diagram, length was {} instead of 2", rows.len());
     }
-    // Pick out the student's plants in each row and
-    // convert to friendly names.
     rows.iter()
         .flat_map(|row| {
+            // Pick out the student's plants in each row and convert to friendly names.
             row[cup_index..cup_index + 2].chars().map(letter_to_plant)
         })
         .collect::<Vec<&'static str>>()
