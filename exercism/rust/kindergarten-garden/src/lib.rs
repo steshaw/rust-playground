@@ -12,7 +12,7 @@ fn student_to_index(student: &str) -> usize {
         "Joseph" => 9,
         "Kincaid" => 10,
         "Larry" => 11,
-        _ => panic!("Invalid student {student}")
+        _ => panic!("Invalid student {student}"),
     }
 }
 
@@ -21,8 +21,8 @@ fn letter_to_plant(c: char) -> &'static str {
         'G' => "grass",
         'C' => "clover",
         'R' => "radishes",
-        'V' => "violet",
-        _ => panic!("Invalid plant letter, {c}")
+        'V' => "violets",
+        _ => panic!("Invalid plant letter, {c}"),
     }
 }
 
@@ -33,14 +33,19 @@ pub fn plants(diagram: &str, student: &str) -> Vec<&'static str> {
     if rows.len() != 2 {
         panic!("Illegal diagram, length was {} instead of 2", rows.len());
     }
-    let r1 = rows[0][student_index*2..student_index*2 + 2].to_string().chars().collect::<Vec<char>>();
-    let r2 = rows[1][student_index*2..student_index*2 + 2].to_string().chars().collect::<Vec<char>>();
-    println!("r1: {r1:?}");
-    println!("r2: {r2:?}");
+    // Pick out the student's plants in each row.
+    let row1 = rows[0][student_index * 2..student_index * 2 + 2]
+        .to_string()
+        .chars()
+        .collect::<Vec<char>>();
+    let row2 = rows[1][student_index * 2..student_index * 2 + 2]
+        .to_string()
+        .chars()
+        .collect::<Vec<char>>();
 
-    let result = vec![r1[0], r1[1], r2[0], r2[1]]
+    // Convert those plants to friendly names.
+    vec![row1[0], row1[1], row2[0], row2[1]]
         .iter()
-        .map(|c|letter_to_plant(*c))
-        .collect::<Vec<&'static str>>();
-    result
+        .map(|c| letter_to_plant(*c))
+        .collect::<Vec<&'static str>>()
 }
