@@ -16,6 +16,7 @@ members = [
     "./exercism/rust/difference-of-squares",
     "./exercism/rust/grains",
     "./exercism/rust/high-scores",
+    "./exercism/rust/kindergarten-garden",
     "./exercism/rust/matching-brackets",
     "./exercism/rust/nth-prime",
     "./exercism/rust/prime-factors",
