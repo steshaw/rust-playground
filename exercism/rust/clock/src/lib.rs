@@ -15,6 +15,7 @@ impl Display for Clock {
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
         // Construct a new Clock from `hours` hours and `minutes` minutes.
+        let hours = if hours < 0 { hours + 24 } else { hours };
         let h = hours + minutes / 60;
         let m = minutes % 60;
         Clock {

@@ -55,13 +55,11 @@ fn hour_and_minutes_roll_over_continuously() {
 }
 
 #[test]
-#[ignore]
 fn hour_and_minutes_roll_over_to_exactly_midnight() {
     assert_eq!(Clock::new(72, 8640).to_string(), "00:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour() {
     assert_eq!(Clock::new(-1, 15).to_string(), "23:15");
 }
