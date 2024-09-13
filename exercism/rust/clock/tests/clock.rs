@@ -65,13 +65,11 @@ fn negative_hour() {
 }
 
 #[test]
-#[ignore]
 fn negative_hour_rolls_over() {
     assert_eq!(Clock::new(-25, 0).to_string(), "23:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_rolls_over_continuously() {
     assert_eq!(Clock::new(-91, 0).to_string(), "05:00");
 }
