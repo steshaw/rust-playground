@@ -12,6 +12,7 @@ members = [
     "./crash/clicky", # requires gtk3
     "./crash/course",
     "./enum-eg",
+    "./exercism/rust/accumulate",
     "./exercism/rust/armstrong-numbers",
     "./exercism/rust/collatz-conjecture",
     "./exercism/rust/difference-of-squares",

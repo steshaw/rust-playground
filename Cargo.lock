@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "accumulate"
+version = "0.0.0"
+
+[[package]]
 name = "anstream"
 version = "0.6.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
