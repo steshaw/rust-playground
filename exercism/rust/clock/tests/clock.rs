@@ -80,31 +80,26 @@ fn negative_minutes() {
 }
 
 #[test]
-#[ignore]
 fn negative_minutes_roll_over() {
     assert_eq!(Clock::new(1, -160).to_string(), "22:20");
 }
 
 #[test]
-#[ignore]
 fn negative_minutes_roll_over_continuously() {
     assert_eq!(Clock::new(1, -4820).to_string(), "16:40");
 }
 
 #[test]
-#[ignore]
 fn negative_sixty_minutes_is_previous_hour() {
     assert_eq!(Clock::new(2, -60).to_string(), "01:00");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_and_minutes_both_roll_over() {
     assert_eq!(Clock::new(-25, -160).to_string(), "20:20");
 }
 
 #[test]
-#[ignore]
 fn negative_hour_and_minutes_both_roll_over_continuously() {
     assert_eq!(Clock::new(-121, -5810).to_string(), "22:10");
 }
