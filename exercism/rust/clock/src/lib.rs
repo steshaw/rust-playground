@@ -19,7 +19,7 @@ impl Clock {
         minutes = minutes % 60;
         if minutes < 0 {
             hours -= 1;
-            minutes = minutes + 60;
+            minutes += 60;
         }
         hours = hours % 24;
         if hours < 0 {
