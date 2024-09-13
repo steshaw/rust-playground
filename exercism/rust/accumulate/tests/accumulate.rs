@@ -61,7 +61,6 @@ fn accumulate_reversed_strings() {
     assert_eq!(map(input, reverse), expected);
 }
 
-/*
 #[test]
 fn accumulate_recursively() {
     let input = vec!["a", "b", "c"];
@@ -75,7 +74,6 @@ fn accumulate_recursively() {
         expected
     );
 }
-*/
 
 #[test]
 fn change_in_type() {
@@ -84,7 +82,6 @@ fn change_in_type() {
     assert_eq!(map(input, |s| s.to_string()), expected);
 }
 
-/*
 #[test]
 fn mutating_closure() {
     let mut counter = 0;
@@ -97,7 +94,6 @@ fn mutating_closure() {
     assert_eq!(result, expected);
     assert_eq!(counter, 4);
 }
-*/
 
 #[test]
 fn minimal_bounds_on_input_and_output() {
