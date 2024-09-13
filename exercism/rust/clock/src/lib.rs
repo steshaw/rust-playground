@@ -17,15 +17,15 @@ impl Clock {
         // Construct a new Clock from `hours` hours and `minutes` minutes.
         hours += minutes / 60;
         minutes = minutes % 60;
-        hours = if hours < 0 { hours % 24 + 24 } else { hours };
         if minutes < 0 {
             hours -= 1;
             minutes = minutes + 60;
         }
+        hours = if hours < 0 { hours % 24 + 24 } else { hours };
         Clock { hours, minutes }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
-        todo!("Add {minutes} minutes to existing Clock time");
+        Clock::new(self.hours, self.minutes + minutes)
     }
 }
