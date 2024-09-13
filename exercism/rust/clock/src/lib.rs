@@ -8,7 +8,7 @@ pub struct Clock {
 
 impl Display for Clock {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:02}:{:02}", if self.hours == 24 { 0 } else { self.hours }, self.minutes)
+        write!(f, "{:02}:{:02}", self.hours % 24, self.minutes)
     }
 }
 
