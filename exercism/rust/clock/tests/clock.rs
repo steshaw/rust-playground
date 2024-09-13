@@ -209,19 +209,16 @@ fn subtract_more_than_two_days() {
 //
 
 #[test]
-#[ignore]
 fn clocks_with_same_time() {
     assert_eq!(Clock::new(15, 37), Clock::new(15, 37));
 }
 
 #[test]
-#[ignore]
 fn clocks_a_minute_apart() {
     assert_ne!(Clock::new(15, 36), Clock::new(15, 37));
 }
 
 #[test]
-#[ignore]
 fn clocks_an_hour_apart() {
     assert_ne!(Clock::new(14, 37), Clock::new(15, 37));
 }
