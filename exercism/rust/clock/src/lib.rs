@@ -16,8 +16,10 @@ impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
         // Construct a new Clock from `hours` hours and `minutes` minutes.
         let hours = if hours < 0 { hours % 24 + 24 } else { hours };
-        let h = hours + minutes / 60;
-        let m = minutes % 60;
+        let mins = if minutes < 0 { minutes % 60 + 60 } else { minutes };
+        let hours = if minutes < 0 { hours - 1 } else { hours };
+        let h = hours + mins / 60;
+        let m = mins % 60;
         Clock {
             hours: h,
             minutes: m,
