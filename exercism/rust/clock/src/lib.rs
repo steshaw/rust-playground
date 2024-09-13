@@ -13,15 +13,18 @@ impl Display for Clock {
 }
 
 impl Clock {
+    // Construct a new Clock from `hours` hours and `minutes` minutes.
     pub fn new(mut hours: i32, mut minutes: i32) -> Self {
-        // Construct a new Clock from `hours` hours and `minutes` minutes.
         hours += minutes / 60;
         minutes = minutes % 60;
         if minutes < 0 {
             hours -= 1;
             minutes = minutes + 60;
         }
-        hours = if hours < 0 { hours % 24 + 24 } else { hours };
+        hours = hours % 24;
+        if hours < 0 {
+            hours += 24;
+        };
         Clock { hours, minutes }
     }
 
