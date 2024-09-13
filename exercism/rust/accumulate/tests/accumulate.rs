@@ -12,7 +12,6 @@ fn accumulate_empty() {
 }
 
 #[test]
-#[ignore]
 fn func_single() {
     let input = vec![2];
     let expected = vec![4];
@@ -20,7 +19,6 @@ fn func_single() {
 }
 
 #[test]
-#[ignore]
 fn accumulate_squares() {
     let input = vec![1, 2, 3];
     let expected = vec![1, 4, 9];
@@ -28,7 +26,6 @@ fn accumulate_squares() {
 }
 
 #[test]
-#[ignore]
 fn closure() {
     let input = vec![2, 3, 4, 5];
     let expected = vec![4, 9, 16, 25];
@@ -36,7 +33,6 @@ fn closure() {
 }
 
 #[test]
-#[ignore]
 fn closure_floats() {
     let input = vec![2.0, 3.0, 4.0, 5.0];
     let expected = vec![4.0, 9.0, 16.0, 25.0];
@@ -44,7 +40,6 @@ fn closure_floats() {
 }
 
 #[test]
-#[ignore]
 fn strings() {
     let input = vec!["1".to_string(), "2".into(), "3".into()];
     let expected = vec!["11".to_string(), "22".into(), "33".into()];
@@ -52,7 +47,6 @@ fn strings() {
 }
 
 #[test]
-#[ignore]
 fn accumulate_upcases() {
     let input = vec!["Hello", "world"];
     let expected = vec!["HELLO", "WORLD"];
@@ -60,7 +54,6 @@ fn accumulate_upcases() {
 }
 
 #[test]
-#[ignore]
 fn accumulate_reversed_strings() {
     let input = vec!["the", "quick", "brown", "fox", "etc"];
     let expected = vec!["eht", "kciuq", "nworb", "xof", "cte"];
@@ -70,7 +63,6 @@ fn accumulate_reversed_strings() {
 
 /*
 #[test]
-#[ignore]
 fn accumulate_recursively() {
     let input = vec!["a", "b", "c"];
     let expected = vec![
@@ -86,7 +78,6 @@ fn accumulate_recursively() {
 */
 
 #[test]
-#[ignore]
 fn change_in_type() {
     let input: Vec<&str> = vec!["1", "2", "3"];
     let expected: Vec<String> = vec!["1".into(), "2".into(), "3".into()];
@@ -95,7 +86,6 @@ fn change_in_type() {
 
 /*
 #[test]
-#[ignore]
 fn mutating_closure() {
     let mut counter = 0;
     let input = vec![-2, 3, 4, -5];
@@ -110,7 +100,6 @@ fn mutating_closure() {
 */
 
 #[test]
-#[ignore]
 fn minimal_bounds_on_input_and_output() {
     // must be able to accept arbitrary input and output types
     struct Foo;
