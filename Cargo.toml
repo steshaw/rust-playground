@@ -13,6 +13,7 @@ members = [
     "./crash/course",
     "./enum-eg",
     "./exercism/rust/accumulate",
+    "./exercism/rust/anagram",
     "./exercism/rust/armstrong-numbers",
     "./exercism/rust/clock",
     "./exercism/rust/collatz-conjecture",
