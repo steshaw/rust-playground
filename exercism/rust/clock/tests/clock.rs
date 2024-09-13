@@ -26,7 +26,6 @@ fn hour_rolls_over() {
 }
 
 #[test]
-#[ignore]
 fn hour_rolls_over_continuously() {
     assert_eq!(Clock::new(100, 0).to_string(), "04:00");
 }
