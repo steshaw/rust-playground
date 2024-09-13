@@ -5,7 +5,8 @@ fn private_key_in_range_key() {
     let primes: Vec<u64> = vec![
         5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 773, 967, 3461, 6131,
     ];
-    let private_keys: Vec<u64> = primes.iter().map(|x| private_key(*x)).collect();
+    let private_keys: Vec<u64> =
+        primes.iter().map(|x| private_key(*x)).collect();
 
     for i in 0..primes.len() {
         assert!(1 < private_keys[i] && private_keys[i] < primes[i]);
@@ -13,7 +14,6 @@ fn private_key_in_range_key() {
 }
 
 #[test]
-#[ignore]
 fn public_key_correct() {
     let p: u64 = 23;
     let g: u64 = 5;
@@ -25,7 +25,6 @@ fn public_key_correct() {
 }
 
 #[test]
-#[ignore]
 fn secret_key_correct() {
     let p: u64 = 11;
 
@@ -38,7 +37,6 @@ fn secret_key_correct() {
 }
 
 #[test]
-#[ignore]
 fn public_key_correct_big_numbers() {
     let p: u64 = 4_294_967_299;
 
@@ -52,7 +50,6 @@ fn public_key_correct_big_numbers() {
 }
 
 #[test]
-#[ignore]
 fn secret_key_correct_big_numbers() {
     let p: u64 = 4_294_967_927;
 
@@ -78,7 +75,6 @@ const PRIVATE_KEY_64BIT: u64 = 0xFFFF_FFFF_FFFF_FFC3;
 const PUBLIC_KEY_64BIT: u64 = 0xB851_EB85_1EB8_51C1;
 
 #[test]
-#[ignore]
 #[cfg(feature = "big-primes")]
 fn public_key_correct_biggest_numbers() {
     assert_eq!(
@@ -88,7 +84,6 @@ fn public_key_correct_biggest_numbers() {
 }
 
 #[test]
-#[ignore]
 #[cfg(feature = "big-primes")]
 fn secret_key_correct_biggest_numbers() {
     let private_key_b = 0xEFFF_FFFF_FFFF_FFC0;
@@ -109,7 +104,6 @@ fn secret_key_correct_biggest_numbers() {
 }
 
 #[test]
-#[ignore]
 #[cfg(feature = "big-primes")]
 fn changed_secret_key_biggest_numbers() {
     let private_key_a = private_key(PRIME_64BIT_1);
@@ -125,7 +119,6 @@ fn changed_secret_key_biggest_numbers() {
 }
 
 #[test]
-#[ignore]
 fn changed_secret_key() {
     let p: u64 = 13;
     let g: u64 = 11;
