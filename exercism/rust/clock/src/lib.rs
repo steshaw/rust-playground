@@ -15,13 +15,18 @@ impl Display for Clock {
 impl Clock {
     pub fn new(hours: i32, minutes: i32) -> Self {
         // Construct a new Clock from `hours` hours and `minutes` minutes.
-        let hours = hours + minutes / 60;
+        let hours = if minutes < 0 {
+            hours - 1
+        } else {
+            hours + minutes / 60
+        };
         let hours = if hours < 0 { hours % 24 + 24 } else { hours };
-        let minutes = minutes % 60;
-        Clock {
-            hours,
-            minutes,
-        }
+        let minutes = if minutes < 0 {
+            minutes % 60 + 60
+        } else {
+            minutes % 60
+        };
+        Clock { hours, minutes }
     }
 
     pub fn add_minutes(&self, minutes: i32) -> Self {
