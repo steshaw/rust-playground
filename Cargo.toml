@@ -14,6 +14,7 @@ members = [
     "./enum-eg",
     "./exercism/rust/accumulate",
     "./exercism/rust/armstrong-numbers",
+    "./exercism/rust/clock",
     "./exercism/rust/collatz-conjecture",
     "./exercism/rust/difference-of-squares",
     "./exercism/rust/diffie-hellman",
