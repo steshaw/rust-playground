@@ -16,7 +16,11 @@ fn mut_as_mutable() {
     let mut s = String::from("hi");
     println!("The value of s is: {s}");
     s.clear();
+    // Using String::clear makes the &mut more obvious.
+    String::clear(&mut s);
     s.push_str("ho");
+    // Using String::push_str makes the &mut more obvious.
+    String::push_str(&mut s, "ho"); // Now we have "hoho".
     println!("The value of s is changed to: {s}");
 }
 pub fn main() {
