@@ -23,8 +23,24 @@ fn mut_as_mutable() {
     String::push_str(&mut s, "ho"); // Now we have "hoho".
     println!("The value of s is changed to: {s}");
 }
+fn simple_const() {
+    const X: u32 = 5;
+    println!("The value of the X constant is: {X}");
+
+    // We cannot shadow `x` here with `const` because constants have different
+    // rules to variables. We can still shadow with a `let`.
+    // This is interesting but not idiomatic as constants are usually uppercase.
+    // Ack: this actually causes a "refutable pattern in local binding" compile
+    // error that seemingly isn't pickup up by RustRover/rust-analyser.
+    // Have to rename constant to `X` to make this work.
+    // Missing patterns are not covered because `X` is interpreted as a constant
+    // pattern, not a new variable.
+    let x = 6;
+    println!("The value of x variable is: {x}");
+}
 pub fn main() {
     simple_mut();
     mut_as_assignable();
-    mut_as_mutable()
+    mut_as_mutable();
+    simple_const();
 }
